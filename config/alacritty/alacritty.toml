@@ -1,0 +1,25 @@
+working_directory = "C:\\Users\\RobbCurrall"
+
+[cursor]
+style.shape = 'Beam'
+style.blinking = 'On'
+blink_timeout = 0
+unfocused_hollow = false
+
+[shell]
+program = "pwsh"
+args = ["-NoLogo"]
+
+[window]
+decorations = "None"
+padding = { x = 10, y = 10 }
+startup_mode = "Maximized"
+
+
+# Key Bindings ----------------------------------------------------------------
+
+[[keyboard.bindings]]
+key = "n"
+mods = "Control|Shift"
+action = "CreateNewWindow"
+
