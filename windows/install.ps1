@@ -43,6 +43,9 @@ function Main() {
     # see: https://learn.microsoft.com/en-us/powershell/
     winget install Microsoft.PowerShell
 
+    # see: https://github.com/gerardog/gsudo
+    winget install gerardog.gsudo
+
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
     #endregion
 
@@ -92,14 +95,14 @@ function Main() {
     winget install Postman.Postman
 
     do {
-        if (!($Alacritty = Read-Host "`nWould you like to install the Alacritty terminal? (y/N)")) {
-            $Alacritty = "n"
+        if (!($WezTerm = Read-Host "`nWould you like to install the WezTerm terminal? (y/N)")) {
+            $WezTerm = "n"
         }
-    } while ($Alacritty -notin @("y", "n"))
+    } while ($WezTerm -notin @("y", "n"))
 
-    if ($Alacritty -eq "y") {
-        # see: https://alacritty.org/config-alacritty.html
-        winget install Alacritty.Alacritty
+    if ($WezTerm -eq "y") {
+        # see: https://wezfurlong.org/wezterm/index.html
+        winget install wez.wezterm
     }
 
     do {
