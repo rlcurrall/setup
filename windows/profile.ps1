@@ -74,14 +74,15 @@ Set-Alias -Name '.....' __up_four_dir
 #endregion
 
 #region eza aliases
-function __eza_l { eza -lha; }
-function __eza_la { eza -alH; }
-function __eza_ll { eza -lH --git --hyperlink --group-directories-first; }
+function __ls { eza -F -gh --group-directories-first --git --git-ignore --icons --color-scale all --hyperlink $args; }
+function __ll { & '__ls' -l @args; }
+function __la { & '__ll' -a @args; }
+function __l { & '__la' -a @args; }
 
-Set-Alias -Name 'ls' eza
-Set-Alias -Name 'l' __eza_l
-Set-Alias -Name 'la' __eza_la
-Set-Alias -Name 'll' __eza_ll
+Set-Alias -Name 'ls' __ls
+Set-Alias -Name 'll' __ll
+Set-Alias -Name 'la' __la
+Set-Alias -Name 'l'  __l
 #endregion
 
 #region git aliases
