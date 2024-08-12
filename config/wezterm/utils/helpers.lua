@@ -19,4 +19,16 @@ end
 M.is_dark = M.get_appearance():find("Dark")
 M.theme = M.scheme_for_appearance(M.get_appearance())
 
+M.is_linux = function()
+	return wezterm.target_triple:find("linux") ~= nil
+end
+
+M.is_darwin = function()
+	return wezterm.target_triple:find("darwin") ~= nil
+end
+
+M.is_windows = function()
+	return wezterm.target_triple:find("windows") ~= nil
+end
+
 return M

@@ -14,4 +14,8 @@ config.font = wezterm.font("Fira Code", {})
 
 config.enable_wayland = true
 
+if h.is_windows() then
+	config.default_prog = { 'C:\\Program Files\\PowerShell\\7\\pwsh.exe', '-NoLogo' }
+end
+
 return config
