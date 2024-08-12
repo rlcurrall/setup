@@ -72,7 +72,7 @@ vim.opt.scrolloff = 10
 
 -- Tab width defaults
 vim.opt.tabstop = 4
-vim.opt.softtabstrop = 4
+vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.expandtab = true
 
