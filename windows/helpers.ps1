@@ -26,6 +26,31 @@ function Sync-Environment
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
+function Test-Admin
+{
+    $currentUser = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    return $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+function Invoke-AsAdministrator
+{
+    $newProcess = New-Object System.Diagnostics.ProcessStartInfo
+    $newProcess.UseShellExecute = $true
+    $newProcess.FileName = "powershell.exe"
+    $newProcess.Verb = "runas"
+    $newProcess.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"" + $MyInvocation.MyCommand.Definition + "`""
+
+    try
+    {
+        [System.Diagnostics.Process]::Start($newProcess)
+    } catch
+    {
+        Write-Error "Failed to elevate the script. Please run the script as an administrator."
+    }
+
+    exit
+}
+
 function Confirm-RegistryExists
 {
     param (

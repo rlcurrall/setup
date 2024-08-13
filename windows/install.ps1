@@ -1,4 +1,9 @@
-. ./helpers.ps1
+. "$PsScriptRoot\helpers.ps1"
+
+if (-not (Test-Admin))
+{
+    Invoke-AsAdministrator
+}
 
 # ==========================================================================
 # CLI Tools
@@ -322,27 +327,39 @@ git config --global http.sslcainfo "$env:localappdata\Microsoft\WinGet\Packages\
 # This section will configure windows registry values to sane defaults.
 # ==========================================================================
 #region windows configuration
-$hkcuKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\"
+$base = "HKCU:\Software\Microsoft\Windows\CurrentVersion\"
 
 # Declutter the taskbar
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarAl"             "0"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarDa"             "0"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarMn"             "0"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarSd"             "1"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "ShowCopilotButton"     "0"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "ShowTaskViewButton"    "0"
-Set-RegistryValue ($hkcuKey + "Search")              "SearchboxTaskbarMode"  "0"
-Clear-RegistryValue ($hkcuKey + "Explorer\Taskband") "Favorites"
-Clear-RegistryValue ($hkcuKey + "Explorer\Taskband") "FavoritesResolve"
+Set-RegistryValue ($base + "Explorer\Advanced")   "TaskbarAl"            "0"
+Set-RegistryValue ($base + "Explorer\Advanced")   "TaskbarDa"            "0"
+Set-RegistryValue ($base + "Explorer\Advanced")   "TaskbarMn"            "0"
+Set-RegistryValue ($base + "Explorer\Advanced")   "TaskbarSd"            "1"
+Set-RegistryValue ($base + "Explorer\Advanced")   "ShowCopilotButton"    "0"
+Set-RegistryValue ($base + "Explorer\Advanced")   "ShowTaskViewButton"   "0"
+Set-RegistryValue ($base + "Search")              "SearchboxTaskbarMode" "0"
+Clear-RegistryValue ($base + "Explorer\Taskband") "Favorites"
+Clear-RegistryValue ($base + "Explorer\Taskband") "FavoritesResolve"
 
 # Declutter the Start Menu
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced") "Start_AccountNotifications"    "0"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced") "Start_IrisRecommendations"     "0"
-Set-RegistryValue ($hkcuKey + "Explorer\Advanced") "Start_Layout"                  "1"
-Set-RegistryValue ($hkcuKey + "Start")             "ShowFrequentList"              "0"
-Set-RegistryValue ($hkcuKey + "Start")             "ShowRecentList"                "0"
+Set-RegistryValue ($base + "Explorer\Advanced") "Start_AccountNotifications" "0"
+Set-RegistryValue ($base + "Explorer\Advanced") "Start_IrisRecommendations"  "0"
+Set-RegistryValue ($base + "Explorer\Advanced") "Start_Layout"               "1"
+Set-RegistryValue ($base + "Start")             "ShowFrequentList"           "0"
+Set-RegistryValue ($base + "Start")             "ShowRecentList"             "0"
 
 # Set Personal User Shell Folder to Documents folder
-Set-RegistryValue ($hkcuKey + "Explorer\User Shell Folders")   "Personal"  "$HOME\Documents"
+Set-RegistryValue ($base + "Explorer\User Shell Folders") "Personal" "$HOME\Documents"
+
+# Set theme
+Set-RegistryValue ($base + "Themes") "CurrentTheme" "C:\Windows\resources\Themes\themeB.theme"
+
+# Clean up desktop
+$desktopPath = [Environment]::GetFolderPath("Desktop")
+$shortcuts = Get-ChildItem -Path $desktopPath -Filter "*.lnk"
+foreach ($shortcut in $shortcuts)
+{
+    Remove-Item -Path $shortcut.FullName -Force
+    Write-Host "Removed: $($shortcut.FullName)"
+}
 #endregion
 
