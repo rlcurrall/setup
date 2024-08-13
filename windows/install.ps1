@@ -322,7 +322,7 @@ git config --global http.sslcainfo "$env:localappdata\Microsoft\WinGet\Packages\
 # This section will configure windows registry values to sane defaults.
 # ==========================================================================
 #region windows configuration
-$hkcuKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion"
+$hkcuKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\"
 
 # Declutter the taskbar
 Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarAl"             "0"
