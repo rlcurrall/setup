@@ -1,14 +1,18 @@
-function Main() {
+. ./helpers.ps1
+. ./registry.ps1
+
+function Main()
+{
     # ==========================================================================
     # CLI Tools
     #
     # This section installs command-line tools that are commonly used.
     # ==========================================================================
     #region cli tools
-    printSectionMessage("Installing CLI Tools")
+    Write-Section "Installing CLI Tools"
 
     # see: https://git-scm.com/doc
-    winget install Git.MinGit.BusyBox
+    winget install Git.Git
 
     # see: https://github.com/coreybutler/nvm-windows
     winget install CoreyButler.NVMforWindows
@@ -43,10 +47,7 @@ function Main() {
     # see: https://learn.microsoft.com/en-us/powershell/
     winget install Microsoft.PowerShell
 
-    # see: https://github.com/gerardog/gsudo
-    winget install gerardog.gsudo
-
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+    Refresh-Environment
     #endregion
 
     # ==========================================================================
@@ -56,7 +57,7 @@ function Main() {
     # Git and FZF.
     # ==========================================================================
     #region powershell 7
-    printSectionMessage("Installing PowerShell 7 Modules")
+    Write-Section "Installing PowerShell 7 Module"
 
     pwsh -c 'PowerShellGet\Install-Module posh-git -Scope CurrentUser -Force'
     pwsh -c 'Install-Module -Name PSFzf -Scope CurrentUser -Force'
@@ -65,18 +66,17 @@ function Main() {
     # ==========================================================================
     # Languages
     #
-    # This section installs programming languages that are commonly.
+    # This sectioe installs programming languages that are commonly.
     # ==========================================================================
     #region languages
-    printSectionMessage("Installing Languages")
+    Write-Section "Installing Languages"
 
     winget install Python.Python.3.12
     winget install Microsoft.DotNet.SDK.8
     winget install Microsoft.DotNet.SDK.6
     winget install Microsoft.DotNet.Framework.DeveloperPack_4 -v 4.6.2
 
-    # todo: figure out how to install Node.js through nvm without restarting the shell
-    # nvm install 18
+    nvm install 18
     #endregion
 
     # ==========================================================================
@@ -85,7 +85,7 @@ function Main() {
     # This section installs development tools that are commonly used.
     # ==========================================================================
     #region dev tools
-    printSectionMessage("Installing Development Tools")
+    Write-Section "Installing Development Tools"
 
     winget install Microsoft.VisualStudioCode
     winget install Microsoft.VisualStudio.2022.Professional
@@ -94,34 +94,43 @@ function Main() {
     winget install Microsoft.Azure.StorageExplorer
     winget install Postman.Postman
 
-    do {
-        if (!($WezTerm = Read-Host "`nWould you like to install the WezTerm terminal? (y/N)")) {
+    do
+    {
+        if (!($WezTerm = Read-Host "`nWould you like to install the WezTerm terminal? (y/N)"))
+        {
             $WezTerm = "n"
         }
     } while ($WezTerm -notin @("y", "n"))
 
-    if ($WezTerm -eq "y") {
+    if ($WezTerm -eq "y")
+    {
         # see: https://wezfurlong.org/wezterm/index.html
         winget install wez.wezterm
     }
 
-    do {
-        if (!($Rider = Read-Host "`nWould you like to install Rider? (y/N)")) {
+    do
+    {
+        if (!($Rider = Read-Host "`nWould you like to install Rider? (y/N)"))
+        {
             $Rider = "n"
         }
     } while ($Rider -notin @("y", "n"))
 
-    if ($Rider -eq "y") {
+    if ($Rider -eq "y")
+    {
         winget install JetBrains.Rider
     }
 
-    do {
-        if (!($SSMS = Read-Host "`nWould you like to install SQL Server Management Studio? (y/N)")) {
+    do
+    {
+        if (!($SSMS = Read-Host "`nWould you like to install SQL Server Management Studio? (y/N)"))
+        {
             $SSMS = "n"
         }
     } while ($SSMS -notin @("y", "n"))
 
-    if ($SSMS -eq "y") {
+    if ($SSMS -eq "y")
+    {
         winget install Microsoft.SQLServerManagementStudio
     }
     #endregion
@@ -133,7 +142,7 @@ function Main() {
     # Vantaca that are not development tools.
     # ==========================================================================
     #region apps
-    printSectionMessage("Installing Applications")
+    Write-Section "Installing Applications"
 
     winget install 9NP355QT2SQB # Azure VPN Client
     winget install Microsoft.Teams
@@ -147,13 +156,16 @@ function Main() {
     # users.
     # ==========================================================================
     #region lazy tui tools
-    do {
-        if (!($LazyTui = Read-Host "`nWould you like to install lazy TUIs? (y/N)")) {
+    do
+    {
+        if (!($LazyTui = Read-Host "`nWould you like to install lazy TUIs? (y/N)"))
+        {
             $LazyTui = "n"
         }
     } while ($LazyTui -notin @("y", "n"))
 
-    if ($LazyTui -eq "y") {
+    if ($LazyTui -eq "y")
+    {
         winget install JesseDuffield.lazygit
         winget install JesseDuffield.Lazydocker
     }
@@ -165,35 +177,44 @@ function Main() {
     # This section allows the user to install browsers they would like to use.
     # ==========================================================================
     #region browsers
-    printSectionMessage("Installing Browsers")
+    Write-Section "Installing Browsers"
 
-    do {
-        if (!($Vivaldi = Read-Host "`nWould you like to install Vivaldi? (y/N)")) {
+    do
+    {
+        if (!($Vivaldi = Read-Host "`nWould you like to install Vivaldi? (y/N)"))
+        {
             $Vivaldi = "n"
         }
     } while ($Vivaldi -notin @("y", "n"))
 
-    if ($Vivaldi -eq "y") {
+    if ($Vivaldi -eq "y")
+    {
         winget install Vivaldi.Vivaldi
     }
 
-    do {
-        if (!($Chrome = Read-Host "`nWould you like to install Google Chrome? (y/N)")) {
+    do
+    {
+        if (!($Chrome = Read-Host "`nWould you like to install Google Chrome? (y/N)"))
+        {
             $Chrome = "n"
         }
     } while ($Chrome -notin @("y", "n"))
 
-    if ($Chrome -eq "y") {
+    if ($Chrome -eq "y")
+    {
         winget install Google.Chrome
     }
 
-    do {
-        if (!($Firefox = Read-Host "`nWould you like to install Mozilla Firefox? (y/N)")) {
+    do
+    {
+        if (!($Firefox = Read-Host "`nWould you like to install Mozilla Firefox? (y/N)"))
+        {
             $Firefox = "n"
         }
     } while ($Firefox -notin @("y", "n"))
 
-    if ($Firefox -eq "y") {
+    if ($Firefox -eq "y")
+    {
         winget install Mozilla.Firefox
     }
     #endregion
@@ -204,18 +225,22 @@ function Main() {
     # This section allows the user to install 1Password if they would like to use
     # it as their password manager.
     #
-    # NOTE: LastPass does not work through winget, so it is not included here.
+    #  NOTE: LastPass does not work through winget, so it is not included here.
+    #
     # ==========================================================================
     #region password managers
-    printSectionMessage("Installing Password Managers")
+    Write-Section "Installing Password Managers"
 
-    do {
-        if (!($1Password = Read-Host "`nWould you like to install 1Password? (y/N)")) {
+    do
+    {
+        if (!($1Password = Read-Host "`nWould you like to install 1Password? (y/N)"))
+        {
             $1Password = "n"
         }
     } while ($1Password -notin @("y", "n"))
 
-    if ($1Password -eq "y") {
+    if ($1Password -eq "y")
+    {
         winget install AgileBits.1Password
         winget install AgileBits.1Password.CLI
     }
@@ -228,15 +253,18 @@ function Main() {
     # like to use them.
     # ==========================================================================
     #region screen recording tools
-    printSectionMessage("Installing Screen Recording Tools")
+    Write-Section "Installing Screen Recording Tools"
 
-    do {
-        if (!($Recording = Read-Host "`nWould you like to install recording tools? (y/N)")) {
+    do
+    {
+        if (!($Recording = Read-Host "`nWould you like to install recording tools? (y/N)"))
+        {
             $Recording = "n"
         }
     } while ($Recording -notin @("y", "n"))
 
-    if ($Recording -eq "y") {
+    if ($Recording -eq "y")
+    {
         winget install OBSProject.OBSStudio
         winget install VideoLAN.VLC
         winget install Gyan.FFmpeg
@@ -250,7 +278,7 @@ function Main() {
     # This includes setting up Git, PowerShell, and other tools.
     # ==========================================================================
     #region configure tools
-    printSectionMessage("Configuring Tools")
+    Write-Section "Configuring Tools"
 
     git config --global core.editor "nvim"
     git config --global core.pager "less"
@@ -264,15 +292,13 @@ function Main() {
     # Set sslcainfo configuration so cloning over HTTPS resolves correctly
     git config --global http.sslcainfo "$env:localappdata\Microsoft\WinGet\Packages\Git.MinGit.BusyBox_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\etc\ssl\certs\ca-bundle.crt"
 
-    do {
-        if (!($UseHomeDir = Read-Host "`nWould you like to use your home directory for your PowerShell profile? (y/N)")) {
+    do
+    {
+        if (!($UseHomeDir = Read-Host "`nWould you like to use your home directory for your PowerShell profile? (y/N)"))
+        {
             $UseHomeDir = "n"
         }
     } while ($UseHomeDir -notin @("y", "n"))
-
-    if ($UseHomeDir -eq "y") {
-        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "Personal" -Value "$HOME\Documents"
-    }
     #endregion
 
     # ==========================================================================
@@ -282,7 +308,7 @@ function Main() {
     # chooses to use it as their editor.
     # ==========================================================================
     #region setup neovim
-    # printSectionMessage("Setting Up NeoVim")
+    # Write-Section "Setting Up NeoVim"
 
     # todo: this is not working yet, requires manual installation of the C++ build
     # tools through Visual Studio Installer. Need to figure out how to automate.
@@ -305,11 +331,8 @@ function Main() {
     #     git clone https://github.com/nvim-lua/kickstart.nvim.git $env:LOCALAPPDATA\nvim\
     # }
     #endregion
-}
 
-function printSectionMessage($message) {
-    $Separator = "".PadLeft(80, "=")
-    Write-Host "`n${Separator}`n${message}`n${Separator}`n" -ForegroundColor DarkYellow
+    Setup-Registry
 }
 
 Main
