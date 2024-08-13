@@ -159,6 +159,8 @@ function Main()
     # users.
     # ==========================================================================
     #region lazy tui tools
+    Write-Section "Installing Lazy TUI Tools"
+
     do
     {
         if (!($LazyTui = Read-Host "`nWould you like to install lazy TUIs? (y/N)"))
@@ -260,7 +262,7 @@ function Main()
 
     do
     {
-        if (!($Recording = Read-Host "`nWould you like to install recording tools? (y/N)"))
+        if (!($Recording = Read-Host "`nWould you like to install video & recording tools? (y/N)"))
         {
             $Recording = "n"
         }
@@ -294,14 +296,6 @@ function Main()
 
     # Set sslcainfo configuration so cloning over HTTPS resolves correctly
     git config --global http.sslcainfo "$env:localappdata\Microsoft\WinGet\Packages\Git.MinGit.BusyBox_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\etc\ssl\certs\ca-bundle.crt"
-
-    do
-    {
-        if (!($UseHomeDir = Read-Host "`nWould you like to use your home directory for your PowerShell profile? (y/N)"))
-        {
-            $UseHomeDir = "n"
-        }
-    } while ($UseHomeDir -notin @("y", "n"))
     #endregion
 
     # ==========================================================================
@@ -313,9 +307,6 @@ function Main()
     #region setup neovim
     # Write-Section "Setting Up NeoVim"
 
-    # todo: this is not working yet, requires manual installation of the C++ build
-    # tools through Visual Studio Installer. Need to figure out how to automate.
-
     # do {
     #     if (!($SetupNvim = Read-Host "Would you like to setup NeoVim? (y/N)")) {
     #         $SetupNvim = "n"
@@ -323,15 +314,7 @@ function Main()
     # } while ($SetupNvim -notin @("y", "n"))
 
     # if ($SetupNvim -eq "y") {
-    #     Read-Host "Installing dependencies for NeoVim.`nBe sure select the option to add LLVM to your PATH when prompted.`n`nPress Enter to continue."
-    #     winget install llvm.llvm -i
-    #     winget install Kitware.CMake
-    #     winget install ezwinports.make
-
-    #     # Reload path to get access to new tools
-    #     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-
-    #     git clone https://github.com/nvim-lua/kickstart.nvim.git $env:LOCALAPPDATA\nvim\
+    #     # TODO: figure out how to automate this
     # }
     #endregion
 
@@ -344,16 +327,20 @@ function Main()
     $hkcuKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion"
 
     # Declutter the taskbar
-    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarAl"                     "0"
-    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarDa"                     "0"
-    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarMn"                     "0"
-    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarSd"                     "1"
-    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowCopilotButton"             "0"
-    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowTaskViewButton"            "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarAl"             "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarDa"             "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarMn"             "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarSd"             "1"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowCopilotButton"     "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowTaskViewButton"    "0"
+    Set-Registry-Value ($hkcuKey + "Search")            "SearchboxTaskbarMode"  "0"
+
+    # Declutter the Start Menu
     Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_AccountNotifications"    "0"
     Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_IrisRecommendations"     "0"
     Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_Layout"                  "1"
-    Set-Registry-Value ($hkcuKey + "Search")            "SearchboxTaskbarMode"          "0"
+    Set-Registry-Value ($hkcuKey + "Start")             "ShowFrequentList"              "0"
+    Set-Registry-Value ($hkcuKey + "Start")             "ShowRecentList"                "0"
 
     # Set Personal User Shell Folder to Documents folder
     Set-Registry-Value ($hkcuKey + "Explorer\User Shell Folders")   "Personal"  "$HOME\Documents"
