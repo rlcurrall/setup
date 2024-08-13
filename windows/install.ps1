@@ -1,5 +1,4 @@
 . ./helpers.ps1
-. ./registry.ps1
 
 function Main()
 {
@@ -47,6 +46,8 @@ function Main()
     # see: https://learn.microsoft.com/en-us/powershell/
     winget install Microsoft.PowerShell
 
+    # Refresh the environment so new tools are available in the current shell
+    # session.
     Refresh-Environment
     #endregion
 
@@ -144,7 +145,9 @@ function Main()
     #region apps
     Write-Section "Installing Applications"
 
-    winget install 9NP355QT2SQB # Azure VPN Client
+    # Azure VPN Client
+    winget install 9NP355QT2SQB --silent --accept-package-agreements --accept-source-agreements
+
     winget install Microsoft.Teams
     winget install Microsoft.PowerToys
     #endregion
@@ -332,7 +335,29 @@ function Main()
     # }
     #endregion
 
-    Setup-Registry
+    # ==========================================================================
+    # Windows Configuration
+    #
+    # This section will configure windows registry values to sane defaults.
+    # ==========================================================================
+    #region windows configuration
+    $hkcuKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion"
+
+    # Declutter the taskbar
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarAl"                     "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarDa"                     "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarMn"                     "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarSd"                     "1"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowCopilotButton"             "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowTaskViewButton"            "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_AccountNotifications"    "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_IrisRecommendations"     "0"
+    Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_Layout"                  "1"
+    Set-Registry-Value ($hkcuKey + "Search")            "SearchboxTaskbarMode"          "0"
+
+    # Set Personal User Shell Folder to Documents folder
+    Set-Registry-Value ($hkcuKey + "Explorer\User Shell Folders")   "Personal"  "$HOME\Documents"
+    #endregion
 }
 
 Main
