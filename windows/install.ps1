@@ -47,7 +47,7 @@ winget install Microsoft.PowerShell
 
 # Refresh the environment so new tools are
 # available in the current shell session.
-Refresh-Environment
+Sync-Environment
 
 # ==========================================================================
 # PowerShell 7
@@ -325,22 +325,24 @@ git config --global http.sslcainfo "$env:localappdata\Microsoft\WinGet\Packages\
 $hkcuKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\"
 
 # Declutter the taskbar
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarAl"             "0"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarDa"             "0"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarMn"             "0"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "TaskbarSd"             "1"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowCopilotButton"     "0"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "ShowTaskViewButton"    "0"
-Set-Registry-Value ($hkcuKey + "Search")            "SearchboxTaskbarMode"  "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarAl"             "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarDa"             "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarMn"             "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "TaskbarSd"             "1"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "ShowCopilotButton"     "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced")   "ShowTaskViewButton"    "0"
+Set-RegistryValue ($hkcuKey + "Search")              "SearchboxTaskbarMode"  "0"
+Clear-RegistryValue ($hkcuKey + "Explorer\Taskband") "Favorites"
+Clear-RegistryValue ($hkcuKey + "Explorer\Taskband") "FavoritesResolve"
 
 # Declutter the Start Menu
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_AccountNotifications"    "0"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_IrisRecommendations"     "0"
-Set-Registry-Value ($hkcuKey + "Explorer\Advanced") "Start_Layout"                  "1"
-Set-Registry-Value ($hkcuKey + "Start")             "ShowFrequentList"              "0"
-Set-Registry-Value ($hkcuKey + "Start")             "ShowRecentList"                "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced") "Start_AccountNotifications"    "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced") "Start_IrisRecommendations"     "0"
+Set-RegistryValue ($hkcuKey + "Explorer\Advanced") "Start_Layout"                  "1"
+Set-RegistryValue ($hkcuKey + "Start")             "ShowFrequentList"              "0"
+Set-RegistryValue ($hkcuKey + "Start")             "ShowRecentList"                "0"
 
 # Set Personal User Shell Folder to Documents folder
-Set-Registry-Value ($hkcuKey + "Explorer\User Shell Folders")   "Personal"  "$HOME\Documents"
+Set-RegistryValue ($hkcuKey + "Explorer\User Shell Folders")   "Personal"  "$HOME\Documents"
 #endregion
 
