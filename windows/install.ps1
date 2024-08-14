@@ -359,7 +359,6 @@ $shortcuts = Get-ChildItem -Path $desktopPath -Filter "*.lnk"
 foreach ($shortcut in $shortcuts)
 {
     Remove-Item -Path $shortcut.FullName -Force
-    Write-Host "Removed: $($shortcut.FullName)"
 }
 #endregion
 
