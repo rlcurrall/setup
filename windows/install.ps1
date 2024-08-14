@@ -360,5 +360,23 @@ foreach ($shortcut in $shortcuts)
 {
     Remove-Item -Path $shortcut.FullName -Force
 }
+
+# Link config files
+$installLocation = Split-Path $PSScriptRoot -Parent
+New-Item `
+    -Force `
+    -ItemType SymbolicLink `
+    -Value "$installLocation\windows\profile.ps1" `
+    -Path "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+New-Item `
+    -Force `
+    -ItemType SymbolicLink `
+    -Value "$installLocation\config\wezterm" `
+    -Path "$HOME\.config\wezterm"
+New-Item `
+    -Force `
+    -ItemType `
+    -Value "$installLocation\config\nvim" `
+    -Path "$env:localappdata\nvim"
 #endregion
 
