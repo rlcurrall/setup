@@ -296,9 +296,6 @@ git config --global user.name $GitName
 
 $GitEmail = Read-Host "What is your email for git?"
 git config --global user.email $GitEmail
-
-# Set sslcainfo configuration so cloning over HTTPS resolves correctly
-git config --global http.sslcainfo "$env:localappdata\Microsoft\WinGet\Packages\Git.MinGit.BusyBox_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\etc\ssl\certs\ca-bundle.crt"
 #endregion
 
 # ==========================================================================
