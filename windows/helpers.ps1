@@ -38,7 +38,7 @@ function Invoke-AsAdministrator
     $newProcess.UseShellExecute = $true
     $newProcess.FileName = "powershell.exe"
     $newProcess.Verb = "runas"
-    $newProcess.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"" + $MyInvocation.MyCommand.Definition + "`""
+    $newProcess.Arguments = "-NoProfile -NoExit -ExecutionPolicy Bypass -File `"" + $MyInvocation.MyCommand.Definition + "`""
 
     try
     {
