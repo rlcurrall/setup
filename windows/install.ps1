@@ -81,6 +81,7 @@ winget install Microsoft.DotNet.SDK.6
 winget install Microsoft.DotNet.Framework.DeveloperPack_4 -v 4.6.2
 
 nvm install 18
+nvm use 18
 #endregion
 
 # ==========================================================================
