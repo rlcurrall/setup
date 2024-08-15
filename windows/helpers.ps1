@@ -66,10 +66,12 @@ function Set-RegistryValue
 
     if (Confirm-RegistryExists $path $name)
     {
-        Set-ItemProperty -Path $path -Name $name -Value $value
+        Write-Host "Setting property '$path\$name'"
+        Set-ItemProperty -Path $path -Name $name -Value $value -Force
     } else
     {
-        New-ItemProperty -Path $path -Name $name -Value $value -PropertyType Dword
+        Write-Host "Setting new property '$path\$name'"
+        New-ItemProperty -Path $path -Name $name -Value $value -PropertyType Dword -Force
     }
 }
 
