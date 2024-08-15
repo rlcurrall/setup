@@ -1,5 +1,8 @@
 function Main
 {
+	Write-Host "HOWDY!"
+	exit
+
 	$account = "rlcurrall"
 	$repo    = "setup"
 	$branch  = "main"
