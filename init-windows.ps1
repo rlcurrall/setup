@@ -4,27 +4,25 @@ function Main
 	$repo    = "setup"
 	$branch  = "main"
 
-	$dotfilesTempDir = Join-Path $env:TEMP "dotfiles"
+	$setupDir = Join-Path $HOME ".setup"
+	$sourceFile = Join-Path $HOME "Download" "setup.zip"
+	$setupInstallDir = Join-Path $setupDir "$repo-$branch"
 
-	if (![System.IO.Directory]::Exists($dotfilesTempDir))
+	if (![System.IO.Directory]::Exists($setupDir))
 	{
-		[System.IO.Directory]::CreateDirectory($dotfilesTempDir)
+		[System.IO.Directory]::CreateDirectory($setupDir)
 	}
 
-	$sourceFile = Join-Path $dotfilesTempDir "dotfiles.zip"
-	$dotfilesInstallDir = Join-Path $dotfilesTempDir "$repo-$branch"
+	if ([System.IO.Directory]::Exists($setupInstallDir))
+	{
+		[System.IO.Directory]::Delete($setupInstallDir, $true)
+	}
 
 	Invoke-Download "https://github.com/$account/$repo/archive/$branch.zip" $sourceFile
+	Invoke-Unzip $sourceFile $setupDir
 
-	if ([System.IO.Directory]::Exists($dotfilesInstallDir))
-	{
-		[System.IO.Directory]::Delete($dotfilesInstallDir, $true)
-	}
-
-	Invoke-Unzip $sourceFile $dotfilesTempDir
-
-	Push-Location $dotfilesInstallDir
-	& .\bootstrap.ps1
+	Push-Location $setupInstallDir
+	& .\windows\install.ps1
 	Pop-Location
 
 	$newProcess = New-Object System.Diagnostics.ProcessStartInfo "pwsh";
