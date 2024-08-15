@@ -1,33 +1,31 @@
 function Main
 {
-	Write-Host "HOWDY!"
+	$account = "rlcurrall"
+	$repo    = "setup"
+	$branch  = "main"
 
-	#$account = "rlcurrall"
-	#$repo    = "setup"
-	#$branch  = "main"
-	#
-	#$dotfilesTempDir = Join-Path $env:TEMP "dotfiles"
-	#
-	#if (![System.IO.Directory]::Exists($dotfilesTempDir))
-	#{
-	#	[System.IO.Directory]::CreateDirectory($dotfilesTempDir)
-	#}
-	#
-	#$sourceFile = Join-Path $dotfilesTempDir "dotfiles.zip"
-	#$dotfilesInstallDir = Join-Path $dotfilesTempDir "$repo-$branch"
-	#
-	#Invoke-Download "https://github.com/$account/$repo/archive/$branch.zip" $sourceFile
-	#
-	#if ([System.IO.Directory]::Exists($dotfilesInstallDir))
-	#{
-	#	[System.IO.Directory]::Delete($dotfilesInstallDir, $true)
-	#}
-	#
-	#Invoke-Unzip $sourceFile $dotfilesTempDir
-	#
-	#Push-Location $dotfilesInstallDir
-	#& .\bootstrap.ps1
-	#Pop-Location
+	$dotfilesTempDir = Join-Path $env:TEMP "dotfiles"
+
+	if (![System.IO.Directory]::Exists($dotfilesTempDir))
+	{
+		[System.IO.Directory]::CreateDirectory($dotfilesTempDir)
+	}
+
+	$sourceFile = Join-Path $dotfilesTempDir "dotfiles.zip"
+	$dotfilesInstallDir = Join-Path $dotfilesTempDir "$repo-$branch"
+
+	Invoke-Download "https://github.com/$account/$repo/archive/$branch.zip" $sourceFile
+
+	if ([System.IO.Directory]::Exists($dotfilesInstallDir))
+	{
+		[System.IO.Directory]::Delete($dotfilesInstallDir, $true)
+	}
+
+	Invoke-Unzip $sourceFile $dotfilesTempDir
+
+	Push-Location $dotfilesInstallDir
+	& .\bootstrap.ps1
+	Pop-Location
 
 	$newProcess = New-Object System.Diagnostics.ProcessStartInfo "pwsh";
 	$newProcess.Arguments = "-nologo";
