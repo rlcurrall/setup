@@ -34,12 +34,9 @@ function Test-Admin
 
 function Invoke-AsAdministrator
 {
-    $newProcess = New-Object System.Diagnostics.ProcessStartInfo "PowerShell"
-    $newProcess.UseShellExecute = $true
-    $newProcess.Verb = "runas"
-    $newProcess.Arguments = "-NoProfile -NoExit -ExecutionPolicy Bypass -File `"" + $MyInvocation.MyCommand.Definition + "`""
-
-    [System.Diagnostics.Process]::Start($newProcess)
+    $script = Get-Process -Id $PID | Select-Object -ExpandProperty Path
+    $arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
+    Start-Process powershell -Verb runas -ArgumentList $arguments
 
     exit
 }
