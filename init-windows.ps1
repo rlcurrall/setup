@@ -28,13 +28,13 @@ function Main
 	#Push-Location $dotfilesInstallDir
 	#& .\bootstrap.ps1
 	#Pop-Location
-	#
-	#$newProcess = New-Object System.Diagnostics.ProcessStartInfo "PowerShell";
-	#$newProcess.Arguments = "-nologo";
-	#
-	#[System.Diagnostics.Process]::Start($newProcess);
-	#
-	#exit
+
+	$newProcess = New-Object System.Diagnostics.ProcessStartInfo "pwsh";
+	$newProcess.Arguments = "-nologo";
+
+	[System.Diagnostics.Process]::Start($newProcess);
+
+	exit
 }
 
 function Invoke-Download
