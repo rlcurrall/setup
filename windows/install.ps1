@@ -2,11 +2,8 @@
 
 if (-not (Test-Admin))
 {
-    Invoke-AsAdministrator
-    Write-Host "Elevating script permissions."
-    Write-Host "Do not exit this process until the install process has completed."
-    Read-Host -Prompt "Press enter to exit"
-    return
+    Write-Error "This script must be run as an administrator"
+    exit
 }
 
 # ==========================================================================

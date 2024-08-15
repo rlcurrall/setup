@@ -32,21 +32,6 @@ function Test-Admin
     return $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Invoke-AsAdministrator
-{
-    $script = Get-Process -Id $PID | Select-Object -ExpandProperty Path
-    $arguments = "-NoProfile -NoExit -ExecutionPolicy Bypass -File `"$script`""
-
-    $processInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $processInfo.FileName = "powershell.exe"
-    $processInfo.Arguments = $arguments
-    $processInfo.Verb = "runas"
-    $processInfo.UseShellExecute = $true
-
-    $process = [System.Diagnostics.Process]::Start($processInfo)
-    $process.WaitForExit()
-}
-
 function Confirm-RegistryExists
 {
     param (

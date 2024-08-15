@@ -1,5 +1,11 @@
 function Main
 {
+	if (-not (Test-Admin))
+	{
+		Write-Error "Please run this as an admin"
+		exit
+	}
+
 	$account = "rlcurrall"
 	$repo    = "setup"
 	$branch  = "main"
@@ -80,6 +86,12 @@ function Invoke-Unzip
 			Write-Warning -Message "Unexpected Error. Error details: $_.Exception.Message"
 		}
 	}
+}
+
+function Test-Admin
+{
+	$currentUser = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+	return $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
 Main
