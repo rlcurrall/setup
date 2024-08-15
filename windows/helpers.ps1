@@ -45,8 +45,6 @@ function Invoke-AsAdministrator
 
     $process = [System.Diagnostics.Process]::Start($processInfo)
     $process.WaitForExit()
-
-    exit
 }
 
 function Confirm-RegistryExists
