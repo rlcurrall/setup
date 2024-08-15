@@ -34,19 +34,12 @@ function Test-Admin
 
 function Invoke-AsAdministrator
 {
-    $newProcess = New-Object System.Diagnostics.ProcessStartInfo
+    $newProcess = New-Object System.Diagnostics.ProcessStartInfo "PowerShell"
     $newProcess.UseShellExecute = $true
-    $newProcess.FileName = "powershell.exe"
     $newProcess.Verb = "runas"
     $newProcess.Arguments = "-NoProfile -NoExit -ExecutionPolicy Bypass -File `"" + $MyInvocation.MyCommand.Definition + "`""
 
-    try
-    {
-        [System.Diagnostics.Process]::Start($newProcess)
-    } catch
-    {
-        Write-Error "Failed to elevate the script. Please run the script as an administrator."
-    }
+    [System.Diagnostics.Process]::Start($newProcess)
 
     exit
 }
