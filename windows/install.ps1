@@ -379,7 +379,7 @@ New-Item `
     -Path "$HOME\.config\wezterm"
 New-Item `
     -Force `
-    -ItemType `
+    -ItemType SymbolicLink `
     -Value "$installLocation\config\nvim" `
     -Path "$env:localappdata\nvim"
 #endregion
