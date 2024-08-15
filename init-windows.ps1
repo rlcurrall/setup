@@ -5,7 +5,7 @@ function Main
 	$branch  = "main"
 
 	$setupDir = Join-Path $HOME ".setup"
-	$sourceFile = Join-Path $HOME "Download" "setup.zip"
+	$sourceFile = Join-Path $HOME "Downloads" "setup.zip"
 	$setupInstallDir = Join-Path $setupDir "$repo-$branch"
 
 	if (![System.IO.Directory]::Exists($setupDir))
