@@ -35,7 +35,7 @@ function Test-Admin
 function Invoke-AsAdministrator
 {
     $script = Get-Process -Id $PID | Select-Object -ExpandProperty Path
-    $arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
+    $arguments = "-NoProfile -NoExit -ExecutionPolicy Bypass -File `"$script`""
 
     $processInfo = New-Object System.Diagnostics.ProcessStartInfo
     $processInfo.FileName = "powershell.exe"
