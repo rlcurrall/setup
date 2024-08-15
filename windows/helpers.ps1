@@ -36,7 +36,15 @@ function Invoke-AsAdministrator
 {
     $script = Get-Process -Id $PID | Select-Object -ExpandProperty Path
     $arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
-    Start-Process powershell -Verb runas -ArgumentList $arguments
+
+    $processInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $processInfo.FileName = "powershell.exe"
+    $processInfo.Arguments = $arguments
+    $processInfo.Verb = "runas"
+    $processInfo.UseShellExecute = $true
+
+    $process = [System.Diagnostics.Process]::Start($processInfo)
+    $process.WaitForExit()
 
     exit
 }
