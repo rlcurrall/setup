@@ -5,7 +5,7 @@ case $- in
 esac
 
 # Path to your oh-my-bash installation.
-export OSH='/home/robb-currall/.oh-my-bash'
+export OSH="$HOME/.oh-my-bash"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
@@ -87,9 +87,9 @@ eval "$(mise activate bash)"
 . "$HOME/.cargo/env"
 
 # Configure Android SDK
-export ANDROID_HOME=$HOME/Android/Sdk
-export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+# export ANDROID_HOME=$HOME/Android/Sdk
+# export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
+# export PATH=$PATH:$ANDROID_HOME/emulator
+# export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
