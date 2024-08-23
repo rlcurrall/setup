@@ -41,7 +41,7 @@ sudo apt -qq install -y \
 # Utilities
 sudo apt -qq install -y \
     file xclip dconf-cli uuid-runtime curl git jq unzip wget \
-    fzf ripgrep bat eza plocate btop fd-find tldr
+    fzf ripgrep bat eza plocate fd-find tldr
 # Image Processing
 sudo apt -qq install -y \
     libvips imagemagick mupdf mupdf-tools
@@ -238,6 +238,11 @@ sudo apt install neovim
 ln -snf ~/.setup/config/nvim ~/.config/nvim
 ###< Install Neovim ###
 
+###< Install btop ###
+sudo apt -qq install -y btop
+ln -snf ~/.setup/config/btop/btop.conf ~/.config/btop/btop.conf
+###> Install btop ###
+
 # ------------------------------------------------------------------------------
 
 # Setup Extensions
@@ -372,3 +377,8 @@ favorites_list="[${favorites_list%,}]"
 
 # Set the favorite apps
 gsettings set org.gnome.shell favorite-apps "$favorites_list"
+
+# Configure default apps
+sudo update-alternatives --config x-terminal-emulator
+sudo update-alternatives --config x-www-browser
+sudo update-alternatives --config gnome-www-browser
