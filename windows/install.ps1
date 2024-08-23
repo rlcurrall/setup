@@ -50,6 +50,9 @@ winget install dandavison.delta
 # see: https://github.com/junegunn/fzf
 winget install junegunn.fzf
 
+# see: https://github.com/aristocratos/btop
+winget install aristocratos.btop4win
+
 # see: https://learn.microsoft.com/en-us/powershell/
 winget install Microsoft.PowerShell
 #endregion

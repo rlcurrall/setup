@@ -28,31 +28,38 @@ $null = Register-EngineEvent -SourceIdentifier 'PowerShell.OnIdle' -MaxTriggerCo
 
 #region prompt
 # Copy of the robbyrussell theme from Oh My Posh (https://ohmyposh.dev)
-function Prompt {
+function Prompt
+{
     $ArrowIcon = [System.Convert]::toInt32("279C",16)
     $ArrowIcon = [System.Char]::ConvertFromUtf32($ArrowIcon)
     $XmarkIcon = [System.Convert]::toInt32("2717",16)
     $XmarkIcon = [System.Char]::ConvertFromUtf32($XmarkIcon)
 
-    if ($?) {
+    if ($?)
+    {
         Write-Host $ArrowIcon -NoNewline -ForegroundColor Green
-    } else {
+    } else
+    {
         Write-Host $ArrowIcon -NoNewline -ForegroundColor Red
     }
 
-    if ($(Split-Path -Path $pwd -Leaf) -eq $(Split-Path -Path $Home -Leaf)) {
+    if ($(Split-Path -Path $pwd -Leaf) -eq $(Split-Path -Path $Home -Leaf))
+    {
         Write-Host ("  ~") -NoNewline -ForegroundColor Cyan
-    } else {
+    } else
+    {
         Write-Host ("  " + $(Split-Path -Path $pwd -Leaf)) -NoNewline -ForegroundColor Cyan
     }
 
     $gitStatus = Get-GitStatus
-    if ($gitStatus) {
+    if ($gitStatus)
+    {
         Write-Host " git:(" -NoNewline -ForegroundColor Blue
         Write-Host "$($gitStatus.Branch)" -NoNewline -ForegroundColor Red
         Write-Host ")" -NoNewline -ForegroundColor Blue
 
-        if ($gitStatus.Working.Length -gt 0) {
+        if ($gitStatus.Working.Length -gt 0)
+        {
             Write-Host " $XmarkIcon" -NoNewline -ForegroundColor Yellow
         }
     }
@@ -61,11 +68,21 @@ function Prompt {
 }
 #endregion
 
+Set-Alias -Name 'btop' btop4win
+
 #region directory movement aliases
-function __up_one_dir { Set-Location ..; }
-function __up_two_dir { Set-Location ../..; }
-function __up_three_dir { Set-Location ../../..; }
-function __up_four_dir { Set-Location ../../../..; }
+function __up_one_dir
+{ Set-Location ..; 
+}
+function __up_two_dir
+{ Set-Location ../..; 
+}
+function __up_three_dir
+{ Set-Location ../../..; 
+}
+function __up_four_dir
+{ Set-Location ../../../..; 
+}
 
 Set-Alias -Name '..' __up_one_dir
 Set-Alias -Name '...' __up_two_dir
@@ -74,10 +91,18 @@ Set-Alias -Name '.....' __up_four_dir
 #endregion
 
 #region eza aliases
-function __ls { eza -F -gh --group-directories-first --git --git-ignore --icons --color-scale all --hyperlink $args; }
-function __ll { & '__ls' -l @args; }
-function __la { & '__ll' -a @args; }
-function __l { & '__la' -a @args; }
+function __ls
+{ eza -F -gh --group-directories-first --git --git-ignore --icons --color-scale all --hyperlink $args; 
+}
+function __ll
+{ & '__ls' -l @args; 
+}
+function __la
+{ & '__ll' -a @args; 
+}
+function __l
+{ & '__la' -a @args; 
+}
 
 Set-Alias -Name 'ls' __ls
 Set-Alias -Name 'll' __ll
@@ -86,10 +111,18 @@ Set-Alias -Name 'l'  __l
 #endregion
 
 #region git aliases
-function __git_add { git add $args; }
-function __git_status { git status $args; }
-function __git_log { git log  --abbrev-commit --pretty="%C(red bold)%h%Creset | %C(yellow bold)%d%Creset %s %Cgreen(%cr)%Creset [%an]"; }
-function __git_log_graph { git log --graph  --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'; }
+function __git_add
+{ git add $args; 
+}
+function __git_status
+{ git status $args; 
+}
+function __git_log
+{ git log  --abbrev-commit --pretty="%C(red bold)%h%Creset | %C(yellow bold)%d%Creset %s %Cgreen(%cr)%Creset [%an]"; 
+}
+function __git_log_graph
+{ git log --graph  --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'; 
+}
 
 Set-Alias -Name 'ga' __git_add
 Set-Alias -Name 'gst' __git_status
@@ -98,11 +131,14 @@ Set-Alias -Name 'glg' __git_log_graph
 #endregion
 
 #region bash-like aliases
-function __which($name) {
-    Try {
+function __which($name)
+{
+    Try
+    {
         $info = Get-Command -ErrorAction Stop $name
         $info.Definition
-    } Catch {
+    } Catch
+    {
         Write-Host "which: $name not found" -ForegroundColor Red
     }
 }
