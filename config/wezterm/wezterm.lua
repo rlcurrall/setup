@@ -10,10 +10,9 @@ config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.show_new_tab_button_in_tab_bar  = false
 config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
 config.window_frame = {
 	font = wezterm.font("Fira Code", {}),
-	active_titlebar_bg = "#1a1b26",
-	inactive_titlebar_bg = "#1a1b26"
 }
 
 config.font_size = 14
