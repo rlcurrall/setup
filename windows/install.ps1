@@ -9,7 +9,7 @@ if (-not (Test-Admin))
 # ==========================================================================
 # CLI Tools
 #
-# This section installs command-line tools that are commonly used.
+# This section installs command-line tools that are commonly used
 # ==========================================================================
 #region cli tools
 Write-Section "Installing CLI Tools"
@@ -22,6 +22,9 @@ winget install CoreyButler.NVMforWindows
 
 # see: https://learn.microsoft.com/en-us/cli/azure
 winget install Microsoft.AzureCLI
+
+# see: https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator
+winget install Microsoft.Azure.CosmosEmulator
 
 # see: https://docs.stripe.com/stripe-cli
 winget install Stripe.StripeCLI
