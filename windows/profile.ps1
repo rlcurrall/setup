@@ -147,4 +147,19 @@ Set-Alias -Name 'which' __which
 Set-Alias -Name 'touch' New-Item
 #endregion
 
+function mkrs([string] $name)
+{
+    $ts = get-date -Format 'yyyyMMddHHmm'
+    $now = get-date -Format 'yyyy-MM-dd'
+    $file = "$ts-$name.sql"
+
+    New-Item $file
+    Add-Content -Path $file -Value @"
+-- @Date:        $now
+-- @Author:      $env:USERNAME
+-- @Jira:        TODO
+-- @Description: TODO
+"@
+}
+
 Set-Alias -Name 'tf' terraform
