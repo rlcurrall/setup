@@ -4,8 +4,12 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -149,6 +153,30 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+
+  {
+    'nvim-tree/nvim-tree.lua',
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      vim.keymap.set('n', '<C-n>', vim.cmd.NvimTreeToggle)
+
+      require('nvim-tree').setup {
+        view = {
+          side = "right"
+        },
+        filters = {
+          dotfiles = true,
+        },
+        update_focused_file = {
+          enable = true,
+        },
+      }
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -713,26 +741,28 @@ require('lazy').setup({
 
   -- Code Folding
   {
-    "chrisgrieser/nvim-origami",
-    event = "BufReadPost",
+    'chrisgrieser/nvim-origami',
+    event = 'BufReadPost',
     opts = {},
   },
   {
-    "kevinhwang91/nvim-ufo",
-    dependencies = "kevinhwang91/promise-async",
-    event = "UIEnter",
+    'kevinhwang91/nvim-ufo',
+    dependencies = 'kevinhwang91/promise-async',
+    event = 'UIEnter',
     init = function()
       vim.opt.foldlevel = 99
       vim.opt.foldlevelstart = 99
     end,
     opts = {
       provider_selector = function(_, ft, _)
-        local lspWithOutFolding = { "markdown", "sh", "css", "html", "python", "json", "powershell" }
-        if vim.tbl_contains(lspWithOutFolding, ft) then return { "treesitter", "indent" } end
-        return { "lsp", "indent" }
+        local lspWithOutFolding = { 'markdown', 'sh', 'css', 'html', 'python', 'json', 'powershell' }
+        if vim.tbl_contains(lspWithOutFolding, ft) then
+          return { 'treesitter', 'indent' }
+        end
+        return { 'lsp', 'indent' }
       end,
       close_fold_kinds_for_ft = {
-        default = { "imports", "comment" }
+        default = { 'imports', 'comment' },
       },
       open_fold_hl_timeout = 800,
     },
