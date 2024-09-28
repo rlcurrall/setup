@@ -1,14 +1,14 @@
-local M = {}
 local wezterm = require("wezterm")
+local module = {}
 
-M.get_appearance = function()
+module.get_appearance = function()
 	if wezterm.gui then
 		return wezterm.gui.get_appearance()
 	end
 	return "Dark"
 end
 
-M.scheme_for_appearance = function(appearance)
+module.scheme_for_appearance = function(appearance)
 	if appearance:find("Dark") then
 		return "Tokyo Night"
 	else
@@ -16,19 +16,19 @@ M.scheme_for_appearance = function(appearance)
 	end
 end
 
-M.is_dark = M.get_appearance():find("Dark")
-M.theme = M.scheme_for_appearance(M.get_appearance())
+module.is_dark = module.get_appearance():find("Dark")
+module.theme = module.scheme_for_appearance(module.get_appearance())
 
-M.is_linux = function()
+module.is_linux = function()
 	return wezterm.target_triple:find("linux") ~= nil
 end
 
-M.is_darwin = function()
+module.is_darwin = function()
 	return wezterm.target_triple:find("darwin") ~= nil
 end
 
-M.is_windows = function()
+module.is_windows = function()
 	return wezterm.target_triple:find("windows") ~= nil
 end
 
-return M
+return module
