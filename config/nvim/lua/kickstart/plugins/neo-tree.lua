@@ -11,14 +11,15 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal' },
+    { '<leader>e', ':Neotree focus filesystem right<CR>', desc = 'Open File Explorer' },
+    { '<leader>g', ':Neotree focus git_status right<CR>', desc = 'Open Git Status' },
+    { '<leader>b', ':Neotree focus buffers right<CR>', desc = 'Open Buffers' },
   },
   opts = {
-    filesystem = {
-      window = {
-        mappings = {
-          ['\\'] = 'close_window',
-        },
+    close_if_last_window = true,
+    window = {
+      mappings = {
+        ['\\'] = 'close_window',
       },
     },
   },
