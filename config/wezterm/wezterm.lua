@@ -49,7 +49,7 @@ config.keys = {
 
 	-- Configuration for Tabs (open, close, rename)
 	{ key = "q", mods = "LEADER", action = wezterm.action.CloseCurrentTab({ confirm = true }) },
-	{ key = "w", mods = "LEADER", action = wezterm.action.ShowTabNavigator },
+	{ key = "t", mods = "LEADER", action = wezterm.action.ShowTabNavigator },
 	{ -- Rename current tab
 		key = ",",
 		mods = "LEADER",
@@ -66,7 +66,7 @@ config.keys = {
 	{ key = "a", mods = "LEADER", action = wezterm.action.AttachDomain("unix") },
 	{ key = "d", mods = "LEADER", action = wezterm.action.DetachDomain({ DomainName = "unix" }) },
 	{ -- Rename current workspace
-		key = "$",
+		key = "R",
 		mods = "LEADER|SHIFT",
 		action = wezterm.action.PromptInputLine({
 			description = "Enter new name for session",
@@ -78,23 +78,23 @@ config.keys = {
 		}),
 	},
 	{ --Show list of workspaces
-		key = "s",
+		key = "w",
 		mods = "LEADER",
 		action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }),
 	},
 	{ -- Save current session
-		key = "S",
-		mods = "LEADER|SHIFT",
+		key = "s",
+		mods = "LEADER",
 		action = wezterm.action({ EmitEvent = "save_session" }),
 	},
 	{ -- Load a session
-		key = "L",
-		mods = "LEADER|SHIFT",
+		key = "l",
+		mods = "LEADER",
 		action = wezterm.action({ EmitEvent = "load_session" }),
 	},
 	{ -- Restore current session to last save
-		key = "R",
-		mods = "LEADER|SHIFT",
+		key = "r",
+		mods = "LEADER",
 		action = wezterm.action({ EmitEvent = "restore_session" }),
 	},
 }
