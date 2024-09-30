@@ -38,6 +38,7 @@ return {
       },
       view = {
         side = 'right',
+        width = 70,
         preserve_window_proportions = true,
       },
     },

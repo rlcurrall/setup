@@ -151,14 +151,13 @@ require('lazy').setup({
     end,
   },
 
-  -- require('kickstart.plugins.debug'),
-  -- require('kickstart.plugins.lint'),
-  require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.gitsigns',
-
+  -- require 'custom.plugins.debug',
+  -- require 'custom.plugins.lint',
+  require 'custom.plugins.autopairs',
   require 'custom.plugins.autocomplete',
   require 'custom.plugins.conform',
   require 'custom.plugins.folding',
+  require 'custom.plugins.gitsigns',
   require 'custom.plugins.lsp',
   require 'custom.plugins.mini',
   require 'custom.plugins.nvim-tree',
