@@ -99,7 +99,7 @@ return {
         end,
       })
 
-      -- restore window size when openning nvim-tree
+      -- restore window size when opening nvim-tree
       api.events.subscribe(api.events.Event.TreeOpen, function()
         if vim.t['filetree_width'] ~= nil then
           view.resize(vim.t['filetree_width'])

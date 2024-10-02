@@ -4,6 +4,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Enable spell checking
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -93,7 +97,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Kebinds to make resizing easier.
+-- Keybinds to make resizing easier.
 --  Use ALT+<hjkl> to resize windows
 --
 --  See `:help wincmd` for a list of all window commands
