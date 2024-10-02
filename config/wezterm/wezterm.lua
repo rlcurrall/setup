@@ -1,6 +1,6 @@
 local wezterm = require("wezterm")
 local helpers = require("utils.helpers")
-local session_manager = require("wezterm-session-manager.session-manager")
+-- local session_manager = require("wezterm-session-manager.session-manager")
 
 local config = wezterm.config_builder()
 
@@ -39,7 +39,7 @@ config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
 	{ key = "[", mods = "LEADER", action = wezterm.action.ActivateCopyMode },
 
-	-- Configuration for Panes (split, nav)
+	-- Configuration for Panes (split, navigation)
 	{ key = "|", mods = "LEADER|SHIFT", action = wezterm.action.SplitPane({ direction = "Right" }) },
 	{ key = "-", mods = "LEADER", action = wezterm.action.SplitPane({ direction = "Down" }) },
 	{ key = "h", mods = "CTRL|SHIFT", action = wezterm.action.ActivatePaneDirection("Left") },
@@ -82,31 +82,31 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }),
 	},
-	{ -- Save current session
-		key = "s",
-		mods = "LEADER",
-		action = wezterm.action({ EmitEvent = "save_session" }),
-	},
-	{ -- Load a session
-		key = "l",
-		mods = "LEADER",
-		action = wezterm.action({ EmitEvent = "load_session" }),
-	},
-	{ -- Restore current session to last save
-		key = "r",
-		mods = "LEADER",
-		action = wezterm.action({ EmitEvent = "restore_session" }),
-	},
+	-- 	{ -- Save current session
+	-- 		key = "s",
+	-- 		mods = "LEADER",
+	-- 		action = wezterm.action({ EmitEvent = "save_session" }),
+	-- 	},
+	-- 	{ -- Load a session
+	-- 		key = "l",
+	-- 		mods = "LEADER",
+	-- 		action = wezterm.action({ EmitEvent = "load_session" }),
+	-- 	},
+	-- 	{ -- Restore current session to last save
+	-- 		key = "r",
+	-- 		mods = "LEADER",
+	-- 		action = wezterm.action({ EmitEvent = "restore_session" }),
+	-- 	},
 }
 
-wezterm.on("save_session", function(window)
-	session_manager.save_state(window)
-end)
-wezterm.on("load_session", function(window)
-	session_manager.load_state(window)
-end)
-wezterm.on("restore_session", function(window)
-	session_manager.restore_state(window)
-end)
+-- wezterm.on("save_session", function(window)
+-- 	session_manager.save_state(window)
+-- end)
+-- wezterm.on("load_session", function(window)
+-- 	session_manager.load_state(window)
+-- end)
+-- wezterm.on("restore_session", function(window)
+-- 	session_manager.restore_state(window)
+-- end)
 
 return config
