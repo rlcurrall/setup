@@ -47,8 +47,8 @@ winget install Neovim.Neovim
 # see: https://github.com/jftuga/less-Windows
 winget install jftuga.less
 
-# see: https://github.com/dandavison/delta
-winget install dandavison.delta
+# see: https://github.com/Wilfred/difftastic
+winget install Wilfred.difftastic
 
 # see: https://github.com/junegunn/fzf
 winget install junegunn.fzf
@@ -300,9 +300,6 @@ if ($Recording -eq "y")
 Write-Section "Configuring Tools"
 
 git config --global core.editor "nvim"
-git config --global core.pager "delta"
-git config --global interactive.diffFilter "delta --color-only"
-git config --global diff.colorMoved "default"
 
 $GitName = Read-Host "What is your name for git?"
 git config --global user.name $GitName
