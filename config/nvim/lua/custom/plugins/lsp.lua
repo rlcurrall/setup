@@ -27,6 +27,9 @@ return {
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
+
+      -- csharp
+      { 'Hoffs/omnisharp-extended-lsp.nvim', lazy = true },
     },
     config = function()
       --  This function gets run when an LSP attaches to a particular buffer.
@@ -141,15 +144,11 @@ return {
         eslint = {},
 
         lua_ls = {
-          -- cmd = {...},
-          -- filetypes = {...},
-          -- capabilities = {...},
           settings = {
             Lua = {
               completion = {
                 callSnippet = 'Replace',
               },
-              -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },
@@ -163,6 +162,8 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'omnisharp',
+        'csharpier',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -177,6 +178,15 @@ return {
             require('lspconfig')[server_name].setup(server)
           end,
         },
+      }
+
+      require('mason-lspconfig').setup_handlers {
+        function(server_name)
+          require('lspconfig')[server_name].setup {
+            capabilities = capabilities,
+          }
+        end,
+        ['omnisharp'] = require('custom.plugins.lsp.omnisharp').setup,
       }
     end,
   },

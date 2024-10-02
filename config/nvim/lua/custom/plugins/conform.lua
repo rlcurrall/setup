@@ -26,11 +26,19 @@ return {
         }
       end,
       formatters_by_ft = {
+        cs = { 'csharpier' },
         lua = { 'stylua' },
         javascript = { 'prettier' },
         javascriptreact = { 'prettier' },
         typescript = { 'prettier' },
         typescriptreact = { 'prettier' },
+        -- sql = { 'sql_formatter' },
+      },
+      formatters = {
+        csharpier = {
+          command = 'dotnet-csharpier',
+          args = { '--write-stdout' },
+        },
       },
     },
   },
