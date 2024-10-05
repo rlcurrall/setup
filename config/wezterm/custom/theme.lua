@@ -2,7 +2,7 @@ local helpers = require("utils.helpers")
 local wezterm = require("wezterm")
 local Module = {}
 
-Module.apply = function(config)
+Module.setup = function(config)
 	--
 	config.color_scheme = helpers.is_dark() and "Tokyo Night" or "Tokyo Night Day"
 	config.window_decorations = "RESIZE"

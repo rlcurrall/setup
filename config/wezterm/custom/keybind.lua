@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
 local Module = {}
 
-Module.apply = function(config)
+Module.setup = function(config)
 	config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 	config.keys = {
 		{ key = "[", mods = "LEADER", action = wezterm.action.ActivateCopyMode },

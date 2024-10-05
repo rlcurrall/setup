@@ -1,12 +1,14 @@
 local wezterm = require("wezterm")
 local helpers = require("utils.helpers")
-local theme = require("custom.theme")
 local keybind = require("custom.keybind")
+local tabs = require("custom.tabs")
+local theme = require("custom.theme")
 
 local config = wezterm.config_builder()
 
-theme.apply(config)
-keybind.apply(config)
+keybind.setup(config)
+tabs.setup(config)
+theme.setup(config)
 
 config.window_close_confirmation = "NeverPrompt"
 
