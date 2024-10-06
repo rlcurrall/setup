@@ -186,8 +186,14 @@ return {
             capabilities = capabilities,
           }
         end,
-        ['omnisharp'] = require('custom.plugins.lsp.omnisharp').setup,
+        ['omnisharp'] = require('plugins.lsp.omnisharp').setup,
       }
     end,
+  },
+
+  { -- Add TypeScript Support
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
   },
 }

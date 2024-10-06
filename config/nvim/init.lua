@@ -136,63 +136,18 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
-
-      -- Document existing key chains
-      require('which-key').add {
-        { '<leader>c', group = '[C]ode' },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      }
-    end,
-  },
-  {
-    'folke/noice.nvim',
-    event = 'VeryLazy',
-    opts = {
-      -- add any options here
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      'MunifTanjim/nui.nvim',
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      -- 'rcarriga/nvim-notify',
-    },
-  },
-  { 'justinsgithub/wezterm-types', lazy = true },
-  {
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        { path = 'wezterm-types', mods = { 'wezterm' } },
-      },
-    },
-  },
-
-  require 'custom.plugins.autopairs',
-  require 'custom.plugins.autocomplete',
-  require 'custom.plugins.conform',
-  require 'custom.plugins.folding',
-  require 'custom.plugins.gitsigns',
-  require 'custom.plugins.lsp',
-  require 'custom.plugins.mini',
-  require 'custom.plugins.nvim-tree',
-  require 'custom.plugins.sessions',
-  require 'custom.plugins.telescope',
-  require 'custom.plugins.theme',
-  require 'custom.plugins.treesitter',
-  require 'custom.plugins.typescript',
+  require 'plugins.autopairs',
+  require 'plugins.autocomplete',
+  require 'plugins.conform',
+  require 'plugins.folding',
+  require 'plugins.gitsigns',
+  require 'plugins.lsp',
+  require 'plugins.mini',
+  require 'plugins.nvim-tree',
+  require 'plugins.sessions',
+  require 'plugins.telescope',
+  require 'plugins.treesitter',
+  require 'plugins.ui',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
