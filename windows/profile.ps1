@@ -128,6 +128,7 @@ Set-Alias -Name 'ga' __git_add
 Set-Alias -Name 'gst' __git_status
 Set-Alias -Name 'gll' __git_log
 Set-Alias -Name 'glg' __git_log_graph
+Set-Alias -Name 'lg' lazygit
 #endregion
 
 #region bash-like aliases
@@ -162,4 +163,82 @@ function mkrs([string] $name)
 "@
 }
 
+function clearNvimShada()
+{
+    Remove-Item -Path "$env:LOCALAPPDATA/nvim-data/shada/main.shada.tmp.*" -Force -Recurse -ErrorAction SilentlyContinue
+}
+
+function Lock-In([string] $project = $null)
+{
+    if (!(Get-Command -ErrorAction SilentlyContinue wezterm))
+    {
+        Write-Error "Cannot lock in. Wezterm is not installed."
+        return
+    }
+
+    if (!(Get-Command -ErrorAction SilentlyContinue jq))
+    {
+        Write-Error "Cannot lock in. jq is not installed."
+        return
+    }
+
+    $projects = Get-ChildItem -Path "$HOME/Code" -Directory
+
+    if ($projects.Count -eq 0)
+    {
+        Write-Error "Cannot lock in. Your are not shipping."
+        return
+    }
+
+    $project ??= $project[0].Name
+    $path = "$HOME/Code/$project"
+
+    if (!(Test-Path -Path $path))
+    {
+        Write-Warning "Cannot lock in. Project does not exist."
+
+        $create = Read-Host "Do you want to create it? (y/N)"
+
+        if ($create -eq 'y')
+        {
+            Write-Host "LFG!!!"
+            [void](New-Item $path -ItemType Directory -ea 0)
+        } else
+        {
+            Write-Host "Coward"
+            return
+        }
+    }
+
+    wezterm cli set-tab-title "__Controler__"
+
+    $existingPanes = wezterm cli list --format json `
+    | jq '[.[] | select(.tab_title != "__Controller__") | { pane_id: .pane_id, window_id: .window_id, tab_id: .tab_id, title: .tab_title }]' `
+    | ConvertFrom-Json
+
+    $pid0 = wezterm cli spawn --cwd $path
+    $pid1 = wezterm cli spawn --cwd $path -- nvim
+    $pid2 = wezterm cli spawn --cwd $path -- lazygit
+
+    wezterm cli activate-pane --pane-id $pid1
+
+    wezterm cli set-tab-title --pane-id $pid0 "pwsh"
+    wezterm cli set-tab-title --pane-id $pid1 "nvim"
+    wezterm cli set-tab-title --pane-id $pid2 "lazygit"
+
+    wezterm cli move-pane-to-new-tab --pane-id $pid0
+
+    foreach ($pane in $existingPanes)
+    {
+        Write-Host "Killing pane: ${pane.pane_id}"
+        wezterm cli kill-pane --pane-id $pane.pane_id
+    }
+
+    exit
+}
+
 Set-Alias -Name 'tf' terraform
+
+#region Initialization scripts
+clearNvimShada
+#endregion
