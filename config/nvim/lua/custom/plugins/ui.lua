@@ -19,17 +19,23 @@ return {
     opts = { signs = false },
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
     lazy = false,
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    priority = 1000,
+    opts = {
+      disable_background = true,
+      styles = {
+        transparency = true,
+      },
+    },
     init = function()
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'rose-pine-moon'
       vim.cmd.hi 'Comment gui=none'
+
+      -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
     end,
   },
 
@@ -90,10 +96,10 @@ return {
     opts = {
       update_interval = 1000,
       set_dark_mode = function()
-        vim.cmd.colorscheme 'tokyonight-night'
+        vim.cmd.colorscheme 'rose-pine-moon'
       end,
       set_light_mode = function()
-        vim.cmd.colorscheme 'tokyonight-day'
+        vim.cmd.colorscheme 'rose-pine-dawn'
       end,
     },
   },

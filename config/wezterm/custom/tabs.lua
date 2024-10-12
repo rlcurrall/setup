@@ -1,9 +1,9 @@
 local wezterm = require("wezterm") --[[@as Wezterm]]
 
-local M = {}
-M.arrow_solid = ""
-M.arrow_thin = ""
-M.icons = {
+local Module = {}
+Module.arrow_solid = ""
+Module.arrow_thin = ""
+Module.icons = {
 	["C:\\WINDOWS\\system32\\cmd.exe"] = wezterm.nerdfonts.md_console_line,
 	["C:\\Program Files\\PowerShell\\7\\pwsh.exe"] = wezterm.nerdfonts.md_console,
 	["Topgrade"] = wezterm.nerdfonts.md_rocket_launch,
@@ -30,6 +30,7 @@ M.icons = {
 	["paru"] = "󰮯 ",
 	["psql"] = wezterm.nerdfonts.dev_postgresql,
 	["pwsh.exe"] = wezterm.nerdfonts.md_console,
+	["pwsh"] = wezterm.nerdfonts.md_console,
 	["ruby"] = wezterm.nerdfonts.cod_ruby,
 	["sudo"] = wezterm.nerdfonts.fa_hashtag,
 	["vim"] = wezterm.nerdfonts.dev_vim,
@@ -40,12 +41,12 @@ M.icons = {
 
 ---@param tab MuxTabObj
 ---@param max_width number
-function M.title(tab, max_width)
+function Module.title(tab, max_width)
 	local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
 	local process, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
-	if M.icons[process] then
-		title = M.icons[process] .. " " .. (other or "")
+	if Module.icons[process] then
+		title = Module.icons[process] .. " " .. (other or "")
 	end
 
 	local is_zoomed = false
@@ -64,7 +65,7 @@ function M.title(tab, max_width)
 end
 
 ---@param config Config
-function M.setup(config)
+function Module.setup(config)
 	config.use_fancy_tab_bar = false
 	config.tab_bar_at_bottom = true
 	config.hide_tab_bar_if_only_one_tab = true
@@ -72,10 +73,10 @@ function M.setup(config)
 	config.unzoom_on_switch_pane = true
 
 	wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-		local title = M.title(tab, max_width)
+		local title = Module.title(tab, max_width)
 		local colors = config.resolved_palette
-		local active_bg = colors.tab_bar.active_tab.bg_color
-		local inactive_bg = colors.tab_bar.inactive_tab.bg_color
+		local active_bg = (colors.tab_bar.active_tab or {}).bg_color
+		local inactive_bg = (colors.tab_bar.inactive_tab or {}).bg_color
 
 		local tab_idx = 1
 		for i, t in ipairs(tabs) do
@@ -87,7 +88,7 @@ function M.setup(config)
 		local is_last = tab_idx == #tabs
 		local next_tab = tabs[tab_idx + 1]
 		local next_is_active = next_tab and next_tab.is_active
-		local arrow = (tab.is_active or is_last or next_is_active) and M.arrow_solid or M.arrow_thin
+		local arrow = (tab.is_active or is_last or next_is_active) and Module.arrow_solid or Module.arrow_thin
 		local arrow_bg = inactive_bg
 		local arrow_fg = colors.tab_bar.inactive_tab_edge
 
@@ -105,7 +106,7 @@ function M.setup(config)
 		local ret = tab.is_active
 				and {
 					{ Attribute = { Intensity = "Bold" } },
-					{ Attribute = { Italic = true } },
+					{ Attribute = { Italic = false } },
 				}
 			or {}
 		ret[#ret + 1] = { Text = title }
@@ -116,4 +117,4 @@ function M.setup(config)
 	end)
 end
 
-return M
+return Module

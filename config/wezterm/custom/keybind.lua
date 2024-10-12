@@ -1,6 +1,6 @@
 local wezterm = require("wezterm")
-local Module = {}
 
+local Module = {}
 Module.setup = function(config)
 	config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 	config.keys = {
@@ -30,11 +30,9 @@ Module.setup = function(config)
 			}),
 		},
 
-		{ key = "a", mods = "LEADER", action = wezterm.action.AttachDomain("unix") },
-		{ key = "d", mods = "LEADER", action = wezterm.action.DetachDomain({ DomainName = "unix" }) },
 		{ -- Rename current workspace
-			key = "R",
-			mods = "LEADER|SHIFT",
+			key = "r",
+			mods = "LEADER",
 			action = wezterm.action.PromptInputLine({
 				description = "Enter new name for session",
 				action = wezterm.action_callback(function(window, _, line)

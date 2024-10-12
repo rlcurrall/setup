@@ -186,7 +186,7 @@ return {
             capabilities = capabilities,
           }
         end,
-        ['omnisharp'] = require('plugins.lsp.omnisharp').setup,
+        ['omnisharp'] = require('custom.plugins.lsp.omnisharp').setup,
       }
     end,
   },

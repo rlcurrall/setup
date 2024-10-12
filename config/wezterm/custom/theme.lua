@@ -1,10 +1,9 @@
 local helpers = require("utils.helpers")
 local wezterm = require("wezterm")
+local rose_pine = wezterm.plugin.require("https://github.com/neapsix/wezterm")
 local Module = {}
 
 Module.setup = function(config)
-	--
-	config.color_scheme = helpers.is_dark() and "Tokyo Night" or "Tokyo Night Day"
 	config.window_decorations = "RESIZE"
 	config.hide_tab_bar_if_only_one_tab = true
 	config.show_new_tab_button_in_tab_bar = false
@@ -13,11 +12,7 @@ Module.setup = function(config)
 	config.tab_max_width = 16
 	config.switch_to_last_active_tab_when_closing_tab = true
 
-	config.colors = {
-		tab_bar = {
-			background = helpers.is_dark() and "#16161e" or "#e9e9ec",
-		},
-	}
+	config.colors = helpers.is_dark() and rose_pine.moon.colors() or rose_pine.dawn.colors()
 
 	config.window_frame = {
 		-- font = wezterm.font("Fira Code"),
