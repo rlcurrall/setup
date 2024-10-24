@@ -6,6 +6,77 @@ if (-not (Test-Admin))
     exit
 }
 
+do
+{
+    if (!($WezTerm = Read-Host "`nWould you like to install the WezTerm terminal? (y/N)"))
+    {
+        $WezTerm = "n"
+    }
+} while ($WezTerm -notin @("y", "n"))
+
+do
+{
+    if (!($Rider = Read-Host "`nWould you like to install Rider? (y/N)"))
+    {
+        $Rider = "n"
+    }
+} while ($Rider -notin @("y", "n"))
+
+do
+{
+    if (!($SSMS = Read-Host "`nWould you like to install SQL Server Management Studio? (y/N)"))
+    {
+        $SSMS = "n"
+    }
+} while ($SSMS -notin @("y", "n"))
+
+do
+{
+    if (!($LazyTui = Read-Host "`nWould you like to install lazy TUIs? (y/N)"))
+    {
+        $LazyTui = "n"
+    }
+} while ($LazyTui -notin @("y", "n"))
+
+do
+{
+    if (!($Vivaldi = Read-Host "`nWould you like to install Vivaldi? (y/N)"))
+    {
+        $Vivaldi = "n"
+    }
+} while ($Vivaldi -notin @("y", "n"))
+
+do
+{
+    if (!($Chrome = Read-Host "`nWould you like to install Google Chrome? (y/N)"))
+    {
+        $Chrome = "n"
+    }
+} while ($Chrome -notin @("y", "n"))
+
+do
+{
+    if (!($Firefox = Read-Host "`nWould you like to install Mozilla Firefox? (y/N)"))
+    {
+        $Firefox = "n"
+    }
+} while ($Firefox -notin @("y", "n"))
+
+do
+{
+    if (!($1Password = Read-Host "`nWould you like to install 1Password? (y/N)"))
+    {
+        $1Password = "n"
+    }
+} while ($1Password -notin @("y", "n"))
+do
+{
+    if (!($Recording = Read-Host "`nWould you like to install video & recording tools? (y/N)"))
+    {
+        $Recording = "n"
+    }
+} while ($Recording -notin @("y", "n"))
+
 # ==========================================================================
 # CLI Tools
 #
@@ -109,40 +180,16 @@ winget install Docker.DockerDesktop
 winget install Microsoft.Azure.StorageExplorer
 winget install Postman.Postman
 
-do
-{
-    if (!($WezTerm = Read-Host "`nWould you like to install the WezTerm terminal? (y/N)"))
-    {
-        $WezTerm = "n"
-    }
-} while ($WezTerm -notin @("y", "n"))
-
 if ($WezTerm -eq "y")
 {
     # see: https://wezfurlong.org/wezterm/index.html
     winget install wez.wezterm
 }
 
-do
-{
-    if (!($Rider = Read-Host "`nWould you like to install Rider? (y/N)"))
-    {
-        $Rider = "n"
-    }
-} while ($Rider -notin @("y", "n"))
-
 if ($Rider -eq "y")
 {
     winget install JetBrains.Rider
 }
-
-do
-{
-    if (!($SSMS = Read-Host "`nWould you like to install SQL Server Management Studio? (y/N)"))
-    {
-        $SSMS = "n"
-    }
-} while ($SSMS -notin @("y", "n"))
 
 if ($SSMS -eq "y")
 {
@@ -175,14 +222,6 @@ winget install Microsoft.PowerToys
 #region lazy tui tools
 Write-Section "Installing Lazy TUI Tools"
 
-do
-{
-    if (!($LazyTui = Read-Host "`nWould you like to install lazy TUIs? (y/N)"))
-    {
-        $LazyTui = "n"
-    }
-} while ($LazyTui -notin @("y", "n"))
-
 if ($LazyTui -eq "y")
 {
     winget install JesseDuffield.lazygit
@@ -198,39 +237,15 @@ if ($LazyTui -eq "y")
 #region browsers
 Write-Section "Installing Browsers"
 
-do
-{
-    if (!($Vivaldi = Read-Host "`nWould you like to install Vivaldi? (y/N)"))
-    {
-        $Vivaldi = "n"
-    }
-} while ($Vivaldi -notin @("y", "n"))
-
 if ($Vivaldi -eq "y")
 {
     winget install Vivaldi.Vivaldi
 }
 
-do
-{
-    if (!($Chrome = Read-Host "`nWould you like to install Google Chrome? (y/N)"))
-    {
-        $Chrome = "n"
-    }
-} while ($Chrome -notin @("y", "n"))
-
 if ($Chrome -eq "y")
 {
     winget install Google.Chrome
 }
-
-do
-{
-    if (!($Firefox = Read-Host "`nWould you like to install Mozilla Firefox? (y/N)"))
-    {
-        $Firefox = "n"
-    }
-} while ($Firefox -notin @("y", "n"))
 
 if ($Firefox -eq "y")
 {
@@ -250,14 +265,6 @@ if ($Firefox -eq "y")
 #region password managers
 Write-Section "Installing Password Managers"
 
-do
-{
-    if (!($1Password = Read-Host "`nWould you like to install 1Password? (y/N)"))
-    {
-        $1Password = "n"
-    }
-} while ($1Password -notin @("y", "n"))
-
 if ($1Password -eq "y")
 {
     winget install AgileBits.1Password
@@ -274,13 +281,6 @@ if ($1Password -eq "y")
 #region screen recording tools
 Write-Section "Installing Screen Recording Tools"
 
-do
-{
-    if (!($Recording = Read-Host "`nWould you like to install video & recording tools? (y/N)"))
-    {
-        $Recording = "n"
-    }
-} while ($Recording -notin @("y", "n"))
 
 if ($Recording -eq "y")
 {
