@@ -109,6 +109,9 @@ winget install jqlang.jq
 # see: https://github.com/eza-community/eza -- use older version to fix bug
 winget install eza-community.eza -v 0.18.21
 
+# see: https://ziglang.org/learn/getting-started/
+winget install -e --id zig.zig
+
 # see: https://github.com/BurntSushi/ripgrep
 winget install BurntSushi.ripgrep.MSVC
 
