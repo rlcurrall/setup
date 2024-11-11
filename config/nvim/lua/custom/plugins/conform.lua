@@ -32,6 +32,7 @@ return {
         javascriptreact = { 'prettier' },
         typescript = { 'prettier' },
         typescriptreact = { 'prettier' },
+        json = { 'prettier' },
         -- sql = { 'sql_formatter' },
       },
       formatters = {
