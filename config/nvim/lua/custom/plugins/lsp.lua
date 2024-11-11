@@ -140,7 +140,7 @@ return {
         rust_analyzer = {},
         powershell_es = {},
         prettier = {},
-        tsserver = {},
+        ts_ls = {},
         eslint = {},
 
         lua_ls = {
