@@ -20,24 +20,35 @@ return {
   },
 
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
-    opts = {
-      disable_background = true,
-      styles = {
-        transparency = true,
-      },
-    },
-    init = function()
-      vim.cmd.colorscheme 'rose-pine-moon'
+    opts = {},
+    init = function ()
+      vim.cmd.colorscheme 'tokyonight-night'
       vim.cmd.hi 'Comment gui=none'
-
-      -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
-    end,
+    end
   },
+
+  -- {
+  --   'rose-pine/neovim',
+  --   name = 'rose-pine',
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     disable_background = true,
+  --     styles = {
+  --       transparency = true,
+  --     },
+  --   },
+  --   init = function()
+  --     vim.cmd.colorscheme 'rose-pine-moon'
+  --     vim.cmd.hi 'Comment gui=none'
+  --
+  --     -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+  --     -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+  --   end,
+  -- },
 
   {
     'folke/noice.nvim',
@@ -96,10 +107,10 @@ return {
     opts = {
       update_interval = 1000,
       set_dark_mode = function()
-        vim.cmd.colorscheme 'rose-pine-moon'
+        vim.cmd.colorscheme 'tokyonight-night'
       end,
       set_light_mode = function()
-        vim.cmd.colorscheme 'rose-pine-dawn'
+        vim.cmd.colorscheme 'tokyonight-day'
       end,
     },
   },
