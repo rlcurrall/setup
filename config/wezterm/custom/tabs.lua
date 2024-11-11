@@ -36,7 +36,7 @@ Module.icons = {
 	["vim"] = wezterm.nerdfonts.dev_vim,
 	["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
 	["zsh"] = wezterm.nerdfonts.dev_terminal,
-	["lazygit"] = wezterm.nerdfonts.cod_github,
+	["lazygit"] = wezterm.nerdfonts.dev_git,
 }
 
 ---@param tab MuxTabObj
