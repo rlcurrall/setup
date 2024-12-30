@@ -22,6 +22,7 @@ vim.opt.showmode = false
 
 -- Do not wrap text
 -- vim.o.wrap = false
+vim.o.linebreak = true
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
@@ -73,3 +74,7 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.expandtab = true
+
+-- if jit.os == 'Windows' then
+--   vim.opt.shell = 'pwsh'
+-- end

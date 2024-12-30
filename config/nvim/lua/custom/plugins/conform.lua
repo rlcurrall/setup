@@ -33,6 +33,7 @@ return {
         typescript = { 'prettier' },
         typescriptreact = { 'prettier' },
         json = { 'prettier' },
+        css = { 'prettier' },
         -- sql = { 'sql_formatter' },
       },
       formatters = {
