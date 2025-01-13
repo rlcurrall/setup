@@ -93,3 +93,14 @@ eval "$(mise activate bash)"
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 eval "$(fzf --bash)"
+
+if [ -f $HOME/.env ]
+then
+  set -a && source $HOME/.env && set +a
+fi
+
+# Functions
+function env-load() {
+  op inject -f -i $HOME/.env.template -o $HOME/.env
+  set -a && source $HOME/.env && set +a
+}
