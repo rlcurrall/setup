@@ -78,3 +78,6 @@ vim.expandtab = true
 -- if jit.os == 'Windows' then
 --   vim.opt.shell = 'pwsh'
 -- end
+
+-- Enable virtial diagnostic lines
+vim.diagnostic.config { virtual_lines = true }

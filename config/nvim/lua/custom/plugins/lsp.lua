@@ -117,6 +117,10 @@ return {
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
+            map('<leader>tj', function()
+              local new_config = not vim.diagnostic.config().virtual_lines
+              vim.diagnostic.config { virtual_lines = new_config }
+            end, 'Toggle diagnostic virtual_lines')
           end
         end,
       })

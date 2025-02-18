@@ -92,7 +92,7 @@ eval "$(mise activate bash)"
 # export PATH=$PATH:$ANDROID_HOME/emulator
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-eval "$(fzf --bash)"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 if [ -f $HOME/.env ]
 then
