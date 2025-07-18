@@ -144,8 +144,12 @@ return {
         rust_analyzer = {},
         powershell_es = {},
         prettier = {},
-        ts_ls = {},
-        eslint = {},
+        eslint = {
+          root_dir = function(fname)
+            local util = require('lspconfig.util')
+            return util.root_pattern('package.json', '.git')(fname)
+          end,
+        },
 
         lua_ls = {
           settings = {
@@ -181,23 +185,38 @@ return {
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          ['omnisharp'] = function()
+            require('custom.plugins.lsp.omnisharp').setup()
+          end,
         },
       }
 
-      require('mason-lspconfig').setup_handlers {
-        function(server_name)
-          require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-          }
-        end,
-        ['omnisharp'] = require('custom.plugins.lsp.omnisharp').setup,
-      }
+
     end,
   },
 
   { -- Add TypeScript Support
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
+    opts = {
+      settings = {
+        tsserver_file_preferences = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+        -- Enable project-wide TypeScript support for monorepos
+        tsserver_plugins = {},
+        -- Ensure it finds the root tsconfig.json
+        root_dir = function(fname)
+          local util = require('lspconfig.util')
+          return util.root_pattern('tsconfig.json', 'package.json', '.git')(fname)
+        end,
+      },
+    },
   },
 }
