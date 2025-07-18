@@ -81,3 +81,25 @@ vim.expandtab = true
 
 -- Enable virtial diagnostic lines
 vim.diagnostic.config { virtual_lines = true }
+
+-- ===== PERFORMANCE OPTIMIZATIONS =====
+-- Faster completion
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+
+-- Better search performance
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+
+-- Reduce redraw frequency
+vim.opt.lazyredraw = false -- Keep false for better UX
+vim.opt.ttyfast = true
+
+-- Memory management
+vim.opt.hidden = true
+vim.opt.history = 1000
+vim.opt.undolevels = 1000
+
+-- File handling
+vim.opt.autoread = true
+vim.opt.autowrite = true
