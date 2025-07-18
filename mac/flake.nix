@@ -5,11 +5,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
     let
-      me = builtins.getEnv "USER";
+      me = "robb";
       home = "/Users/${me}";
       configuration = { lib, pkgs, ... }: {
         # Configure unfree packages
@@ -36,6 +38,8 @@
           pkgs.zig
           pkgs.bun
           pkgs.deno
+          # pkgs.dotnet-sdk_8
+          # pkgs.dotnet-runtime_8
           pkgs.rustup
           pkgs.just
 
@@ -56,12 +60,13 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" ];
+          taps = [ "azure/functions" "sst/tap" ];
           brews = [
             "azure-functions-core-tools@4"
             "gh"
             "nvm"
             "pulumi"
+            "sst/tap/opencode"
           ];
           casks = [
             "1password"
@@ -69,7 +74,7 @@
             "bruno"
             "claude"
             "discord"
-            "docker"
+            "docker-desktop"
             "dotnet-sdk"
             "ghostty"
             "hyperkey"
@@ -140,13 +145,129 @@
 
         # Enable Tailscale
         services.tailscale.enable = true;
+
+        users.users.${me} = {
+          name = me;
+          home = home;
+        };
       };
     in
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#simple
       darwinConfigurations."helheim" = nix-darwin.lib.darwinSystem {
-        modules = [ configuration ];
+        modules = [
+          configuration
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.${me} = { config, pkgs, ... }: {
+              # Home Manager needs a bit of information about you and the paths it should manage
+              home.username = me;
+              home.homeDirectory = home;
+              home.stateVersion = "24.05";
+
+              # Disable version mismatch warning
+              home.enableNixpkgsReleaseCheck = false;
+
+              # Shell configuration now managed by programs.zsh
+              home.file = {
+                # Create Code directory
+                "Code/.keep".text = "";
+              };
+
+              xdg.configFile = {
+                "nvim" = {
+                  source = ../config/nvim;
+                  recursive = true;
+                };
+
+                "btop" = {
+                  source = ../config/btop;
+                  recursive = true;
+                };
+
+                "lazygit" = {
+                  source = ../config/lazygit;
+                  recursive = true;
+                };
+
+                "ghostty" = {
+                  source = ../config/ghostty;
+                  recursive = true;
+                };
+              };
+
+              home.sessionVariables = {
+                EDITOR = "nvim";
+                BROWSER = "vivaldi";
+                TERMINAL = "ghostty";
+              };
+
+              # ===== PROGRAMS =====
+              programs.zsh = {
+                enable = true;
+                enableCompletion = true;
+                autosuggestion.enable = true;
+                syntaxHighlighting.enable = true;
+
+                oh-my-zsh = {
+                  enable = true;
+                  theme = "robbyrussell";
+                  plugins = [ "git" ];
+                };
+
+                shellAliases = {
+                  rebuild = "(cd ~/.setup/mac && darwin-rebuild switch --flake .#helheim)";
+                };
+
+                initContent = ''
+                  # Add NVM to the path
+                  export NVM_DIR="$HOME/.nvm"
+                  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+                  # Add .NET Core SDK tools
+                  export PATH="$PATH:$HOME/.dotnet/tools"
+
+                  # Add custom bin to path
+                  export PATH="$HOME/.bin:$PATH"
+
+                  # Load environment variables
+                  . ~/.vars
+
+                  # Docker Desktop completions
+                  fpath=(/Users/robb/.docker/completions $fpath)
+                  autoload -Uz compinit
+                  compinit
+                '';
+              };
+
+              programs.atuin = {
+                enable = true;
+                enableZshIntegration = true;
+                settings = {
+                  enter_accept = true;
+                  sync.records = true;
+                };
+              };
+
+              programs.git = {
+                enable = true;
+                userName = "Robb Currall"; # Replace with your actual name
+                userEmail = "your@email.com"; # Replace with your actual email
+                extraConfig = {
+                  init.defaultBranch = "main";
+                  push.autoSetupRemote = true;
+                };
+              };
+
+              # Let Home Manager install and manage itself
+              programs.home-manager.enable = true;
+            };
+          }
+        ];
       };
     };
 }
