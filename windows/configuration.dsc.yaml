@@ -1,0 +1,309 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+properties:
+  configurationVersion: 0.2.0
+  ########################################
+  ### ASSERTIONS: System Requirements ###
+  ########################################
+  assertions:
+    - resource: Microsoft.Windows.Developer/OsVersion
+      directives:
+        description: Verify min OS version requirement
+        allowPrerelease: true
+      settings:
+        MinVersion: '10.0.17763'
+  ########################################
+  ### RESOURCES: System Configuration ###
+  ########################################
+  resources:
+    # ==========================================================================
+    # CLI Tools
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: git
+      directives:
+        description: Install Git
+        allowPrerelease: true
+      settings:
+        id: Git.Git
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: nvm
+      directives:
+        description: Install NVM for Windows
+        allowPrerelease: true
+      settings:
+        id: CoreyButler.NVMforWindows
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: azure-cli
+      directives:
+        description: Install Azure CLI
+        allowPrerelease: true
+      settings:
+        id: Microsoft.AzureCLI
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: cosmos-emulator
+      directives:
+        description: Install Azure Cosmos Emulator
+        allowPrerelease: true
+      settings:
+        id: Microsoft.Azure.CosmosEmulator
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: stripe-cli
+      directives:
+        description: Install Stripe CLI
+        allowPrerelease: true
+      settings:
+        id: Stripe.StripeCLI
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: terraform
+      directives:
+        description: Install Terraform
+        allowPrerelease: true
+      settings:
+        id: Hashicorp.Terraform
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: jq
+      directives:
+        description: Install jq
+        allowPrerelease: true
+      settings:
+        id: jqlang.jq
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: eza
+      directives:
+        description: Install eza (ls replacement)
+        allowPrerelease: true
+      settings:
+        id: eza-community.eza
+        version: 0.18.21
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: zig
+      directives:
+        description: Install Zig programming language
+        allowPrerelease: true
+      settings:
+        id: zig.zig
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: ripgrep
+      directives:
+        description: Install ripgrep
+        allowPrerelease: true
+      settings:
+        id: BurntSushi.ripgrep.MSVC
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: neovim
+      directives:
+        description: Install Neovim
+        allowPrerelease: true
+      settings:
+        id: Neovim.Neovim
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: less
+      directives:
+        description: Install less pager
+        allowPrerelease: true
+      settings:
+        id: jftuga.less
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: difftastic
+      directives:
+        description: Install difftastic
+        allowPrerelease: true
+      settings:
+        id: Wilfred.difftastic
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: fzf
+      directives:
+        description: Install fzf fuzzy finder
+        allowPrerelease: true
+      settings:
+        id: junegunn.fzf
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: btop
+      directives:
+        description: Install btop system monitor
+        allowPrerelease: true
+      settings:
+        id: aristocratos.btop4win
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: powershell
+      directives:
+        description: Install PowerShell 7
+        allowPrerelease: true
+      settings:
+        id: Microsoft.PowerShell
+
+    # ==========================================================================
+    # Programming Languages
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: python
+      directives:
+        description: Install Python 3.12
+        allowPrerelease: true
+      settings:
+        id: Python.Python.3.12
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: dotnet-8
+      directives:
+        description: Install .NET 8 SDK
+        allowPrerelease: true
+      settings:
+        id: Microsoft.DotNet.SDK.8
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: dotnet-6
+      directives:
+        description: Install .NET 6 SDK
+        allowPrerelease: true
+      settings:
+        id: Microsoft.DotNet.SDK.6
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: dotnet-framework
+      directives:
+        description: Install .NET Framework Developer Pack 4.6.2
+        allowPrerelease: true
+      settings:
+        id: Microsoft.DotNet.Framework.DeveloperPack_4
+        version: 4.6.2
+
+    # ==========================================================================
+    # Development Tools
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vscode
+      directives:
+        description: Install Visual Studio Code
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VisualStudioCode
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: visual-studio
+      directives:
+        description: Install Visual Studio 2022 Professional
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VisualStudio.2022.Professional
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: build-tools
+      directives:
+        description: Install Visual Studio 2022 Build Tools
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VisualStudio.2022.BuildTools
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: docker
+      directives:
+        description: Install Docker Desktop
+        allowPrerelease: true
+      settings:
+        id: Docker.DockerDesktop
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: storage-explorer
+      directives:
+        description: Install Azure Storage Explorer
+        allowPrerelease: true
+      settings:
+        id: Microsoft.Azure.StorageExplorer
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: postman
+      directives:
+        description: Install Postman
+        allowPrerelease: true
+      settings:
+        id: Postman.Postman
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: rider
+      directives:
+        description: Install JetBrains Rider
+        allowPrerelease: true
+      settings:
+        id: JetBrains.Rider
+
+    # ==========================================================================
+    # Applications
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: azure-vpn
+      directives:
+        description: Install Azure VPN Client
+        allowPrerelease: true
+      settings:
+        id: 9NP355QT2SQB
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: teams
+      directives:
+        description: Install Microsoft Teams
+        allowPrerelease: true
+      settings:
+        id: Microsoft.Teams
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: powertoys
+      directives:
+        description: Install PowerToys
+        allowPrerelease: true
+      settings:
+        id: Microsoft.PowerToys
+
+    # ==========================================================================
+    # TUI Tools
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: lazygit
+      directives:
+        description: Install lazygit
+        allowPrerelease: true
+      settings:
+        id: JesseDuffield.lazygit
+
+    # ==========================================================================
+    # Browsers
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vivaldi
+      directives:
+        description: Install Vivaldi browser
+        allowPrerelease: true
+      settings:
+        id: Vivaldi.Vivaldi
+
+    # ==========================================================================
+    # Password Managers
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: onepassword
+      directives:
+        description: Install 1Password
+        allowPrerelease: true
+      settings:
+        id: AgileBits.1Password
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: onepassword-cli
+      directives:
+        description: Install 1Password CLI
+        allowPrerelease: true
+      settings:
+        id: AgileBits.1Password.CLI
+
+    # ==========================================================================
+    # Media & Recording Tools
+    # ==========================================================================
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: obs
+      directives:
+        description: Install OBS Studio
+        allowPrerelease: true
+      settings:
+        id: OBSProject.OBSStudio
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vlc
+      directives:
+        description: Install VLC Media Player
+        allowPrerelease: true
+      settings:
+        id: VideoLAN.VLC
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: ffmpeg
+      directives:
+        description: Install FFmpeg
+        allowPrerelease: true
+      settings:
+        id: Gyan.FFmpeg
