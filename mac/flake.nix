@@ -81,6 +81,7 @@
             "pinta"
             "minecraft"
             "msty"
+            "powershell"
             "raycast"
             "rider"
             "tableplus"
