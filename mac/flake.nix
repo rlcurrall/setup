@@ -36,10 +36,6 @@
           pkgs.uv
           pkgs.go
           pkgs.zig
-          pkgs.bun
-          pkgs.deno
-          # pkgs.dotnet-sdk_8
-          # pkgs.dotnet-runtime_8
           pkgs.rustup
           pkgs.just
 
@@ -60,11 +56,13 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "sst/tap" ];
+          taps = [ "azure/functions" "oven-sh/bun" "sst/tap" ];
           brews = [
             "azure-functions-core-tools@4"
+            "deno"
             "gh"
             "nvm"
+            "oven-sh/bun/bun"
             "pulumi"
             "sst/tap/opencode"
           ];
@@ -225,6 +223,9 @@
                 };
 
                 initContent = ''
+                  # Add Homebrew to PATH
+                  eval "$(/opt/homebrew/bin/brew shellenv)"
+
                   # Add NVM to the path
                   export NVM_DIR="$HOME/.nvm"
                   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
