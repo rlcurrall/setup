@@ -17,13 +17,18 @@
         # Configure unfree packages
         nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ ];
 
-        fonts.packages = [ pkgs.fira-code pkgs.fira-code-symbols ];
+        fonts.packages = [
+          pkgs.fira-code
+          pkgs.fira-code-symbols
+          pkgs.nerd-fonts.fira-code
+          pkgs.nerd-fonts.jetbrains-mono
+          pkgs.nerd-fonts.hack
+        ];
 
         # List packages installed in system profile. To search by name, run:
         # $ nix-env -qaP | grep wget
         environment.systemPackages = [
           pkgs.zsh
-          pkgs.fish
           pkgs.git
           pkgs.jq
           pkgs.ripgrep
@@ -32,6 +37,8 @@
           pkgs.atuin
           pkgs.fd
           pkgs.zellij
+          pkgs.starship
+          pkgs.mise
 
           pkgs.uv
           pkgs.go
@@ -45,11 +52,9 @@
           pkgs.neovim
           pkgs.lazygit
           pkgs.docker
-          pkgs.colima
           pkgs.ffmpeg
 
           pkgs.tailscale
-          pkgs.localsend
           pkgs.llama-cpp
           pkgs.ollama
         ];
@@ -61,7 +66,6 @@
             "azure-functions-core-tools@4"
             "deno"
             "gh"
-            "nvm"
             "oven-sh/bun/bun"
             "pulumi"
             "sst/tap/opencode"
@@ -88,6 +92,7 @@
             "zoom"
             "cursor"
             "zed"
+            "localsend"
           ];
           masApps = {
             Magnet = 441258766;
@@ -109,7 +114,7 @@
         };
 
         # Set available shells
-        environment.shells = [ pkgs.fish pkgs.zsh ];
+        environment.shells = [ pkgs.zsh ];
 
         # Set Git commit hash for darwin-version.
         system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -214,7 +219,6 @@
 
                 oh-my-zsh = {
                   enable = true;
-                  theme = "robbyrussell";
                   plugins = [ "git" ];
                 };
 
@@ -226,9 +230,8 @@
                   # Add Homebrew to PATH
                   eval "$(/opt/homebrew/bin/brew shellenv)"
 
-                  # Add NVM to the path
-                  export NVM_DIR="$HOME/.nvm"
-                  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+                  # Mise activation
+                  eval "$(mise activate zsh)"
 
                   # Add .NET Core SDK tools
                   export PATH="$PATH:$HOME/.dotnet/tools"
@@ -243,7 +246,16 @@
                   fpath=(/Users/robb/.docker/completions $fpath)
                   autoload -Uz compinit
                   compinit
+
+                  # Initialize starship
+                  eval "$(starship init zsh)"
                 '';
+              };
+
+
+              programs.starship = {
+                enable = true;
+                enableZshIntegration = true;
               };
 
               programs.atuin = {
@@ -257,8 +269,8 @@
 
               programs.git = {
                 enable = true;
-                userName = "Robb Currall"; # Replace with your actual name
-                userEmail = "your@email.com"; # Replace with your actual email
+                userName = "Robb Currall";
+                userEmail = "rlcurrall@gmail.com";
                 extraConfig = {
                   init.defaultBranch = "main";
                   push.autoSetupRemote = true;

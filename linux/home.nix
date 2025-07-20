@@ -14,7 +14,6 @@
   home.packages = with pkgs; [
     # CLI Tools (from Mac config)
     zsh
-    fish
     git
     jq
     ripgrep
@@ -23,13 +22,13 @@
     atuin
     fd
     zellij
+    starship
+    mise
 
     # Development Tools
     uv
     go
     zig
-    bun
-    deno
     rustup
     just
 
@@ -39,6 +38,8 @@
     neovim
     lazygit
     ffmpeg
+    docker
+    tailscale
 
     # AI/ML Tools
     llama-cpp
@@ -47,6 +48,9 @@
     # Fonts
     fira-code
     fira-code-symbols
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
 
     # GUI Applications (available in nixpkgs)
     ghostty # Terminal emulator
@@ -103,7 +107,6 @@
 
     oh-my-zsh = {
       enable = true;
-      theme = "robbyrussell";
       plugins = [ "git" ];
     };
 
@@ -112,9 +115,8 @@
     };
 
     initExtra = ''
-      # Add NVM to the path (if installed via setup.sh)
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      # Mise activation
+      eval "$(mise activate zsh)"
 
       # Add .NET Core SDK tools
       export PATH="$PATH:$HOME/.dotnet/tools"
@@ -128,11 +130,14 @@
       # Load environment variables if they exist
       [ -f ~/.vars ] && . ~/.vars
 
-      # Mise activation
-      if command -v mise >/dev/null 2>&1; then
-        eval "$(mise activate zsh)"
-      fi
+      # Initialize starship
+      eval "$(starship init zsh)"
     '';
+  };
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.atuin = {
