@@ -1,5 +1,4 @@
 [tools]
 node = "latest"
-python = "latest"
 bun = "latest"
 deno = "latest"
