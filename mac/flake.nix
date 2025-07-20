@@ -61,12 +61,10 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "oven-sh/bun" "sst/tap" ];
+          taps = [ "azure/functions" "sst/tap" ];
           brews = [
             "azure-functions-core-tools@4"
-            "deno"
             "gh"
-            "oven-sh/bun/bun"
             "pulumi"
             "sst/tap/opencode"
           ];
@@ -202,6 +200,11 @@
                   source = ../config/ghostty;
                   recursive = true;
                 };
+
+                "mise" = {
+                  source = ../config/mise;
+                  recursive = true;
+                };
               };
 
               home.sessionVariables = {
@@ -276,6 +279,11 @@
                   push.autoSetupRemote = true;
                 };
               };
+
+              # Auto-install mise tools during home-manager activation
+              home.activation.miseInstall = config.lib.dag.entryAfter ["writeBoundary"] ''
+                $DRY_RUN_CMD ${pkgs.mise}/bin/mise install
+              '';
 
               # Let Home Manager install and manage itself
               programs.home-manager.enable = true;

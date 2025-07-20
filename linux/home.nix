@@ -168,6 +168,11 @@
     enable = true;
   };
 
+  # Auto-install mise tools during home-manager activation
+  home.activation.miseInstall = config.lib.dag.entryAfter ["writeBoundary"] ''
+    $DRY_RUN_CMD ${pkgs.mise}/bin/mise install
+  '';
+
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
 }
