@@ -91,7 +91,7 @@ print_step "Installing essential GUI applications..."
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Install via snap (better desktop integration)
-sudo snap install ghostty --classic || print_warning "Failed to install Ghostty via snap"
+# Note: Ghostty is already installed via Nix, so skipping snap version
 sudo snap install discord --classic || print_warning "Failed to install Discord via snap"
 sudo snap install code --classic || print_warning "Failed to install VS Code via snap"
 
