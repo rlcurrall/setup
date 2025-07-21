@@ -41,7 +41,6 @@
           pkgs.mise
 
           pkgs.uv
-          pkgs.go
           pkgs.zig
           pkgs.rustup
           pkgs.just
@@ -51,6 +50,7 @@
           pkgs.vim
           pkgs.neovim
           pkgs.lazygit
+          pkgs.lazydocker
           pkgs.docker
           pkgs.ffmpeg
 
@@ -91,6 +91,7 @@
             "cursor"
             "zed"
             "localsend"
+            "obs"
           ];
           masApps = {
             Magnet = 441258766;
@@ -130,14 +131,25 @@
           dock.mru-spaces = false;
           dock.show-recents = false;
           dock.persistent-apps = [
+            # Core productivity
             { app = "/Applications/Ghostty.app"; }
             { app = "/Applications/1Password.app"; }
-            { app = "/Applications/Discord.app"; }
+            { app = "/Applications/Claude.app"; }
+
+            # Development
             { app = "/Applications/TablePlus.app"; }
-            { app = "/Applications/Vivaldi.app"; }
-            { app = "/Applications/Pinta.app"; }
             { app = "/Applications/Bruno.app"; }
-            { app = "/Applications/Nix Apps/LocalSend.app"; }
+            { app = "/Applications/Docker.app"; }
+
+            # Communication & Media
+            { app = "/Applications/Discord.app"; }
+            { app = "/Applications/zoom.us.app"; }
+            { app = "/Applications/Vivaldi.app"; }
+
+            # Utilities
+            { app = "/Applications/Pinta.app"; }
+            { app = "/Applications/OBS.app"; }
+            { app = "/Applications/LocalSend.app"; }
           ];
           finder.AppleShowAllExtensions = true;
           finder.FXPreferredViewStyle = "clmv";
@@ -203,6 +215,11 @@
 
                 "mise" = {
                   source = ../config/mise;
+                  recursive = true;
+                };
+
+                "zellij" = {
+                  source = ../config/zellij;
                   recursive = true;
                 };
               };
@@ -281,7 +298,7 @@
               };
 
               # Auto-install mise tools during home-manager activation
-              home.activation.miseInstall = config.lib.dag.entryAfter ["writeBoundary"] ''
+              home.activation.miseInstall = config.lib.dag.entryAfter [ "writeBoundary" ] ''
                 $DRY_RUN_CMD ${pkgs.mise}/bin/mise install
               '';
 

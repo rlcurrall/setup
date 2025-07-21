@@ -2,3 +2,4 @@
 node = "latest"
 bun = "latest"
 deno = "latest"
+go = "latest"
