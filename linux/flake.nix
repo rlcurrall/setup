@@ -74,7 +74,7 @@
             ulauncher # Application launcher (Linux equivalent of Raycast)
             obs-studio # Professional screen recording and streaming
             prismlauncher # Minecraft launcher
-            steam # Gaming platform
+            # steam # Gaming platform
 
             # Development tools with GUI
             # Note: Some GUI apps work better via snap/flatpak for desktop integration
