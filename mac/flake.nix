@@ -39,6 +39,7 @@
           pkgs.zellij
           pkgs.starship
           pkgs.mise
+          pkgs.zoxide
 
           pkgs.uv
           pkgs.zig
@@ -80,7 +81,6 @@
             "hyperkey"
             "pinta"
             "minecraft"
-            "msty"
             "powershell"
             "raycast"
             "rider"
@@ -92,6 +92,7 @@
             "zed"
             "localsend"
             "obs"
+            "steam"
           ];
           masApps = {
             Magnet = 441258766;
@@ -294,6 +295,11 @@
                   init.defaultBranch = "main";
                   push.autoSetupRemote = true;
                 };
+              };
+
+              programs.zoxide = {
+                enable = true;
+                enableZshIntegration = true;
               };
 
               # Auto-install mise tools during home-manager activation
