@@ -48,7 +48,7 @@ if [ -d "$HOME/.setup" ]; then
     cd "$HOME/.setup"
     git pull
 else
-    git clone https://github.com/your-username/setup.git "$HOME/.setup"
+    git clone https://github.com/rlcurrall/setup.git "$HOME/.setup"
     cd "$HOME/.setup"
 fi
 
