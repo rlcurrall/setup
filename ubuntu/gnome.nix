@@ -23,14 +23,14 @@
   home.packages = with pkgs; [
     gnomeExtensions.dash-to-dock
     gnomeExtensions.tactile
-    gnomeExtensions.just-perfection-desktop
+    gnomeExtensions.just-perfection
     gnomeExtensions.blur-my-shell
     gnomeExtensions.space-bar
     gnomeExtensions.undecorate
     gnomeExtensions.tophat
     gnomeExtensions.alphabetical-app-grid
     # Also install themes here so they are available to the system
-    tokyo-night-gtk-theme
+    tokyonight-gtk-theme
     papirus-icon-theme
   ];
 
