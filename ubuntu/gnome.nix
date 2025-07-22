@@ -75,8 +75,12 @@
     };
 
     "org/gnome/shell/extensions/tactile" = {
-      col-0 = 1; col-1 = 2; col-2 = 1; col-3 = 0;
-      row-0 = 1; row-1 = 1;
+      col-0 = 1;
+      col-1 = 2;
+      col-2 = 1;
+      col-3 = 0;
+      row-0 = 1;
+      row-1 = 1;
       gap-size = 32;
     };
     "org/gnome/shell/extensions/just-perfection" = {
@@ -195,14 +199,20 @@
     };
   };
 
-  # == SERVICES ==
-  # Enable the ulauncher service. This is the declarative fix.
-  services.ulauncher = {
-    enable = true;
-    settings = {
-      "clear-previous-query" = true;
-      "show-indicator-icon" = true;
-      "theme-name" = "dark";
-    };
-  };
+  # == AUTOSTART ==
+  # Enable ulauncher to start automatically
+  xdg.configFile."autostart/ulauncher.desktop".text = ''
+    [Desktop Entry]
+    Name=Ulauncher
+    Comment=Application launcher for Linux
+    GenericName=Launcher
+    Categories=GNOME;GTK;Utility;
+    TryExec=ulauncher
+    Exec=ulauncher --hide-window
+    Icon=ulauncher
+    Terminal=false
+    Type=Application
+    X-GNOME-Autostart-enabled=true
+  '';
 }
+
