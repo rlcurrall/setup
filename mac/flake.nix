@@ -65,6 +65,7 @@
           taps = [ "azure/functions" "sst/tap" ];
           brews = [
             "azure-functions-core-tools@4"
+            "gemini-cli"
             "gh"
             "pulumi"
             "sst/tap/opencode"
