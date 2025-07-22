@@ -9,7 +9,7 @@
     };
     theme = {
       name = "Tokyonight-B-Dark"; # Omakub's default theme
-      package = pkgs.tokyo-night-gtk-theme;
+      package = pkgs.tokyonight-gtk-theme;
     };
     iconTheme = {
       name = "Papirus-Dark";
