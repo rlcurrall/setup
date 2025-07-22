@@ -2,17 +2,43 @@
   # Nix-native packages (mostly CLI tools and essential apps)
   home.packages = with pkgs; [
     # Core CLI Tools (from your Mac config)
-    zsh git jq ripgrep fzf bat atuin fd zellij starship mise zoxide
-    gh pulumi sst azure-functions-core-tools powershell
+    zsh
+    git
+    jq
+    ripgrep
+    fzf
+    bat
+    atuin
+    fd
+    zellij
+    starship
+    mise
+    zoxide
+    gh
+    pulumi
+    azure-functions-core-tools
+    powershell
 
     # Development Runtimes & Tools
-    uv zig rustup just dotnet-sdk
+    uv
+    zig
+    rustup
+    just
+    dotnet-sdk
 
     # System & Utility Tools
-    btop vim neovim lazygit lazydocker ffmpeg docker tailscale
+    btop
+    vim
+    neovim
+    lazygit
+    lazydocker
+    ffmpeg
+    docker
+    tailscale
 
     # AI/ML Tools
-    llama-cpp ollama
+    llama-cpp
+    ollama
 
     # Essential GUI apps that work well from nixpkgs
     ghostty
@@ -75,3 +101,4 @@
     };
   };
 }
+
