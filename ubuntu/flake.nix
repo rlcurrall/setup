@@ -7,10 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flatpak-nix.url = "github:gmodena/flatpak-nix";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
-  outputs = { nixpkgs, home-manager, flatpak-nix, ... }: {
+  outputs = { nixpkgs, home-manager, nix-flatpak, ... }: {
     homeConfigurations.robb = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       modules = [
@@ -20,7 +20,7 @@
         ./apps.nix
 
         # Enable declarative flatpak support
-        flatpak-nix.homeManagerModules.flatpak
+        nix-flatpak.homeManagerModules.nix-flatpak
       ];
     };
   };
