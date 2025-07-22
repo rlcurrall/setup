@@ -44,7 +44,6 @@
     ghostty
     flameshot
     ulauncher # We install it here
-    rider # JetBrains Rider IDE
   ];
 
   # Flatpak for GUI apps (the equivalent of homebrew casks)
