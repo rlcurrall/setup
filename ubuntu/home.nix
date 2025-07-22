@@ -66,7 +66,7 @@
       zstyle ':completion:*' group-name ''
 
       # Add custom bin to path (from your Mac setup)
-      [ -d "$HOME/.bin" ] && export PATH="$HOME/.bin:$PATH"
+      [ -d "$$HOME/.bin" ] && export PATH="$$HOME/.bin:$$PATH"
 
       # Load local environment variables if they exist (from your Mac setup)
       [ -f ~/.vars ] && . ~/.vars
