@@ -28,11 +28,13 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+
     oh-my-zsh = {
       enable = true;
       # Add history-substring-search to get the "type and press up" behavior
       plugins = [ "git" "history-substring-search" ];
     };
+
     shellAliases = {
       # Omakub Aliases
       ls = "eza -lh --group-directories-first --icons=auto";
@@ -58,15 +60,16 @@
       # Custom Aliases
       rebuild = "(cd ~/.setup/ubuntu && home-manager switch --flake .#robb)";
     };
+
     initExtra = ''
       # Zsh-native settings inspired by Omakub's inputrc
       # Case-insensitive completion
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
       # Group completions by type
-      zstyle ':completion:*' group-name ''
+      zstyle ':completion:*' group-name
 
       # Add custom bin to path (from your Mac setup)
-      [ -d "$$HOME/.bin" ] && export PATH="$$HOME/.bin:$$PATH"
+      [ -d "$HOME/.bin" ] && export PATH="$HOME/.bin:$PATH"
 
       # Load local environment variables if they exist (from your Mac setup)
       [ -f ~/.vars ] && . ~/.vars
@@ -94,3 +97,4 @@
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 }
+
