@@ -70,7 +70,7 @@
       rebuild = "(cd ~/.setup/ubuntu && home-manager switch --flake .#robb)";
     };
 
-    initExtra = ''
+    initContent = ''
       eval "$(mise activate zsh)"
       [ -d "$HOME/.bin" ] && export PATH="$HOME/.bin:$PATH"
       [ -f ~/.vars ] && . ~/.vars
