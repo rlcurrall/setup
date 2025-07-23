@@ -1,7 +1,6 @@
-{ pkgs, ... }: {
-  # Nix-native packages (mostly CLI tools and essential apps)
+{ pkgs, ghostty, ... }: {
   home.packages = with pkgs; [
-    # Core CLI Tools (from your Mac config)
+    # CLI Tools
     zsh
     git
     jq
@@ -15,63 +14,88 @@
     mise
     zoxide
     gh
-    pulumi
-    azure-functions-core-tools
-    powershell
+    curl
+    wget
+    unzip
+    file
+    xclip
+    tldr
+    eza
 
-    # Development Runtimes & Tools
+    # Development Tools
     uv
     zig
     rustup
     just
     dotnet-sdk
 
-    # System & Utility Tools
+    # System Tools
     btop
     vim
     neovim
     lazygit
     lazydocker
-    ffmpeg
     docker
-    tailscale
+    ffmpeg
+    imagemagick
 
     # AI/ML Tools
+    tailscale
     llama-cpp
     ollama
 
-    # Essential GUI apps that work well from nixpkgs
-    ghostty
+    # GUI Apps
     flameshot
-    ulauncher # We install it here
+    ulauncher
+    _1password
+    _1password-gui
+    ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+    # Fonts
+    fira-code
+    fira-code-symbols
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
   ];
 
-  # Flatpak for GUI apps (the equivalent of homebrew casks)
-  services.flatpak.packages = [
-    # Browsers & Communication
-    { appId = "com.google.Chrome"; }
-    { appId = "com.vivaldi.Vivaldi"; }
+  # Font configuration
+  fonts.fontconfig.enable = true;
+
+  # Enable Flatpak font access
+  services.flatpak = {
+    enable = true;
+    packages = [
+    { appId = "com.claude.Claude"; }
+    { appId = "io.beekeeperstudio.Studio"; }
+    { appId = "com.usebruno.Bruno"; }
+    { appId = "com.visualstudio.code"; }
+    { appId = "dev.zed.Zed"; }
+    { appId = "com.cursor.Cursor"; }
+    { appId = "com.jetbrains.Rider"; }
     { appId = "com.discordapp.Discord"; }
     { appId = "us.zoom.Zoom"; }
-
-    # Development & Productivity
-    { appId = "com.visualstudio.code"; }
-    { appId = "com.cursor.Cursor"; }
-    { appId = "dev.zed.Zed"; }
-    { appId = "com.claude.Claude"; }
-    { appId = "com.usebruno.Bruno"; } # API Client
-    { appId = "io.dbeaver.DBeaverCommunity"; } # Database GUI (alternative to TablePlus)
-    { appId = "com.1password.1Password"; }
-    { appId = "org.localsend.localsend_app"; }
-
-    # Creative & Gaming
+    { appId = "com.vivaldi.Vivaldi"; }
     { appId = "com.github.PintaProject.Pinta"; }
     { appId = "com.obsproject.Studio"; }
-    { appId = "com.mojang.Minecraft"; }
+    { appId = "org.localsend.localsend_app"; }
     { appId = "com.valvesoftware.Steam"; }
-  ];
+    { appId = "com.spotify.Client"; }
+    ];
+    
+    # Grant Flatpak apps access to fonts
+    overrides = {
+      global = {
+        # Allow access to fonts and icons
+        filesystems = [
+          "~/.local/share/fonts:ro"
+          "~/.icons:ro"
+          "/nix/store:ro"
+        ];
+      };
+    };
+  };
 
-  # Create .desktop files for terminal apps to launch them from the app grid
   xdg.desktopEntries = {
     "Neovim" = {
       name = "Neovim";
@@ -94,7 +118,6 @@
       comment = "Manage Docker containers with LazyDocker";
       exec = "ghostty -e lazydocker";
       terminal = false;
-      # You may need to install a docker icon for this to look right
       icon = "docker";
       categories = [ "Utility" "System" "Development" ];
     };

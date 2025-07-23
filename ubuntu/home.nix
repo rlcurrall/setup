@@ -5,24 +5,44 @@
   nixpkgs.config.allowUnfree = true;
   home.enableNixpkgsReleaseCheck = false;
 
-  # Dotfile linking (identical to your Mac setup)
+  # Dotfile linking
   xdg.configFile = {
-    "nvim".source = ../config/nvim;
-    "btop".source = ../config/btop;
-    "lazygit".source = ../config/lazygit;
-    "ghostty".source = ../config/ghostty;
-    "mise".source = ../config/mise;
-    "zellij".source = ../config/zellij;
+    "nvim" = {
+      source = ../config/nvim;
+      recursive = true;
+    };
+    "btop" = {
+      source = ../config/btop;
+      recursive = true;
+    };
+    "lazygit" = {
+      source = ../config/lazygit;
+      recursive = true;
+    };
+    "ghostty" = {
+      source = ../config/ghostty;
+      recursive = true;
+    };
+    "mise" = {
+      source = ../config/mise;
+      recursive = true;
+    };
+    "zellij" = {
+      source = ../config/zellij;
+      recursive = true;
+    };
+    "ulauncher" = {
+      source = ../config/ulauncher;
+      recursive = true;
+    };
   };
 
-  # Environment variables
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "vivaldi";
     TERMINAL = "ghostty";
   };
 
-  # Zsh, Oh My Zsh, and Omakub-inspired enhancements
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -31,70 +51,72 @@
 
     oh-my-zsh = {
       enable = true;
-      # Add history-substring-search to get the "type and press up" behavior
-      plugins = [ "git" "history-substring-search" ];
+      plugins = [ "git" ];
     };
 
     shellAliases = {
-      # Omakub Aliases
       ls = "eza -lh --group-directories-first --icons=auto";
       lsa = "ls -a";
       lt = "eza --tree --level=2 --long --icons --git";
-      lta = "lt -a";
       ff = "fzf --preview 'bat --style=numbers --color=always {}'";
-      fd = "fdfind";
-      cd = "z";
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";
       n = "nvim";
       g = "git";
       d = "docker";
-      r = "rails";
-      bat = "batcat";
       lzg = "lazygit";
       lzd = "lazydocker";
-      gcm = "git commit -m";
-      gcam = "git commit -a -m";
-      gcad = "git commit -a --amend";
-      # Custom Aliases
       rebuild = "(cd ~/.setup/ubuntu && home-manager switch --flake .#robb)";
     };
 
     initExtra = ''
-      # Zsh-native settings inspired by Omakub's inputrc
-      # Case-insensitive completion
-      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      # Group completions by type
-      zstyle ':completion:*' group-name
-
-      # Add custom bin to path (from your Mac setup)
-      [ -d "$HOME/.bin" ] && export PATH="$HOME/.bin:$PATH"
-
-      # Load local environment variables if they exist (from your Mac setup)
-      [ -f ~/.vars ] && . ~/.vars
-
-      # Mise activation
       eval "$(mise activate zsh)"
-      # Initialize starship
+      [ -d "$HOME/.bin" ] && export PATH="$HOME/.bin:$PATH"
+      [ -f ~/.vars ] && . ~/.vars
       eval "$(starship init zsh)"
     '';
   };
 
-  # Other program configurations
-  programs.starship.enable = true;
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   programs.atuin = {
     enable = true;
-    settings = { enter_accept = true; sync.records = true; };
+    enableZshIntegration = true;
+    settings = {
+      enter_accept = true;
+      sync.records = true;
+    };
   };
+
   programs.git = {
     enable = true;
     userName = "Robb Currall";
     userEmail = "rlcurrall@gmail.com";
+    extraConfig = {
+      init.defaultBranch = "main";
+      push.autoSetupRemote = true;
+    };
   };
-  programs.zoxide.enable = true;
 
-  # Let Home Manager manage itself
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  home.activation.miseInstall = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD ${pkgs.mise}/bin/mise install
+  '';
+
+  # Create font symlink for Flatpak apps
+  home.activation.setupFonts = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD mkdir -p $HOME/.local/share/fonts
+    $DRY_RUN_CMD ln -sf ${config.home.profileDirectory}/share/fonts/* $HOME/.local/share/fonts/ 2>/dev/null || true
+  '';
+
   programs.home-manager.enable = true;
 }
 

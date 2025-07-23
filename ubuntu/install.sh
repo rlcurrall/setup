@@ -59,9 +59,14 @@ else
     fi
 fi
 
-# 4. Build the Home Manager configuration
-print_step "Applying the declarative Home Manager configuration..."
+# 4. Run system setup for packages that can't be managed by Nix
+print_step "Installing system packages and applications..."
 cd "$SETUP_DIR/ubuntu"
+chmod +x system-setup.sh
+./system-setup.sh
+
+# 5. Build the Home Manager configuration
+print_step "Applying the declarative Home Manager configuration..."
 nix run home-manager/master -- switch --flake .#robb
 
 echo -e "\n✅ Setup complete! Please restart your shell or log out and back in for all changes to take effect."
