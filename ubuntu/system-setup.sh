@@ -55,21 +55,4 @@ sudo apt -qq install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo usermod -aG docker ${USER}
 echo '{"log-driver":"json-file","log-opts":{"max-size":"10m","max-file":"5"}}' | sudo tee /etc/docker/daemon.json
 
-# Install GNOME extensions
-printf "Installing GNOME extensions...\n"
-sudo apt -qq install -y gnome-shell-extension-manager pipx
-pipx install gnome-extensions-cli --system-site-packages
-pipx ensurepath
-
-# Install development tools
-printf "Installing additional development tools...\n"
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
-sudo apt -qq update
-sudo apt -qq install -y azure-functions-core-tools-4
-
-curl -fsSL https://get.pulumi.com | sh
-export PATH=$PATH:$HOME/.pulumi/bin
-
 printf "\nSystem setup complete! Now run 'home-manager switch --flake .#robb' to apply Nix configuration.\n"
