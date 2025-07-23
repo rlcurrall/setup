@@ -14,7 +14,7 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.space-bar
     gnomeExtensions.alphabetical-app-grid
-    gnome-shell-extension-manager
+    gnome-extension-manager
   ];
 
   dconf.settings =
