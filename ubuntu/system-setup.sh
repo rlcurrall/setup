@@ -8,8 +8,6 @@ printf "\nSetting up system packages...\n\n"
 
 # Configure repositories
 sudo add-apt-repository universe -y
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo add-apt-repository ppa:agornostal/ulauncher -y
 
 # Update packages
 printf "Updating package list...\n"

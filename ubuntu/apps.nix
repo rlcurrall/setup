@@ -35,7 +35,6 @@
     neovim
     lazygit
     lazydocker
-    docker
     ffmpeg
     imagemagick
 
@@ -66,23 +65,23 @@
   services.flatpak = {
     enable = true;
     packages = [
-    { appId = "com.claude.Claude"; }
-    { appId = "io.beekeeperstudio.Studio"; }
-    { appId = "com.usebruno.Bruno"; }
-    { appId = "com.visualstudio.code"; }
-    { appId = "dev.zed.Zed"; }
-    { appId = "com.cursor.Cursor"; }
-    { appId = "com.jetbrains.Rider"; }
-    { appId = "com.discordapp.Discord"; }
-    { appId = "us.zoom.Zoom"; }
-    { appId = "com.vivaldi.Vivaldi"; }
-    { appId = "com.github.PintaProject.Pinta"; }
-    { appId = "com.obsproject.Studio"; }
-    { appId = "org.localsend.localsend_app"; }
-    { appId = "com.valvesoftware.Steam"; }
-    { appId = "com.spotify.Client"; }
+      { appId = "com.claude.Claude"; }
+      { appId = "io.beekeeperstudio.Studio"; }
+      { appId = "com.usebruno.Bruno"; }
+      { appId = "com.visualstudio.code"; }
+      { appId = "dev.zed.Zed"; }
+      { appId = "com.cursor.Cursor"; }
+      { appId = "com.jetbrains.Rider"; }
+      { appId = "com.discordapp.Discord"; }
+      { appId = "us.zoom.Zoom"; }
+      { appId = "com.vivaldi.Vivaldi"; }
+      { appId = "com.github.PintaProject.Pinta"; }
+      { appId = "com.obsproject.Studio"; }
+      { appId = "org.localsend.localsend_app"; }
+      { appId = "com.valvesoftware.Steam"; }
+      { appId = "com.spotify.Client"; }
     ];
-    
+
     # Grant Flatpak apps access to fonts
     overrides = {
       global = {
