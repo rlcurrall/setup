@@ -25,7 +25,6 @@ sudo apt -qq install -y \
     dconf-cli uuid-runtime \
     libvips mupdf mupdf-tools \
     sqlite3 libsqlite3-0 \
-    chrome-gnome-shell \
     xdotool \
     software-properties-common \
     wl-clipboard
@@ -34,15 +33,6 @@ sudo apt -qq install -y \
 printf "Setting up Flatpak...\n"
 sudo apt -qq install -y flatpak gnome-software-plugin-flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-# Install GNOME applications
-printf "Installing GNOME applications...\n"
-sudo apt -qq install -y \
-    gnome-sushi \
-    gnome-tweak-tool \
-    dconf-editor \
-    vlc \
-    cheese
 
 # Install Docker
 printf "Installing Docker...\n"

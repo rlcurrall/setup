@@ -46,8 +46,14 @@
     # GUI Apps
     flameshot
     ulauncher
-    _1password
+    _1password-cli
     _1password-gui
+    vlc
+    sushi
+    cheese
+    gnome-tweaks
+    dconf-editor
+    chrome-gnome-shell
     ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Fonts
