@@ -92,11 +92,11 @@
     overrides = {
       global = {
         # Allow access to fonts and icons
-        filesystems = [
-          "~/.local/share/fonts:ro"
-          "~/.icons:ro"
-          "/nix/store:ro"
-        ];
+        filesystems = {
+          "~/.local/share/fonts" = "ro";
+          "~/.icons" = "ro";
+          "/nix/store" = "ro";
+        };
       };
     };
   };
