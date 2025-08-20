@@ -28,6 +28,9 @@ return {
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
 
+      -- JSON schemas
+      'b0o/schemastore.nvim',
+
       -- csharp
       { 'Hoffs/omnisharp-extended-lsp.nvim', lazy = true },
     },
@@ -150,6 +153,14 @@ return {
             return util.root_pattern('package.json', '.git')(fname)
           end,
         },
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
 
         lua_ls = {
           settings = {
@@ -172,6 +183,7 @@ return {
         'stylua', -- Used to format Lua code
         'omnisharp',
         'csharpier',
+        'json-lsp', -- JSON Language Server
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
