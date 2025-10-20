@@ -62,7 +62,7 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "sst/tap" ];
+          taps = [ "azure/functions" "sst/tap" "nikitabobko/tap" ];
           brews = [
             "azure-functions-core-tools@4"
             "gemini-cli"
@@ -74,6 +74,7 @@
           casks = [
             "1password"
             "1password-cli"
+            "aerospace"
             "bruno"
             "claude"
             "cursor"
