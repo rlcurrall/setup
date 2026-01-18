@@ -79,7 +79,6 @@
             "claude-code"
             "cursor"
             "discord"
-            "displaperture"
             "docker-desktop"
             "dotnet-sdk"
             "ghostty"
