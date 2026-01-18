@@ -62,7 +62,7 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "sst/tap" "nikitabobko/tap" ];
+          taps = [ "azure/functions" "sst/tap" ];
           brews = [
             "azure-functions-core-tools@4"
             "gemini-cli"
@@ -74,11 +74,12 @@
           casks = [
             "1password"
             "1password-cli"
-            "aerospace"
             "bruno"
             "claude"
+            "claude-code"
             "cursor"
             "discord"
+            "displaperture"
             "docker-desktop"
             "dotnet-sdk"
             "ghostty"
@@ -134,7 +135,7 @@
         system.defaults = {
           # Reduce/disable animations
           NSGlobalDomain.NSWindowResizeTime = 0.001;
-          
+
           dock.autohide = true;
           dock.autohide-delay = 0.0;
           dock.autohide-time-modifier = 0.0;
@@ -237,11 +238,6 @@
                 };
                 "starship.toml" = {
                   source = ../config/starship.toml;
-                };
-                
-                "aerospace" = {
-                  source = ../config/aerospace;
-                  recursive = true;
                 };
               };
 
