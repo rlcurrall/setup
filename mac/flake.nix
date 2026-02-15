@@ -70,6 +70,7 @@
             "pulumi"
             "sst/tap/opencode"
             "coreutils"
+            "tailscale"
           ];
           casks = [
             "1password"
