@@ -70,7 +70,6 @@
             "pulumi"
             "sst/tap/opencode"
             "coreutils"
-            "tailscale"
           ];
           casks = [
             "1password"
@@ -94,6 +93,7 @@
             "spotify"
             "steam"
             "tableplus"
+            "tailscale-app"
             "visual-studio-code"
             "vivaldi"
             "zed"
