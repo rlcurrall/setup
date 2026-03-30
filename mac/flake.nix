@@ -74,7 +74,6 @@
           casks = [
             "1password"
             "1password-cli"
-            "bruno"
             "claude"
             "claude-code"
             "cursor"
@@ -89,15 +88,12 @@
             "pinta"
             "powershell"
             "raycast"
-            "rider"
             "spotify"
             "steam"
             "tableplus"
             "tailscale-app"
             "visual-studio-code"
             "vivaldi"
-            "zed"
-            "zoom"
           ];
           masApps = {
             Magnet = 441258766;
@@ -148,16 +144,12 @@
             # Core productivity
             { app = "/Applications/Ghostty.app"; }
             { app = "/Applications/1Password.app"; }
-            { app = "/Applications/Claude.app"; }
 
             # Development
             { app = "/Applications/TablePlus.app"; }
-            { app = "/Applications/Bruno.app"; }
-            { app = "/Applications/Docker.app"; }
 
             # Communication & Media
             { app = "/Applications/Discord.app"; }
-            { app = "/Applications/zoom.us.app"; }
             { app = "/Applications/Vivaldi.app"; }
 
             # Utilities
