@@ -74,14 +74,18 @@
           casks = [
             "1password"
             "1password-cli"
+            "antigravity-cli"
             "claude"
             "claude-code"
+            "codex"
             "cursor"
             "discord"
             "docker-desktop"
             "dotnet-sdk"
             "ghostty"
+            "helium-browser"
             "hyperkey"
+            "kitlangton-hex"
             "localsend"
             "minecraft"
             "obs"
@@ -95,9 +99,6 @@
             "visual-studio-code"
             "vivaldi"
           ];
-          masApps = {
-            Magnet = 441258766;
-          };
         };
 
         # Necessary for using flakes on this system.
