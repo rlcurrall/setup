@@ -73,7 +73,7 @@ vim.opt.scrolloff = 10
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-vim.expandtab = true
+vim.opt.expandtab = true
 
 -- if jit.os == 'Windows' then
 --   vim.opt.shell = 'pwsh'
@@ -81,6 +81,9 @@ vim.expandtab = true
 
 -- Enable virtial diagnostic lines
 vim.diagnostic.config { virtual_lines = true }
+
+-- Load project-local .nvim.lua / .exrc / .nvimrc files (with trust prompt)
+vim.opt.exrc = true
 
 -- ===== PERFORMANCE OPTIMIZATIONS =====
 -- Faster completion
