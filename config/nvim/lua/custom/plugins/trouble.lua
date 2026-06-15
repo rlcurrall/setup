@@ -11,7 +11,7 @@ return {
       },
       {
         '<leader>xX',
-        '<cmd>Trouble diagnotics toggle filter.buf=0<cr>',
+        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
         desc = 'Buffer Diagnostics (Trouble)',
       },
       {
