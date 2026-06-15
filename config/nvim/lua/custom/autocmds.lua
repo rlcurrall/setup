@@ -59,7 +59,7 @@ autocmd('TextYankPost', {
   group = editor_behavior,
   desc = 'Highlight when yanking text',
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
@@ -68,6 +68,7 @@ autocmd('BufWritePre', {
   group = editor_behavior,
   desc = 'Remove trailing whitespace on save',
   callback = function()
+    if not vim.bo.modifiable then return end
     local save_cursor = vim.fn.getpos('.')
     vim.cmd([[%s/\s\+$//e]])
     vim.fn.setpos('.', save_cursor)
@@ -79,7 +80,7 @@ autocmd('BufWritePre', {
   group = editor_behavior,
   desc = 'Auto-create directories when saving files',
   callback = function(event)
-    local file = vim.loop.fs_realpath(event.match) or event.match
+    local file = vim.uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
   end,
 })
@@ -140,18 +141,6 @@ autocmd('FocusLost', {
   callback = function()
     if vim.bo.modified and not vim.bo.readonly and vim.fn.expand('%') ~= '' and vim.bo.buftype == '' then
       vim.cmd('silent! write')
-    end
-  end,
-})
-
--- Format on save for specific filetypes
-autocmd('BufWritePre', {
-  group = dev_workflow,
-  pattern = { '*.lua', '*.js', '*.ts', '*.jsx', '*.tsx', '*.cs' },
-  desc = 'Format code on save',
-  callback = function()
-    if vim.lsp.buf.format then
-      vim.lsp.buf.format({ async = false })
     end
   end,
 })
