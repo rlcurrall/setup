@@ -34,7 +34,6 @@ return {
         typescriptreact = { 'prettier' },
         json = { 'prettier' },
         css = { 'prettier' },
-        nix = { 'rnix-lsp' },
         -- sql = { 'sql_formatter' },
       },
       formatters = {
