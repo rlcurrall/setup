@@ -23,19 +23,6 @@ local function find_project_root()
   return nil
 end
 
--- Load project-specific configuration
-function M.load_project_config()
-  local project_root = find_project_root()
-  if not project_root then
-    return
-  end
-  
-  local config_file = project_root .. '/.nvim.lua'
-  if vim.fn.filereadable(config_file) == 1 then
-    dofile(config_file)
-  end
-end
-
 -- Set up project-specific settings based on file types and patterns
 function M.setup_project_settings()
   local current_file = vim.fn.expand('%:p')
@@ -108,7 +95,6 @@ function M.setup()
   vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
     group = augroup,
     callback = function()
-      M.load_project_config()
       M.setup_project_settings()
     end,
   })
