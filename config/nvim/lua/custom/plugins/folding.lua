@@ -5,11 +5,16 @@ return {
     'chrisgrieser/nvim-origami',
     event = 'VeryLazy',
     opts = {
-      useLspFoldsWithTreesitterFallback = true,
+      useLspFoldsWithTreesitterFallback = {
+        enabled = true,
+      },
       pauseFoldsOnSearch = true,
       foldtext = {
         enabled = true,
-        padding = 3,
+        padding = {
+          character = ' ',
+          width = 3,
+        },
         lineCount = {
           template = '%d lines',
           hlgroup = 'Comment',
@@ -23,7 +28,7 @@ return {
       },
       foldKeymaps = {
         setup = true,
-        hOnlyOpensOnFirstColumn = false,
+        closeOnlyOnFirstColumn = false,
       },
     },
     init = function()
