@@ -6,21 +6,21 @@ return {
     require('lspconfig')['omnisharp'].setup {
       capabilities = capabilities,
       on_attach = function(_, bufnr)
-        vim.keymap.set('n', 'gd', "<cmd>lua require('omnisharp_extended').telescope_lsp_definitions()<cr>", { buffer = bufnr, desc = 'Goto [d]efinition' })
+        vim.keymap.set('n', 'gd', "<cmd>lua require('omnisharp_extended').lsp_definition()<cr>", { buffer = bufnr, desc = 'Goto [d]efinition' })
 
-        vim.keymap.set('n', 'gr', "<cmd>lua require('omnisharp_extended').telescope_lsp_references()<cr>", { buffer = bufnr, desc = 'Goto [r]eferences' })
+        vim.keymap.set('n', 'gr', "<cmd>lua require('omnisharp_extended').lsp_references()<cr>", { buffer = bufnr, desc = 'Goto [r]eferences' })
 
         vim.keymap.set(
           'n',
           'gI',
-          "<cmd>lua require('omnisharp_extended').telescope_lsp_implementation()<cr>",
+          "<cmd>lua require('omnisharp_extended').lsp_implementation()<cr>",
           { buffer = bufnr, desc = 'Goto [I]mplementation' }
         )
 
         vim.keymap.set(
           'n',
           'gD',
-          "<cmd>lua require('omnisharp_extended').telescope_type_definitions()<cr>",
+          "<cmd>lua require('omnisharp_extended').lsp_type_definition()<cr>",
           { buffer = bufnr, desc = 'Goto Type [D]efinition' }
         )
       end,
