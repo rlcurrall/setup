@@ -30,22 +30,24 @@ return {
     name = 'rose-pine',
     lazy = false,
     priority = 1000,
-    opts = {},
-    init = function()
-      vim.cmd.colorscheme 'rose-pine-moon'
+    config = function()
+      require('rose-pine').setup {}
       vim.cmd.hi 'Comment gui=none'
     end,
   },
 
   {
     'f-person/auto-dark-mode.nvim',
+    dependencies = { 'rose-pine/neovim' },
     opts = {
       update_interval = 1000,
       set_dark_mode = function()
         vim.cmd.colorscheme 'rose-pine-moon'
+        vim.cmd.hi 'Comment gui=none'
       end,
       set_light_mode = function()
         vim.cmd.colorscheme 'rose-pine-dawn'
+        vim.cmd.hi 'Comment gui=none'
       end,
     },
   },

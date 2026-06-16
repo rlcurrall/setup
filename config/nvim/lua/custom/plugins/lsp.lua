@@ -135,72 +135,100 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-      -- Enable the following language servers
-      --  Add any additional override configuration in the following tables. Available keys are:
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-      local servers = {
-        clangd = {},
-        rust_analyzer = {},
-        powershell_es = {},
-        eslint = {
-          root_dir = function(fname)
-            local util = require('lspconfig.util')
-            return util.root_pattern('package.json', '.git')(fname)
-          end,
-        },
-        jsonls = {
-          settings = {
-            json = {
-              schemas = require('schemastore').json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
-
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-            },
-          },
-        },
-      }
-
-      -- Ensure the servers and tools above are installed
       require('mason').setup()
 
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        'omnisharp',
-        'csharpier',
-        'json-lsp', -- JSON Language Server
-      })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-      require('mason-lspconfig').setup {
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-          ['omnisharp'] = function()
-            require('custom.plugins.lsp.omnisharp').setup()
-          end,
+      require('mason-tool-installer').setup {
+        ensure_installed = {
+          'clangd',
+          'rust_analyzer',
+          'powershell_es',
+          'eslint',
+          'jsonls',
+          'lua_ls',
+          'stylua',
+          'omnisharp',
+          'csharpier',
+          'json-lsp',
         },
       }
+
+      require('mason-lspconfig').setup {
+        -- stylua is a formatter managed by conform, not an LSP server
+        automatic_enable = {
+          exclude = { 'stylua' },
+        },
+      }
+
+      -- Apply cmp-nvim-lsp capabilities to all servers
+      vim.lsp.config('*', { capabilities = capabilities })
+
+      vim.lsp.config('eslint', {
+        root_markers = { 'package.json', '.git' },
+      })
+
+      vim.lsp.config('jsonls', {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      })
+
+      vim.lsp.config('lua_ls', {
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = 'Replace',
+            },
+          },
+        },
+      })
+
+      vim.lsp.config('omnisharp', {
+        on_attach = function(_, bufnr)
+          vim.keymap.set('n', 'gd', "<cmd>lua require('omnisharp_extended').lsp_definition()<cr>", { buffer = bufnr, desc = 'Goto [d]efinition' })
+          vim.keymap.set('n', 'gr', "<cmd>lua require('omnisharp_extended').lsp_references()<cr>", { buffer = bufnr, desc = 'Goto [r]eferences' })
+          vim.keymap.set('n', 'gI', "<cmd>lua require('omnisharp_extended').lsp_implementation()<cr>", { buffer = bufnr, desc = 'Goto [I]mplementation' })
+          vim.keymap.set('n', 'gD', "<cmd>lua require('omnisharp_extended').lsp_type_definition()<cr>", { buffer = bufnr, desc = 'Goto Type [D]efinition' })
+        end,
+        root_dir = function(fname)
+          return vim.fs.root(fname, function(dir)
+            return vim.fn.glob(dir .. '/*.sln') ~= '' or vim.fn.glob(dir .. '/*.csproj') ~= ''
+          end)
+        end,
+        enable_roslyn_analyzers = true,
+        organize_imports_on_format = true,
+        enable_import_completion = true,
+        settings = {
+          FormattingOptions = {
+            EnableEditorConfigSupport = true,
+            OrganizeImports = true,
+          },
+          MsBuild = { LoadProjectsOnDemand = nil },
+          RoslynExtensionsOptions = {
+            EnableAnalyzersSupport = true,
+            EnableImportCompletion = true,
+            AnalyzeOpenDocumentsOnly = nil,
+            EnableDecompilationSupport = true,
+            InlayHintsOptions = {
+              EnableForParameters = true,
+              ForLiteralParameters = true,
+              ForIndexerParameters = true,
+              ForObjectCreationParameters = true,
+              ForOtherParameters = true,
+              SuppressForParametersThatDifferOnlyBySuffix = false,
+              SuppressForParametersThatMatchMethodIntent = false,
+              SuppressForParametersThatMatchArgumentName = false,
+              EnableForTypes = true,
+              ForImplicitVariableTypes = true,
+              ForLambdaParameterTypes = true,
+              ForImplicitObjectCreation = true,
+            },
+          },
+          Sdk = { IncludePrereleases = true },
+        },
+      })
 
 
     end,
