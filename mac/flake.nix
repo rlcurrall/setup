@@ -34,12 +34,9 @@
           pkgs.ripgrep
           pkgs.fzf
           pkgs.bat
-          pkgs.atuin
           pkgs.fd
           pkgs.zellij
-          pkgs.starship
           pkgs.mise
-          pkgs.zoxide
 
           pkgs.uv
           pkgs.zig
@@ -52,10 +49,8 @@
           pkgs.neovim
           pkgs.lazygit
           pkgs.lazydocker
-          pkgs.docker
           pkgs.ffmpeg
 
-          pkgs.tailscale
           pkgs.llama-cpp
           pkgs.ollama
         ];
@@ -164,9 +159,6 @@
           screensaver.askForPasswordDelay = 10;
         };
 
-        # Enable Tailscale
-        services.tailscale.enable = true;
-
         users.users.${me} = {
           name = me;
           home = home;
@@ -273,12 +265,10 @@
                   . ~/.vars
 
                   # Docker Desktop completions
-                  fpath=(/Users/robb/.docker/completions $fpath)
+                  fpath=(${home}/.docker/completions $fpath)
                   autoload -Uz compinit
                   compinit
 
-                  # Initialize starship
-                  eval "$(starship init zsh)"
                 '';
               };
 
