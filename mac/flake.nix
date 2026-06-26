@@ -43,7 +43,6 @@
           pkgs.rustup
           pkgs.just
 
-          pkgs.mas
           pkgs.btop
           pkgs.vim
           pkgs.neovim
