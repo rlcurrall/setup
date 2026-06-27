@@ -1,5 +1,15 @@
 ## Bootstrap (new machine)
 
+One-liner — handles prerequisites then runs the installer:
+
+```
+curl -fsSL https://raw.githubusercontent.com/rlcurrall/setup/main/init-mac.sh | bash
+```
+
+You'll need to click "Install" on the Xcode dialog and type your password for `sudo` once or twice. Walk away during the Homebrew downloads.
+
+If you'd rather run the steps yourself (e.g. for debugging):
+
 1. Install Xcode Command Line Tools: `xcode-select --install`
 2. Set the hostname to `helheim`:
    ```
@@ -8,7 +18,7 @@
    sudo scutil --set ComputerName helheim
    ```
 3. Clone the repo: `git clone https://github.com/rlcurrall/setup ~/.setup`
-4. Run the bootstrap: `bash ~/.setup/mac/install.sh`
+4. Run the installer: `bash ~/.setup/mac/install.sh`
 
 ## Post-bootstrap manual steps
 
