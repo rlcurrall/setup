@@ -13,7 +13,8 @@
     let
       me = "robb";
       home = "/Users/${me}";
-      configuration = { lib, pkgs, ... }: {
+      hostname = "helheim";
+      configuration = { lib, pkgs, config, ... }: {
         # Configure unfree packages
         nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ ];
 
@@ -95,6 +96,15 @@
           ];
         };
 
+        # Auto-trust any third-party Homebrew taps declared above.
+        # Homebrew 4+ requires explicit trust before installing formulae from
+        # non-core taps. Runs before the Homebrew bundle on every rebuild.
+        system.activationScripts.preActivation.text = lib.mkAfter ''
+          for tap in ${lib.concatStringsSep " " (map (t: t.name) config.homebrew.taps)}; do
+            /opt/homebrew/bin/brew trust "$tap" 2>/dev/null || true
+          done
+        '';
+
         # Necessary for using flakes on this system.
         nix.settings.experimental-features = "nix-command flakes";
 
@@ -167,7 +177,7 @@
     {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#simple
-      darwinConfigurations."helheim" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
           home-manager.darwinModules.home-manager
@@ -244,7 +254,8 @@
                 };
 
                 shellAliases = {
-                  rebuild = "(cd ~/.setup/mac && darwin-rebuild switch --flake .#helheim)";
+                  rebuild = "(cd ~/.setup/mac && darwin-rebuild switch --flake .#${hostname})";
+                  lazysync = "cp ~/.config/nvim/lazy-lock.json ~/.setup/config/nvim/lazy-lock.json && echo 'lazy-lock.json synced to dotfiles'";
                 };
 
                 initContent = ''
@@ -260,8 +271,8 @@
                   # Add custom bin to path
                   export PATH="$HOME/.bin:$PATH"
 
-                  # Load environment variables
-                  . ~/.vars
+                  # Load environment variables (if present)
+                  [ -f ~/.vars ] && . ~/.vars
 
                   # Docker Desktop completions
                   fpath=(${home}/.docker/completions $fpath)

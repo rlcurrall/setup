@@ -2,6 +2,13 @@
 
 set -e
 
+# Prerequisites:
+# Before running this script, make sure you have:
+#   1. Installed Xcode Command Line Tools:
+#        xcode-select --install
+#   2. Cloned the dotfiles repository to ~/.setup:
+#        git clone https://github.com/rlcurrall/setup ~/.setup
+
 printf "\n🚀 Setting up your Mac with Nix + nix-darwin + Home Manager...\n\n"
 
 # Install Nix if not already installed
@@ -13,13 +20,38 @@ else
     printf "✅ Nix already installed\n"
 fi
 
-# Source Nix environment
-if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
+# Source Nix environment (Determinate multi-user daemon first, then single-user fallback)
+if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    printf "✅ Nix environment loaded (multi-user daemon)\n"
+elif [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
     . ~/.nix-profile/etc/profile.d/nix.sh
-    printf "✅ Nix environment loaded\n"
+    printf "✅ Nix environment loaded (single-user)\n"
 else
     printf "❌ Nix profile not found. Please restart your shell and run this script again.\n"
     exit 1
+fi
+
+# Verify hostname is set to 'helheim' (required by the flake configuration)
+CURRENT_HOSTNAME=$(scutil --get HostName 2>/dev/null || echo "")
+if [ "$CURRENT_HOSTNAME" != "helheim" ]; then
+    printf "❌ HostName is not set to 'helheim' (got: '%s').\n" "$CURRENT_HOSTNAME"
+    printf "   Please set it before running this script:\n"
+    printf "     sudo scutil --set HostName helheim\n"
+    printf "     sudo scutil --set LocalHostName helheim\n"
+    printf "     sudo scutil --set ComputerName helheim\n"
+    exit 1
+fi
+printf "✅ Hostname verified as 'helheim'\n"
+
+# Install Homebrew if not already installed (required by nix-darwin's homebrew module)
+if ! [ -x /opt/homebrew/bin/brew ]; then
+    printf "🍺 Installing Homebrew...\n"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    printf "✅ Homebrew installed successfully\n"
+else
+    printf "✅ Homebrew already installed\n"
 fi
 
 # Install nix-darwin and apply configuration
@@ -30,7 +62,7 @@ printf "✅ nix-darwin configuration applied successfully!\n"
 
 printf "\n🎉 Setup complete!\n\n"
 printf "Next steps:\n"
-printf "1. Restart your shell or run: source ~/.nix-profile/etc/profile.d/nix.sh\n"
+printf "1. Restart your shell (recommended) or re-source the Nix env\n"
 printf "2. Your development tools are now managed by Nix\n"
 printf "3. To update your configuration: edit ~/.setup/mac/flake.nix and run 'rebuild'\n"
 printf "4. Homebrew apps will be installed automatically on next rebuild\n\n"
