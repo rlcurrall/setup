@@ -35,6 +35,9 @@
       source = ../config/ulauncher;
       recursive = true;
     };
+    "starship.toml" = {
+      source = ../config/starship.toml;
+    };
   };
 
   home.sessionVariables = {

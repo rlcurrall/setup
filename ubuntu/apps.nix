@@ -54,6 +54,7 @@
     gnome-tweaks
     dconf-editor
     chrome-gnome-shell
+    bruno
     ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Fonts
@@ -71,9 +72,7 @@
   services.flatpak = {
     enable = true;
     packages = [
-      { appId = "com.claude.Claude"; }
       { appId = "io.beekeeperstudio.Studio"; }
-      { appId = "com.usebruno.Bruno"; }
       { appId = "com.visualstudio.code"; }
       { appId = "dev.zed.Zed"; }
       { appId = "com.cursor.Cursor"; }
