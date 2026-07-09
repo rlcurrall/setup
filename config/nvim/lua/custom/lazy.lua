@@ -14,6 +14,9 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = 'custom.plugins',
 }, {
+  -- Write the lock file directly to the dotfiles checkout so plugin version
+  -- pins are captured in git without a manual sync step.
+  lockfile = vim.fn.expand('~/.setup/config/nvim/lazy-lock.json'),
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
