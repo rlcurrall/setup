@@ -72,7 +72,6 @@
             "claude"
             "claude-code"
             "codex"
-            "cursor"
             "discord"
             "docker-desktop"
             "dotnet-sdk"
@@ -82,7 +81,6 @@
             "kitlangton-hex"
             "localsend"
             "minecraft"
-            "obs"
             "pinta"
             "powershell"
             "raycast"
@@ -158,7 +156,6 @@
 
             # Utilities
             { app = "/Applications/Pinta.app"; }
-            { app = "/Applications/OBS.app"; }
             { app = "/Applications/LocalSend.app"; }
           ];
           finder.AppleShowAllExtensions = true;
@@ -254,7 +251,7 @@
 
                 shellAliases = {
                   rebuild = "(cd ~/.setup/mac && darwin-rebuild switch --flake .#${hostname})";
-                  lazysync = "cp ~/.config/nvim/lazy-lock.json ~/.setup/config/nvim/lazy-lock.json && echo 'lazy-lock.json synced to dotfiles'";
+                  lg = "lazygit";
                 };
 
                 initContent = ''
