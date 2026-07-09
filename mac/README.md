@@ -38,7 +38,7 @@ The bootstrap can't do these — you must do them by hand:
 ## Day-to-day
 
 - After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `darwin-rebuild switch --flake .#helheim`.
-- After `:Lazy update` in nvim: run `lazysync` (alias defined in the flake) to copy the updated `lazy-lock.json` back into the dotfiles so future rebuilds pin to the same versions.
+- `:Lazy update` in nvim writes directly to `~/.setup/config/nvim/lazy-lock.json` (see `lockfile` option in `lazy.lua`), so updated plugin pins land in the dotfiles immediately — just `git add` + commit.
 - To update nixpkgs/inputs themselves: `cd ~/.setup/mac && nix flake update`, then `rebuild`.
 
 ## Layout
