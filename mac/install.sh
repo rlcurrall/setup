@@ -13,9 +13,9 @@ printf "\n🚀 Setting up your Mac with Nix + nix-darwin + Home Manager...\n\n"
 
 # Install Nix if not already installed
 if [ ! -d "/nix" ]; then
-    printf "🔧 Installing Nix package manager (Determinate Systems installer)...\n"
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-    printf "✅ Nix installed successfully\n"
+    printf "🔧 Installing Lix package manager...\n"
+    curl -sSf -L https://install.lix.systems/lix | sh -s -- install
+    printf "✅ Lix installed successfully\n"
 else
     printf "✅ Nix already installed\n"
 fi
@@ -32,18 +32,6 @@ else
     exit 1
 fi
 
-# Verify hostname is set to 'helheim' (required by the flake configuration)
-CURRENT_HOSTNAME=$(scutil --get HostName 2>/dev/null || echo "")
-if [ "$CURRENT_HOSTNAME" != "helheim" ]; then
-    printf "❌ HostName is not set to 'helheim' (got: '%s').\n" "$CURRENT_HOSTNAME"
-    printf "   Please set it before running this script:\n"
-    printf "     sudo scutil --set HostName helheim\n"
-    printf "     sudo scutil --set LocalHostName helheim\n"
-    printf "     sudo scutil --set ComputerName helheim\n"
-    exit 1
-fi
-printf "✅ Hostname verified as 'helheim'\n"
-
 # Install Homebrew if not already installed (required by nix-darwin's homebrew module)
 if ! [ -x /opt/homebrew/bin/brew ]; then
     printf "🍺 Installing Homebrew...\n"
@@ -57,7 +45,7 @@ fi
 # Install nix-darwin and apply configuration
 printf "🍎 Installing nix-darwin and applying configuration...\n"
 cd ~/.setup/mac
-sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake .#helheim
+sudo nix run nix-darwin/master#darwin-rebuild --extra-experimental-features "flakes nix-command" -- switch --flake .#helheim
 printf "✅ nix-darwin configuration applied successfully!\n"
 
 printf "\n🎉 Setup complete!\n\n"
