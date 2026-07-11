@@ -11,7 +11,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
     let
-      me = "robb";
+      me = "robcurrall";
       home = "/Users/${me}";
       hostname = "helheim";
       configuration = { lib, pkgs, config, ... }: {
@@ -59,11 +59,16 @@
           enable = true;
           taps = [ "azure/functions" "sst/tap" ];
           brews = [
+            "azure-cli"
+            "azure-dev"
             "azure-functions-core-tools@4"
+            "coreutils"
+            "dotnet"
             "gh"
+            "ollama"
+            "powershell"
             "pulumi"
             "sst/tap/opencode"
-            "coreutils"
           ];
           casks = [
             "1password"
@@ -74,15 +79,14 @@
             "codex"
             "discord"
             "docker-desktop"
-            "dotnet-sdk"
             "ghostty"
             "helium-browser"
             "hyperkey"
             "kitlangton-hex"
             "localsend"
             "minecraft"
+            "ollama-app"
             "pinta"
-            "powershell"
             "raycast"
             "spotify"
             "steam"
@@ -98,7 +102,7 @@
         # non-core taps. Runs before the Homebrew bundle on every rebuild.
         system.activationScripts.preActivation.text = lib.mkAfter ''
           for tap in ${lib.concatStringsSep " " (map (t: t.name) config.homebrew.taps)}; do
-            /opt/homebrew/bin/brew trust "$tap" 2>/dev/null || true
+            /opt/homebrew/bin/brew trust --tap "$tap" 2>/dev/null || true
           done
         '';
 
