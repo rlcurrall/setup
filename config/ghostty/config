@@ -1,4 +1,4 @@
-theme = dark:Rose Pine Dawn,light:Rose Pine Moon
+theme = dark:Rose Pine Moon,light:Rose Pine Dawn
 font-family = "Fira Code"
 
 keybind = shift+enter=text:\n
