@@ -62,10 +62,12 @@
             "azure-cli"
             "azure-dev"
             "azure-functions-core-tools@4"
+            "beads"
             "coreutils"
             "dotnet"
             "gh"
             "ollama"
+            "pi-coding-agent"
             "powershell"
             "pulumi"
             "sst/tap/opencode"
@@ -313,6 +315,7 @@
 
               # Auto-install mise tools during home-manager activation
               home.activation.miseInstall = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+                export PATH="${pkgs.mise}/bin:$PATH"
                 $DRY_RUN_CMD ${pkgs.mise}/bin/mise install
               '';
 
