@@ -151,7 +151,6 @@
           dock.persistent-apps = [
             # Core productivity
             { app = "/Applications/Ghostty.app"; }
-            { app = "/Applications/1Password.app"; }
 
             # Development
             { app = "/Applications/TablePlus.app"; }
@@ -159,10 +158,6 @@
             # Communication & Media
             { app = "/Applications/Discord.app"; }
             { app = "/Applications/Vivaldi.app"; }
-
-            # Utilities
-            { app = "/Applications/Pinta.app"; }
-            { app = "/Applications/LocalSend.app"; }
           ];
           finder.AppleShowAllExtensions = true;
           finder.FXPreferredViewStyle = "clmv";
@@ -272,6 +267,9 @@
 
                   # Add custom bin to path
                   export PATH="$HOME/.bin:$PATH"
+
+                  # Add local bin to path
+                  export PATH="$HOME/.local/bin:$PATH"
 
                   # Load environment variables (if present)
                   [ -f ~/.vars ] && . ~/.vars
