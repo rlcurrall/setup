@@ -65,29 +65,35 @@
             "beads"
             "coreutils"
             "dotnet"
+            "dotnet@8"
             "gh"
             "hashicorp/tap/terraform"
             "ollama"
             "pi-coding-agent"
             "powershell"
             "pulumi"
+            "pup"
+            "sqlcmd"
             "sst/tap/opencode"
           ];
           casks = [
             "1password"
             "1password-cli"
             "antigravity-cli"
+            "chatgpt"
             "claude"
             "claude-code"
             "codex"
             "discord"
             "docker-desktop"
             "ghostty"
+            "granola"
             "helium-browser"
             "hyperkey"
             "kitlangton-hex"
             "localsend"
             "minecraft"
+            "obs"
             "ollama-app"
             "pinta"
             "raycast"
@@ -95,6 +101,7 @@
             "steam"
             "tableplus"
             "tailscale-app"
+            "typora"
             "visual-studio-code"
             "vivaldi"
           ];
@@ -165,6 +172,7 @@
           finder.FXPreferredViewStyle = "clmv";
           screencapture.location = "~/Pictures/screenshots";
           screensaver.askForPasswordDelay = 10;
+
         };
 
         users.users.${me} = {
