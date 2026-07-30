@@ -57,7 +57,7 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "sst/tap" ];
+          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" ];
           brews = [
             "azure-cli"
             "azure-dev"
@@ -66,6 +66,7 @@
             "coreutils"
             "dotnet"
             "gh"
+            "hashicorp/tap/terraform"
             "ollama"
             "pi-coding-agent"
             "powershell"
@@ -99,13 +100,14 @@
           ];
         };
 
-        # Auto-trust any third-party Homebrew taps declared above.
-        # Homebrew 4+ requires explicit trust before installing formulae from
-        # non-core taps. Runs before the Homebrew bundle on every rebuild.
-        system.activationScripts.preActivation.text = lib.mkAfter ''
-          for tap in ${lib.concatStringsSep " " (map (t: t.name) config.homebrew.taps)}; do
-            /opt/homebrew/bin/brew trust --tap "$tap" 2>/dev/null || true
-          done
+        # Auto-trust third-party taps as the invoking user before Homebrew Bundle
+        # tries to install formulae from them.
+        system.activationScripts.preUserActivation.text = lib.mkAfter ''
+          if [ -x /opt/homebrew/bin/brew ]; then
+            for tap in ${lib.concatStringsSep " " (map (t: t.name) config.homebrew.taps)}; do
+              /opt/homebrew/bin/brew trust --tap "$tap"
+            done
+          fi
         '';
 
         # Necessary for using flakes on this system.
