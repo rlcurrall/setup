@@ -57,17 +57,20 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" ];
+          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" "databricks/tap" ];
           brews = [
             "azure-cli"
             "azure-dev"
             "azure-functions-core-tools@4"
             "beads"
             "coreutils"
+            "databricks"
             "dotnet"
             "dotnet@8"
             "gh"
             "hashicorp/tap/terraform"
+            "herdr"
+            "libpq"
             "ollama"
             "pi-coding-agent"
             "powershell"
@@ -90,7 +93,7 @@
             "granola"
             "helium-browser"
             "hyperkey"
-            "kitlangton-hex"
+            # "kitlangton-hex"
             "localsend"
             "minecraft"
             "obs"
@@ -158,14 +161,7 @@
           dock.mru-spaces = false;
           dock.show-recents = false;
           dock.persistent-apps = [
-            # Core productivity
             { app = "/Applications/Ghostty.app"; }
-
-            # Development
-            { app = "/Applications/TablePlus.app"; }
-
-            # Communication & Media
-            { app = "/Applications/Discord.app"; }
             { app = "/Applications/Vivaldi.app"; }
           ];
           finder.AppleShowAllExtensions = true;
@@ -274,6 +270,9 @@
 
                   # Add .NET Core SDK tools
                   export PATH="$PATH:$HOME/.dotnet/tools"
+
+                  # Add Postgres CLI
+                  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
                   # Add custom bin to path
                   export PATH="$HOME/.bin:$PATH"
