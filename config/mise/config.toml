@@ -1,5 +1,6 @@
 [tools]
 node = "latest"
+pnpm = "latest"
 bun = "latest"
 deno = "latest"
 go = "latest"
