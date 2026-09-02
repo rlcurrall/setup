@@ -283,7 +283,7 @@
                 };
 
                 shellAliases = {
-                  rebuild = "(cd ~/.setup/mac && darwin-rebuild switch --flake .#${hostname})";
+                  rebuild = "(cd ~/.setup/mac && sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#${hostname})";
                   lg = "lazygit";
                 };
 
