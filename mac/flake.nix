@@ -110,12 +110,12 @@
           ];
         };
 
-        # Auto-trust third-party taps as the invoking user before Homebrew Bundle
-        # tries to install formulae from them.
-        system.activationScripts.preUserActivation.text = lib.mkAfter ''
+        # Auto-trust third-party taps as the primary user before Homebrew Bundle
+        # tries to install formulae from them. System activation runs as root.
+        system.activationScripts.preActivation.text = lib.mkAfter ''
           if [ -x /opt/homebrew/bin/brew ]; then
             for tap in ${lib.concatStringsSep " " (map (t: t.name) config.homebrew.taps)}; do
-              /opt/homebrew/bin/brew trust --tap "$tap"
+              /usr/bin/sudo -H -u ${me} /opt/homebrew/bin/brew trust --tap "$tap"
             done
           fi
         '';
@@ -139,6 +139,9 @@
 
         # Set Git commit hash for darwin-version.
         system.configurationRevision = self.rev or self.dirtyRev or null;
+
+        # Options such as Homebrew and macOS defaults apply to this user.
+        system.primaryUser = me;
 
         # Used for backwards compatibility, please read the changelog before changing.
         # $ darwin-rebuild changelog
@@ -244,6 +247,29 @@
                 TERMINAL = "ghostty";
               };
 
+              # Keep Claude Remote Control available for sessions started from
+              # claude.ai/code or the Claude mobile app.
+              launchd.agents.claude-remote-control = {
+                enable = true;
+                config = {
+                  ProgramArguments = [
+                    "/opt/homebrew/bin/claude"
+                    "remote-control"
+                  ];
+                  WorkingDirectory = "${home}/Code";
+                  EnvironmentVariables = {
+                    HOME = home;
+                    PATH = "/opt/homebrew/bin:/opt/homebrew/sbin:${home}/.local/bin:${home}/.bin:/etc/profiles/per-user/${me}/bin:/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+                  };
+                  RunAtLoad = true;
+                  KeepAlive = true;
+                  ThrottleInterval = 10;
+                  ProcessType = "Background";
+                  StandardOutPath = "${home}/Library/Logs/claude-remote-control.log";
+                  StandardErrorPath = "${home}/Library/Logs/claude-remote-control.error.log";
+                };
+              };
+
               # ===== PROGRAMS =====
               programs.zsh = {
                 enable = true;
@@ -307,9 +333,11 @@
 
               programs.git = {
                 enable = true;
-                userName = "Robb Currall";
-                userEmail = "rlcurrall@gmail.com";
-                extraConfig = {
+                settings = {
+                  user = {
+                    name = "Robb Currall";
+                    email = "rlcurrall@gmail.com";
+                  };
                   init.defaultBranch = "main";
                   push.autoSetupRemote = true;
                 };

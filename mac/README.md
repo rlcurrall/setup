@@ -26,6 +26,7 @@ The bootstrap can't do these — you must do them by hand:
 
 - Create `~/.vars` with any secrets/env vars (the zsh init sources it if present). Example contents: API keys, `export FOO=bar`.
 - Sign into 1Password (the GUI) to unlock SSH keys and secrets.
+- Run `cd ~/Code && claude` once to sign in and accept the workspace trust prompt. The managed Claude Remote Control service will then start automatically at login and remain running.
 - Authenticate the Datadog Pup CLI with `pup auth login`. If your Datadog site is not `datadoghq.com`, first add the appropriate `DD_SITE` export to `~/.vars` and restart your shell.
 - Run `atuin login` then `atuin sync` to restore shell history.
 - Open `nvim` once and wait for `:Lazy install` to pull plugins. Quit, reopen, run `:checkhealth` to confirm.
