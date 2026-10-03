@@ -68,6 +68,7 @@
             "dotnet"
             "dotnet@8"
             "gh"
+            "glab"
             "hashicorp/tap/terraform"
             "herdr"
             "libpq"
