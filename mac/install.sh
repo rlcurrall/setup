@@ -2,6 +2,25 @@
 
 set -e
 
+# Infer the profile from the account, or accept an explicit selection.
+MAC_PROFILE="${1:-}"
+if [ -z "$MAC_PROFILE" ]; then
+    case "$(id -un)" in
+        robb) MAC_PROFILE=personal ;;
+        robcurrall) MAC_PROFILE=work ;;
+        *) printf 'Usage: bash mac/install.sh personal|work\n' >&2; exit 1 ;;
+    esac
+fi
+case "$MAC_PROFILE" in
+    personal) EXPECTED_USER=robb ;;
+    work) EXPECTED_USER=robcurrall ;;
+    *) printf 'Unknown profile: %s (expected personal or work)\n' "$MAC_PROFILE" >&2; exit 1 ;;
+esac
+if [ "$(id -un)" != "$EXPECTED_USER" ]; then
+    printf 'Profile %s requires account %s; run this installer as that user.\n' "$MAC_PROFILE" "$EXPECTED_USER" >&2
+    exit 1
+fi
+
 # Prerequisites:
 # Before running this script, make sure you have:
 #   1. Installed Xcode Command Line Tools:
@@ -45,7 +64,7 @@ fi
 # Install nix-darwin and apply configuration
 printf "🍎 Installing nix-darwin and applying configuration...\n"
 cd ~/.setup/mac
-sudo nix run nix-darwin/master#darwin-rebuild --extra-experimental-features "flakes nix-command" -- switch --flake .#helheim
+sudo nix run nix-darwin/master#darwin-rebuild --extra-experimental-features "flakes nix-command" -- switch --flake ".#$MAC_PROFILE"
 printf "✅ nix-darwin configuration applied successfully!\n"
 
 printf "\n🎉 Setup complete!\n\n"

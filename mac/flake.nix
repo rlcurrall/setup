@@ -1,5 +1,5 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "Personal and work macOS configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -11,9 +11,8 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
     let
-      me = "robb";
+      mkMachine = { me, profile }: let
       home = "/Users/${me}";
-      hostname = "helheim";
       configuration = { lib, pkgs, config, ... }: {
         # Configure unfree packages
         nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ ];
@@ -186,12 +185,10 @@
         };
       };
     in
-    {
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#simple
-      darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
+      nix-darwin.lib.darwinSystem {
         modules = [
           configuration
+          (./profiles + "/${profile}.nix")
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -292,7 +289,7 @@
                 };
 
                 shellAliases = {
-                  rebuild = "(cd ~/.setup/mac && sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#${hostname})";
+                  rebuild = "(cd ~/.setup/mac && sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#${profile})";
                   lg = "lazygit";
                 };
 
@@ -371,6 +368,13 @@
             };
           }
         ];
+      };
+    in {
+      darwinConfigurations = {
+        personal = mkMachine { me = "robb"; profile = "personal"; };
+        work = mkMachine { me = "robcurrall"; profile = "work"; };
+        # Compatibility with the existing personal-machine rebuild alias.
+        helheim = self.darwinConfigurations.personal;
       };
     };
 }

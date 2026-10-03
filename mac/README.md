@@ -11,14 +11,24 @@ You'll need to click "Install" on the Xcode dialog and type your password for `s
 If you'd rather run the steps yourself (e.g. for debugging):
 
 1. Install Xcode Command Line Tools: `xcode-select --install`
-2. Set the hostname to `helheim`:
-   ```
-   sudo scutil --set HostName helheim
-   sudo scutil --set LocalHostName helheim
-   sudo scutil --set ComputerName helheim
-   ```
-3. Clone the repo: `git clone https://github.com/rlcurrall/setup ~/.setup`
-4. Run the installer: `bash ~/.setup/mac/install.sh`
+2. Clone the repo: `git clone https://github.com/rlcurrall/setup ~/.setup`
+3. Run the installer: `bash ~/.setup/mac/install.sh personal` or `bash ~/.setup/mac/install.sh work`.
+
+The installer selects `personal` automatically for `robb` and `work` for `robcurrall` when no argument is supplied. An explicit profile must match the current account. Hostnames are left unchanged.
+
+## Machine profiles
+
+- `personal` uses `/Users/robb` and `mac/profiles/personal.nix`.
+- `work` uses `/Users/robcurrall` and `mac/profiles/work.nix`.
+- `flake.nix` contains shared settings. Add machine-specific packages and overrides to the corresponding profile module. Home Manager overrides go under `home-manager.users.robb` or `home-manager.users.robcurrall`.
+- `helheim` remains an alias for `personal` so the existing rebuild command continues to work.
+
+To select a profile on an existing installation:
+
+```sh
+cd ~/.setup/mac
+sudo darwin-rebuild switch --flake .#personal # or .#work
+```
 
 ## Post-bootstrap manual steps
 
@@ -45,12 +55,13 @@ The bootstrap can't do these — you must do them by hand:
 
 ## Day-to-day
 
-- After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `darwin-rebuild switch --flake .#helheim`.
+- After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `darwin-rebuild switch` with the selected `personal` or `work` profile.
 - `:Lazy update` in nvim writes directly to `~/.setup/config/nvim/lazy-lock.json` (see `lockfile` option in `lazy.lua`), so updated plugin pins land in the dotfiles immediately — just `git add` + commit.
 - To update nixpkgs/inputs themselves: `cd ~/.setup/mac && nix flake update`, then `rebuild`.
 
 ## Layout
 
 - `flake.nix` — main nix-darwin + home-manager config (packages, Homebrew, dock, zsh, etc.)
+- `profiles/` — personal and work overrides
 - `install.sh` — first-time bootstrap script
 - `../config/` — application configs (nvim, ghostty, starship, etc.) symlinked into `~/.config/` by home-manager
