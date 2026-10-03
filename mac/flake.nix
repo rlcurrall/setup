@@ -11,7 +11,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
     let
-      me = "robcurrall";
+      me = "robb";
       home = "/Users/${me}";
       hostname = "helheim";
       configuration = { lib, pkgs, config, ... }: {
@@ -79,10 +79,13 @@
             "pup"
             "sqlcmd"
             "sst/tap/opencode"
+            "tailscale"
           ];
           casks = [
             "1password"
             "1password-cli"
+            "android-commandlinetools"
+            "android-studio"
             "antigravity-cli"
             "chatgpt"
             "claude"
@@ -90,16 +93,18 @@
             "codex"
             "discord"
             "docker-desktop"
+            "dotnet-sdk"
             "ghostty"
             "granola"
             "helium-browser"
             "hyperkey"
-            # "kitlangton-hex"
+            "kitlangton-hex"
             "localsend"
             "minecraft"
             "obs"
             "ollama-app"
             "pinta"
+            "powershell"
             "raycast"
             "spotify"
             "steam"
@@ -243,8 +248,11 @@
               };
 
               home.sessionVariables = {
+                ANDROID_HOME = "${home}/Library/Android/sdk";
+                ANDROID_SDK_ROOT = "${home}/Library/Android/sdk";
                 EDITOR = "nvim";
                 BROWSER = "vivaldi";
+                JAVA_HOME = "/Applications/Android Studio.app/Contents/jbr/Contents/Home";
                 TERMINAL = "ghostty";
               };
 
@@ -300,6 +308,9 @@
 
                   # Add Postgres CLI
                   export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+                  # Android SDK tools
+                  export PATH="$ANDROID_HOME/platform-tools:$PATH"
 
                   # Add custom bin to path
                   export PATH="$HOME/.bin:$PATH"

@@ -30,6 +30,12 @@ The bootstrap can't do these — you must do them by hand:
 - Authenticate the Datadog Pup CLI with `pup auth login`. If your Datadog site is not `datadoghq.com`, first add the appropriate `DD_SITE` export to `~/.vars` and restart your shell.
 - Run `atuin login` then `atuin sync` to restore shell history.
 - Open `nvim` once and wait for `:Lazy install` to pull plugins. Quit, reopen, run `:checkhealth` to confirm.
+- Install the Android SDK packages after Android Studio and the command-line tools are present:
+  ```
+  android --no-metrics --sdk="$HOME/Library/Android/sdk" sdk install platform-tools
+  android --no-metrics --sdk="$HOME/Library/Android/sdk" sdk install platforms/android-37.0
+  android --no-metrics --sdk="$HOME/Library/Android/sdk" sdk install build-tools/36.0.0
+  ```
 
 ## Known first-run quirks
 
