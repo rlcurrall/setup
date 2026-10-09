@@ -56,7 +56,7 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" "databricks/tap" ];
+          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" "databricks/tap" "microsoft/aspire" ];
           brews = [
             "azure-cli"
             "azure-dev"
@@ -69,6 +69,7 @@
             "gh"
             "glab"
             "hashicorp/tap/terraform"
+            "hashicorp/tap/vault"
             "herdr"
             "libpq"
             "ollama"
@@ -86,6 +87,7 @@
             "android-commandlinetools"
             "android-studio"
             "antigravity-cli"
+            "microsoft/aspire/aspire"
             "chatgpt"
             "claude"
             "claude-code"
@@ -97,13 +99,11 @@
             "granola"
             "helium-browser"
             "hyperkey"
-            "kitlangton-hex"
             "localsend"
             "minecraft"
             "obs"
             "ollama-app"
             "pinta"
-            "powershell"
             "raycast"
             "spotify"
             "steam"
