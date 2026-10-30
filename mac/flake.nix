@@ -195,7 +195,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
-            home-manager.users.${me} = { config, pkgs, ... }: {
+            home-manager.users.${me} = { config, lib, pkgs, ... }: {
               # Home Manager needs a bit of information about you and the paths it should manage
               home.username = me;
               home.homeDirectory = home;
@@ -295,8 +295,10 @@
                 };
 
                 initContent = ''
-                  # Add Homebrew to PATH
-                  eval "$(/opt/homebrew/bin/brew shellenv)"
+                  ${lib.optionalString (profile != "work") ''
+                    # Add Homebrew to PATH
+                    eval "$(/opt/homebrew/bin/brew shellenv)"
+                  ''}
 
                   # Mise activation
                   eval "$(mise activate zsh)"
@@ -319,10 +321,12 @@
                   # Load environment variables (if present)
                   [ -f ~/.vars ] && . ~/.vars
 
-                  # Docker Desktop completions
-                  fpath=(${home}/.docker/completions $fpath)
-                  autoload -Uz compinit
-                  compinit
+                  ${lib.optionalString (profile != "work") ''
+                    # Docker Desktop completions
+                    fpath=(${home}/.docker/completions $fpath)
+                    autoload -Uz compinit
+                    compinit
+                  ''}
 
                 '';
               };
