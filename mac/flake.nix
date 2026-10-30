@@ -56,7 +56,7 @@
 
         homebrew = {
           enable = true;
-          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" "databricks/tap" "microsoft/aspire" ];
+          taps = [ "azure/functions" "hashicorp/tap" "sst/tap" "databricks/tap" "microsoft/aspire" "anomalyco/tap" ];
           brews = [
             "azure-cli"
             "azure-dev"
@@ -86,6 +86,7 @@
             "1password-cli"
             "android-commandlinetools"
             "android-studio"
+            "anomalyco/tap/hex"
             "antigravity-cli"
             "microsoft/aspire/aspire"
             "chatgpt"
