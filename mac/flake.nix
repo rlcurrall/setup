@@ -51,7 +51,6 @@
           pkgs.ffmpeg
 
           pkgs.llama-cpp
-          pkgs.ollama
         ];
 
         homebrew = {
@@ -72,7 +71,6 @@
             "hashicorp/tap/vault"
             "herdr"
             "libpq"
-            "ollama"
             "pi-coding-agent"
             "powershell"
             "pulumi"
@@ -103,7 +101,6 @@
             "localsend"
             "minecraft"
             "obs"
-            "ollama-app"
             "pinta"
             "raycast"
             "spotify"

@@ -41,7 +41,6 @@
     # AI/ML Tools
     tailscale
     llama-cpp
-    ollama
 
     # GUI Apps
     flameshot
