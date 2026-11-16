@@ -12,6 +12,8 @@ let
 in {
   # Machine-specific packages and settings go here.
 
+  homebrew.brews = [ "newrelic-cli" ];
+
   home-manager.users.${me} = { config, ... }: {
     # Replaced by the pre-generated scripts below
     programs.starship.enableZshIntegration = lib.mkForce false;

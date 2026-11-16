@@ -57,11 +57,12 @@
 
             homebrew = {
               enable = true;
-              taps = [ "azure/functions" "hashicorp/tap" "sst/tap" "databricks/tap" "microsoft/aspire" "anomalyco/tap" ];
+              taps = [ "azure/functions" "hashicorp/tap" "databricks/tap" "microsoft/aspire" "anomalyco/tap" ];
               brews = [
                 "azure-cli"
                 "azure-dev"
                 "azure-functions-core-tools@4"
+                "anomalyco/tap/opencode-v2"
                 "beads"
                 "coreutils"
                 "databricks"
@@ -78,7 +79,6 @@
                 "pulumi"
                 "pup"
                 "sqlcmd"
-                "sst/tap/opencode"
                 "tailscale"
               ];
               casks = [
