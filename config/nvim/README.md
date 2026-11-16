@@ -17,6 +17,24 @@ these files under `~/.config/nvim`. Lazy writes plugin pins to the source
 - Debugging: nvim-dap and DAP UI, NetCoreDbg for C#, Microsoft's JavaScript
   debug adapter for Node/TypeScript. No Go debugger is configured.
 
+## Terminal colors
+
+osc-colors derives editor colors from the host terminal's palette. It queries
+colors at startup and on focus regain; use `:OscColorsRefresh` after changing
+a terminal theme if focus did not change. The editor background is transparent
+so the terminal draws its own background, including Rex's glass material.
+Popups use an opaque terminal-derived background for readability. The generated
+keyword color accents the normal-mode statusline, borders, and completion
+selection. Other mode colors and diagnostic severity colors stay distinct;
+diagnostics use undercurls. Noice, Snacks, diagnostics, and Mini statusline use
+the resulting colors. This approximates a theme from its terminal
+palette rather than loading the theme's official Neovim port.
+
+Rosé Pine provides the initial colors before cached/live terminal colors apply.
+The system light/dark switcher is inactive while terminal colors are enabled.
+For the Rosé Pine light/dark fallback, launch `NVIM_THEME=rose-pine nvim`.
+The plugin is experimental; Rex palette detection and refresh are verified.
+
 ## Indentation and whitespace
 
 Neovim's built-in EditorConfig support owns project indentation and trailing
