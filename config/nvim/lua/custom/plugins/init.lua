@@ -1,6 +1,4 @@
 return {
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
   {
     'folke/zen-mode.nvim',
     keys = {
@@ -26,7 +24,6 @@ return {
           showcmd = false, -- disables the command in the last line of the screen
           laststatus = 0, -- turn off the statusline in zen mode
         },
-        todo = { enabled = true }, -- if set to "true", todo-comments.nvim highlights will be disabled
         wezterm = {
           enabled = true,
           font = '+4', -- (10% increase per step)

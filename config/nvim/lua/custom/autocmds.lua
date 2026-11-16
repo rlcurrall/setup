@@ -7,6 +7,8 @@ local autocmd = vim.api.nvim_create_autocmd
 -- ===== FILE TYPE SPECIFIC SETTINGS =====
 local filetype_settings = augroup('FileTypeSettings', { clear = true })
 
+-- Fallbacks for files without EditorConfig settings. Neovim applies
+-- EditorConfig after FileType handlers, so project settings take precedence.
 -- Web development files (2 spaces)
 autocmd('FileType', {
   group = filetype_settings,
@@ -63,18 +65,6 @@ autocmd('TextYankPost', {
   end,
 })
 
--- Remove trailing whitespace on save
-autocmd('BufWritePre', {
-  group = editor_behavior,
-  desc = 'Remove trailing whitespace on save',
-  callback = function()
-    if not vim.bo.modifiable then return end
-    local save_cursor = vim.fn.getpos('.')
-    vim.cmd([[%s/\s\+$//e]])
-    vim.fn.setpos('.', save_cursor)
-  end,
-})
-
 -- Auto-create directories when saving files
 autocmd('BufWritePre', {
   group = editor_behavior,
@@ -106,7 +96,7 @@ autocmd('VimResized', {
   group = window_management,
   desc = 'Equalize splits when Vim is resized',
   callback = function()
-    vim.cmd('wincmd =')
+    vim.cmd 'wincmd ='
   end,
 })
 
@@ -129,7 +119,7 @@ autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   desc = 'Auto-reload files changed outside of Neovim',
   callback = function()
     if vim.fn.mode() ~= 'c' then
-      vim.cmd('checktime')
+      vim.cmd 'checktime'
     end
   end,
 })
@@ -139,8 +129,8 @@ autocmd('FocusLost', {
   group = dev_workflow,
   desc = 'Auto-save when focus is lost',
   callback = function()
-    if vim.bo.modified and not vim.bo.readonly and vim.fn.expand('%') ~= '' and vim.bo.buftype == '' then
-      vim.cmd('silent! write')
+    if vim.bo.modified and not vim.bo.readonly and vim.fn.expand '%' ~= '' and vim.bo.buftype == '' then
+      vim.cmd 'silent! write'
     end
   end,
 })
@@ -156,7 +146,7 @@ autocmd('TermOpen', {
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
     vim.opt_local.signcolumn = 'no'
-    vim.cmd('startinsert')
+    vim.cmd 'startinsert'
   end,
 })
 

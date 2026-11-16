@@ -38,6 +38,7 @@ return {
 
   {
     'f-person/auto-dark-mode.nvim',
+    branch = 'main',
     dependencies = { 'rose-pine/neovim' },
     opts = {
       update_interval = 1000,

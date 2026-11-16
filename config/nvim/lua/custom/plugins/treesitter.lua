@@ -11,13 +11,19 @@ return {
         'bash',
         'c',
         'c_sharp',
+        'css',
         'diff',
         'html',
+        'javascript',
+        'json',
         'lua',
         'luadoc',
         'markdown',
         'markdown_inline',
         'query',
+        'regex',
+        'tsx',
+        'typescript',
         'vim',
         'vimdoc',
       }
@@ -28,6 +34,7 @@ return {
       -- Start Treesitter on ANY buffer whose filetype has a parser available,
       -- so new languages "just work" once their parser is installed.
       vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('CustomTreesitter', { clear = true }),
         callback = function(args)
           local lang = vim.treesitter.language.get_lang(args.match)
           if not lang then

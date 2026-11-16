@@ -1,15 +1,9 @@
 return {
-  { -- Highlight todo, notes, etc in comments
-    'folke/todo-comments.nvim',
-    event = 'VimEnter',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = { signs = false },
-  },
-
   {
     'folke/noice.nvim',
     event = 'VeryLazy',
     opts = {
+      lsp = { progress = { enabled = false } }, -- Fidget owns LSP progress.
       views = {
         cmdline_popup = {
           position = { row = 5, col = '50%' },
@@ -18,7 +12,6 @@ return {
     },
     dependencies = {
       'MunifTanjim/nui.nvim',
-      -- 'rcarriga/nvim-notify',
     },
   },
 
