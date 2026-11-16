@@ -56,6 +56,7 @@ The bootstrap can't do these — you must do them by hand:
 ## Day-to-day
 
 - After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `darwin-rebuild switch` with the selected `personal` or `work` profile.
+- Rex keybindings and actions live in `../config/rex/init.lua`, linked to `~/.config/rex/init.lua` by Home Manager for both Mac profiles. Edit the repository copy and run `rebuild` to apply changes.
 - `:Lazy update` in nvim writes directly to `~/.setup/config/nvim/lazy-lock.json` (see `lockfile` option in `lazy.lua`), so updated plugin pins land in the dotfiles immediately — just `git add` + commit.
 - To update nixpkgs/inputs themselves: `cd ~/.setup/mac && nix flake update`, then `rebuild`.
 

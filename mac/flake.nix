@@ -230,6 +230,11 @@
                     recursive = true;
                   };
 
+                  "rex" = {
+                    source = ../config/rex;
+                    recursive = true;
+                  };
+
                   "mise" = {
                     source = ../config/mise;
                     recursive = true;
