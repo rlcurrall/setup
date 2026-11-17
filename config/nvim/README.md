@@ -84,6 +84,12 @@ privileges or Windows Developer Mode.
   `F7` toggles the debugger UI.
 - C# launch prompts for an application DLL. Node launch pauses at entry;
   press `F5` again to continue. Both languages have process-attach options.
+- Project build/run/test shortcuts use the nearest project directory, including
+  nested Node packages and standalone C# projects/solutions (`.csproj`, `.sln`,
+  `.slnx`). Commands restore Neovim's working-directory scope afterwards.
+- `<leader>th` toggles inlay hints only in the current buffer. C# hints start
+  enabled when a supporting LSP attaches; your choice survives buffer switches
+  and LSP reattachments. `<leader>tj` toggles diagnostic virtual lines separately.
 - Project-specific npm, tsx, or other launch commands belong in
   `.vscode/launch.json`, which nvim-dap reads automatically. Compiled TypeScript
   needs source maps to bind breakpoints in the original `.ts` files.

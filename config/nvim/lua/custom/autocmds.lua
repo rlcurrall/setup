@@ -149,19 +149,3 @@ autocmd('TermOpen', {
     vim.cmd 'startinsert'
   end,
 })
-
--- ===== PROJECT SPECIFIC =====
-local project_specific = augroup('ProjectSpecific', { clear = true })
-
--- C# project settings
-autocmd('BufEnter', {
-  group = project_specific,
-  pattern = '*.cs',
-  desc = 'C# project settings',
-  callback = function()
-    -- Enable inlay hints for C#
-    if vim.lsp.inlay_hint then
-      vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
-    end
-  end,
-})

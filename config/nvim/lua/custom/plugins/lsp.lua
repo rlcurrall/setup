@@ -98,14 +98,23 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            -- Default C# hints on once; preserve this buffer's choice across
+            -- buffer switches, additional clients, and LSP restarts.
+            if vim.b[event.buf].custom_inlay_hints == nil then
+              vim.b[event.buf].custom_inlay_hints = vim.bo[event.buf].filetype == 'cs' or vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
+            end
+            vim.lsp.inlay_hint.enable(vim.b[event.buf].custom_inlay_hints, { bufnr = event.buf })
             map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+              local enabled = not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
+              vim.b[event.buf].custom_inlay_hints = enabled
+              vim.lsp.inlay_hint.enable(enabled, { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
-            map('<leader>tj', function()
-              local new_config = not vim.diagnostic.config().virtual_lines
-              vim.diagnostic.config { virtual_lines = new_config }
-            end, 'Toggle diagnostic virtual_lines')
           end
+          -- Diagnostics do not depend on the server supporting inlay hints.
+          map('<leader>tj', function()
+            local new_config = not vim.diagnostic.config().virtual_lines
+            vim.diagnostic.config { virtual_lines = new_config }
+          end, 'Toggle diagnostic virtual_lines')
         end,
       })
 

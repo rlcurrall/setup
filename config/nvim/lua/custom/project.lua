@@ -1,82 +1,107 @@
--- [[ Project-specific configuration ]]
--- This module handles loading project-specific settings
-
+-- Buffer-local project shortcuts, using the nearest project or repository root.
 local M = {}
 
--- Function to find project root
-local function find_project_root()
-  local markers = { '.git', '.nvim.lua', 'package.json', '*.sln', '*.csproj', 'Cargo.toml', 'pyproject.toml' }
-  local current_dir = vim.fn.expand '%:p:h'
+local markers = {
+  ['.git'] = true,
+  ['.nvim.lua'] = true,
+  ['package.json'] = true,
+  ['Cargo.toml'] = true,
+  ['pyproject.toml'] = true,
+  ['requirements.txt'] = true,
+  ['setup.py'] = true,
+}
 
-  for _, marker in ipairs(markers) do
-    local found = vim.fn.findfile(marker, current_dir .. ';')
-    if found ~= '' then
-      return vim.fn.fnamemodify(found, ':p:h')
-    end
-
-    local found_dir = vim.fn.finddir(marker, current_dir .. ';')
-    if found_dir ~= '' then
-      return vim.fn.fnamemodify(found_dir, ':p:h:h')
-    end
-  end
-
-  return nil
+local function dotnet_marker(name)
+  return name:match '%.csproj$' or name:match '%.sln$' or name:match '%.slnx$'
 end
 
--- Set up project-specific settings based on file types and patterns
-function M.setup_project_settings()
-  local project_root = find_project_root()
+function M.find_root(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  if vim.bo[bufnr].buftype ~= '' or vim.api.nvim_buf_get_name(bufnr) == '' then
+    return nil
+  end
+  -- One predicate gives all markers equal priority: a nested package/project
+  -- wins over an ancestor repository, and .git also bounds the upward search.
+  return vim.fs.root(bufnr, function(name)
+    return markers[name] or dotnet_marker(name) ~= nil
+  end)
+end
 
-  if not project_root then
+local function run(root, args)
+  local cwd = vim.fn.getcwd()
+  local restore = vim.fn.haslocaldir() == 1 and 'lcd' or (vim.fn.haslocaldir(-1) == 1 and 'tcd' or 'cd')
+  local function directory(command, path)
+    vim.api.nvim_cmd({ cmd = command, args = { path }, magic = { file = false }, mods = { noautocmd = true } }, {})
+  end
+  -- Preserve the existing :! output/interactive workflow, without changing
+  -- Neovim's working directory or its global/tab/window scope afterwards.
+  directory('lcd', root)
+  local ok, err = pcall(function()
+    local escaped = vim.tbl_map(function(arg)
+      return vim.fn.shellescape(arg, 1)
+    end, args)
+    vim.cmd('!' .. table.concat(escaped, ' '))
+  end)
+  directory(restore, cwd)
+  if not ok then
+    error(err)
+  end
+end
+
+function M.setup_project_settings(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  for _, key in ipairs(vim.b[bufnr].custom_project_keys or {}) do
+    pcall(vim.keymap.del, 'n', key, { buffer = bufnr })
+  end
+  vim.b[bufnr].custom_project_keys = {}
+
+  local root = M.find_root(bufnr)
+  if not root then
     return
   end
-
-  -- C# Projects
-  if vim.fn.glob(project_root .. '/*.sln') ~= '' or vim.fn.glob(project_root .. '/*.csproj') ~= '' then
-    -- Set up C# specific keybindings
-    vim.keymap.set('n', '<leader>cb', '<cmd>!dotnet build<CR>', { desc = 'Build C# project', buffer = true })
-    vim.keymap.set('n', '<leader>ct', '<cmd>!dotnet test<CR>', { desc = 'Run C# tests', buffer = true })
-    vim.keymap.set('n', '<leader>cr', '<cmd>!dotnet run<CR>', { desc = 'Run C# project', buffer = true })
+  local keys, files, dotnet = {}, {}, false
+  for name in vim.fs.dir(root) do
+    files[name] = true
+    dotnet = dotnet or dotnet_marker(name) ~= nil
+  end
+  local function map(key, args, desc)
+    keys[#keys + 1] = key
+    vim.keymap.set('n', key, function()
+      run(root, type(args) == 'function' and args() or args)
+    end, { desc = desc, buffer = bufnr })
   end
 
-  -- Node.js Projects
-  if vim.fn.filereadable(project_root .. '/package.json') == 1 then
-    -- Set up Node.js specific keybindings
-    vim.keymap.set('n', '<leader>ni', '<cmd>!npm install<CR>', { desc = 'npm install', buffer = true })
-    vim.keymap.set('n', '<leader>nt', '<cmd>!npm test<CR>', { desc = 'npm test', buffer = true })
-    vim.keymap.set('n', '<leader>nr', '<cmd>!npm run dev<CR>', { desc = 'npm run dev', buffer = true })
-    vim.keymap.set('n', '<leader>nb', '<cmd>!npm run build<CR>', { desc = 'npm run build', buffer = true })
+  if dotnet then
+    map('<leader>cb', { 'dotnet', 'build' }, 'Build C# project')
+    map('<leader>ct', { 'dotnet', 'test' }, 'Run C# tests')
+    map('<leader>cr', { 'dotnet', 'run' }, 'Run C# project')
   end
-
-  -- Rust Projects
-  if vim.fn.filereadable(project_root .. '/Cargo.toml') == 1 then
-    -- Set up Rust specific keybindings
-    vim.keymap.set('n', '<leader>rb', '<cmd>!cargo build<CR>', { desc = 'Cargo build', buffer = true })
-    vim.keymap.set('n', '<leader>rt', '<cmd>!cargo test<CR>', { desc = 'Cargo test', buffer = true })
-    vim.keymap.set('n', '<leader>rr', '<cmd>!cargo run<CR>', { desc = 'Cargo run', buffer = true })
-    vim.keymap.set('n', '<leader>rc', '<cmd>!cargo check<CR>', { desc = 'Cargo check', buffer = true })
+  if files['package.json'] then
+    map('<leader>ni', { 'npm', 'install' }, 'npm install')
+    map('<leader>nt', { 'npm', 'test' }, 'npm test')
+    map('<leader>nr', { 'npm', 'run', 'dev' }, 'npm run dev')
+    map('<leader>nb', { 'npm', 'run', 'build' }, 'npm run build')
   end
-
-  -- Python Projects
-  if
-    vim.fn.filereadable(project_root .. '/pyproject.toml') == 1
-    or vim.fn.filereadable(project_root .. '/requirements.txt') == 1
-    or vim.fn.filereadable(project_root .. '/setup.py') == 1
-  then
-    -- Set up Python specific keybindings
-    vim.keymap.set('n', '<leader>pr', '<cmd>!python %<CR>', { desc = 'Run Python file', buffer = true })
-    vim.keymap.set('n', '<leader>pt', '<cmd>!python -m pytest<CR>', { desc = 'Run pytest', buffer = true })
+  if files['Cargo.toml'] then
+    map('<leader>rb', { 'cargo', 'build' }, 'Cargo build')
+    map('<leader>rt', { 'cargo', 'test' }, 'Cargo test')
+    map('<leader>rr', { 'cargo', 'run' }, 'Cargo run')
+    map('<leader>rc', { 'cargo', 'check' }, 'Cargo check')
   end
+  if files['pyproject.toml'] or files['requirements.txt'] or files['setup.py'] then
+    map('<leader>pr', function()
+      return { 'python', vim.api.nvim_buf_get_name(bufnr) }
+    end, 'Run Python file')
+    map('<leader>pt', { 'python', '-m', 'pytest' }, 'Run pytest')
+  end
+  vim.b[bufnr].custom_project_keys = keys
 end
 
--- Auto-detect and apply project settings
 function M.setup()
-  local augroup = vim.api.nvim_create_augroup('ProjectConfig', { clear = true })
-
-  vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-    group = augroup,
-    callback = function()
-      M.setup_project_settings()
+  vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile', 'BufFilePost' }, {
+    group = vim.api.nvim_create_augroup('ProjectConfig', { clear = true }),
+    callback = function(event)
+      M.setup_project_settings(event.buf)
     end,
   })
 end
