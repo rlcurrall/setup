@@ -1,8 +1,48 @@
 # Neovim configuration
 
-The source lives in `~/.setup/config/nvim`. Nix Home Manager normally installs
-these files under `~/.config/nvim`. Lazy writes plugin pins to the source
-`lazy-lock.json`, which should be committed with configuration changes.
+This directory is the Neovim configuration. Copy or link it to Neovim's config
+path (`~/.config/nvim` on Unix, `%LOCALAPPDATA%/nvim` on Windows). On this Mac,
+Nix Home Manager deploys it from the dotfiles checkout.
+
+## Layout
+
+- `init.lua` → `lua/custom/init.lua`: startup entry point and load order.
+- `lua/custom/options.lua`, `keymaps.lua`, `autocmds.lua`: editor defaults,
+  general shortcuts, and editor events.
+- `lua/custom/plugins/`: Lazy plugin specs, grouped by feature. `zen-mode.lua`
+  configures Zen Mode; the directory has no special `init.lua` spec.
+- `lua/custom/lsp.lua`: LSP buffer shortcuts and inlay-hint preferences.
+  Server definitions and dependencies remain in `plugins/lsp.lua`.
+- `lua/custom/project.lua`: project roots and build/run/test shortcuts.
+- `lua/custom/paths.lua`: writable plugin-lockfile selection.
+- `lua/custom/tools.lua` and `scripts/`: pinned Roslyn/debugger installation.
+- `tests/`: headless regression checks, independent of installed plugins.
+
+Lazy normally reads/writes `lazy-lock.json` in the config directory. For a
+read-only deployment, it seeds a writable copy under Neovim's data directory;
+existing pins there are preserved. Set `NVIM_LOCKFILE` to choose another file.
+The Mac deployment sets it to the checkout's `config/nvim/lazy-lock.json` so
+`:Lazy update` writes source-controlled pins directly. Commit that file with
+configuration changes. An invalid explicit destination raises an error rather
+than silently writing elsewhere.
+
+## Verification
+
+Run from the repository root (or use an absolute path from any directory):
+
+```sh
+nvim --clean --headless -l config/nvim/tests/run.lua
+nvim --clean --headless -l config/nvim/tests/run.lua --integration
+```
+
+The default suite requires only Neovim 0.12+. It checks lockfile selection and
+writeability, project root boundaries, stale shortcut cleanup, working-directory
+restoration on success/failure, and buffer-local LSP/inlay behavior. Fixtures
+are temporary and cleaned up. The opt-in integration cases also require npm/Node
+and the .NET SDK: they run a local npm script and build a throwaway C# project.
+The C# build may contact NuGet during restore. Neither command starts the normal
+config or installs plugins/tools. Unix symlink behavior is tested on Unix;
+Windows tests simulate a read-only ACL instead of changing Unix mode bits.
 
 ## Components
 

@@ -39,7 +39,7 @@ vim.opt.breakindent = true
 vim.opt.undofile = true
 
 -- Preserve filetype and highlighting options when restoring sessions.
-vim.opt.sessionoptions:append('localoptions')
+vim.opt.sessionoptions:append 'localoptions'
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
