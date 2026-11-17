@@ -37,7 +37,6 @@
               pkgs.bat
               pkgs.fd
               pkgs.zellij
-              pkgs.iamb
               pkgs.mise
 
               pkgs.uv

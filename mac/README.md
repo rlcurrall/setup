@@ -56,7 +56,6 @@ The bootstrap can't do these — you must do them by hand:
 
 - After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `rebuild.sh` with the selected `personal` or `work` profile, building as your user before using `sudo` to select and activate the system generation. This avoids Git ownership errors from evaluating the checkout as root.
 - Rex keybindings and actions live in `../config/rex/init.lua`, linked to `~/.config/rex/init.lua` by Home Manager for both Mac profiles. Edit the repository copy and run `rebuild` to apply changes.
-- Matrix chat: run `iamb` for the standalone TUI. Account credentials and encryption keys stay outside this repository.
 - Home Manager sets `NVIM_LOCKFILE` to `~/.setup/config/nvim/lazy-lock.json`, so `:Lazy update` writes plugin pins into the checkout for committing. Run `rebuild` and start a new shell after changing session variables. Standalone Neovim configs use their own lockfile; read-only deployments fall back to a writable copy in Neovim’s data directory.
 - To update nixpkgs/inputs themselves: `cd ~/.setup/mac && nix flake update`, then `rebuild`.
 
