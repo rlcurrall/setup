@@ -37,6 +37,7 @@
               pkgs.bat
               pkgs.fd
               pkgs.zellij
+              pkgs.iamb
               pkgs.mise
 
               pkgs.uv
@@ -169,7 +170,6 @@
               dock.mru-spaces = false;
               dock.show-recents = false;
               dock.persistent-apps = [
-                { app = "/Applications/Ghostty.app"; }
                 { app = "/Applications/Vivaldi.app"; }
               ];
               finder.AppleShowAllExtensions = true;
@@ -294,7 +294,7 @@
                   };
 
                   shellAliases = {
-                    rebuild = "(cd ~/.setup/mac && sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#${profile})";
+                    rebuild = "bash ~/.setup/mac/rebuild.sh ${profile}";
                     lg = "lazygit";
                   };
 

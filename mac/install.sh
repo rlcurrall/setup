@@ -64,7 +64,7 @@ fi
 # Install nix-darwin and apply configuration
 printf "🍎 Installing nix-darwin and applying configuration...\n"
 cd ~/.setup/mac
-sudo nix run nix-darwin/master#darwin-rebuild --extra-experimental-features "flakes nix-command" -- switch --flake ".#$MAC_PROFILE"
+bash ./rebuild.sh "$MAC_PROFILE"
 printf "✅ nix-darwin configuration applied successfully!\n"
 
 printf "\n🎉 Setup complete!\n\n"

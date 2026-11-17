@@ -26,8 +26,7 @@ The installer selects `personal` automatically for `robb` and `work` for `robcur
 To select a profile on an existing installation:
 
 ```sh
-cd ~/.setup/mac
-sudo darwin-rebuild switch --flake .#personal # or .#work
+bash ~/.setup/mac/rebuild.sh personal # or work
 ```
 
 ## Post-bootstrap manual steps
@@ -55,8 +54,9 @@ The bootstrap can't do these — you must do them by hand:
 
 ## Day-to-day
 
-- After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `darwin-rebuild switch` with the selected `personal` or `work` profile.
+- After editing `flake.nix`: run `rebuild` (alias defined in the flake). It runs `rebuild.sh` with the selected `personal` or `work` profile, building as your user before using `sudo` to select and activate the system generation. This avoids Git ownership errors from evaluating the checkout as root.
 - Rex keybindings and actions live in `../config/rex/init.lua`, linked to `~/.config/rex/init.lua` by Home Manager for both Mac profiles. Edit the repository copy and run `rebuild` to apply changes.
+- Matrix chat: run `iamb` for the standalone TUI. Account credentials and encryption keys stay outside this repository.
 - `:Lazy update` in nvim writes directly to `~/.setup/config/nvim/lazy-lock.json` (see `lockfile` option in `lazy.lua`), so updated plugin pins land in the dotfiles immediately — just `git add` + commit.
 - To update nixpkgs/inputs themselves: `cd ~/.setup/mac && nix flake update`, then `rebuild`.
 
@@ -65,4 +65,5 @@ The bootstrap can't do these — you must do them by hand:
 - `flake.nix` — main nix-darwin + home-manager config (packages, Homebrew, dock, zsh, etc.)
 - `profiles/` — personal and work overrides
 - `install.sh` — first-time bootstrap script
+- `rebuild.sh` — builds and activates the selected Mac profile
 - `../config/` — application configs (nvim, ghostty, starship, etc.) symlinked into `~/.config/` by home-manager
