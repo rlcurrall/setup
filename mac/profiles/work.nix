@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   me = config.system.primaryUser;
-  home = "/Users/${me}";
 
   # Run `<tool> init zsh` once at build time instead of on every shell start.
   # Defender/WithSecure scan each process launch, which made startup take 10s+.
@@ -21,7 +20,7 @@ in {
     programs.zoxide.enableZshIntegration = lib.mkForce false;
 
     programs.zsh.initContent = lib.mkMerge [
-      # Before oh-my-zsh (800) so its compinit picks up Homebrew and Docker
+      # Before oh-my-zsh (800) so its compinit picks up Homebrew
       # completions, avoiding a second compinit. Skip compaudit's permission checks.
       (lib.mkOrder 790 ''
         ZSH_DISABLE_COMPFIX=true
@@ -36,7 +35,6 @@ in {
         [ -z "''${MANPATH-}" ] || { export MANPATH="''${MANPATH%"''${MANPATH##*[!:]}"}"; export MANPATH=":''${MANPATH#"''${MANPATH%%[!:]*}"}"; };
         export INFOPATH="/opt/homebrew/share/info:''${INFOPATH:-}";
 
-        fpath=(${home}/.docker/completions $fpath)
       '')
 
       # Same position as the home-manager zoxide integration (after compinit)
