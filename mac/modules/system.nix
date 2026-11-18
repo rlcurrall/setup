@@ -5,6 +5,13 @@
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
 
+  # Retain recent rollback generations; collect unused store paths weekly.
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 30d";
+    interval = [{ Weekday = 7; Hour = 3; Minute = 15; }];
+  };
+
   # Enable touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 

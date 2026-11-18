@@ -61,6 +61,25 @@ The bootstrap can't do these — you must do them by hand:
 - Mise installs missing configured tools after Home Manager links the new configuration. Developer-tool requests remain `latest`; .NET follows the latest releases within majors 8 and 10. Use `mise upgrade` for deliberate developer-tool upgrades.
 - To update nixpkgs/inputs themselves: `cd ~/.setup/mac && nix flake update`, then `rebuild`.
 
+## Nix garbage collection
+
+Both profiles schedule garbage collection for Sunday at 03:15 local time,
+retiring old profile generations with `--delete-older-than 30d` before collecting
+unreferenced store paths. The active generation remains protected. A deleted
+generation is no longer available for immediate rollback; its Git configuration
+can still be rebuilt if its sources and dependencies remain available.
+
+The job does not run when the configuration is activated. If the Mac is asleep
+at the scheduled time, launchd runs it when the Mac wakes. Homebrew packages,
+Mise SDK installations, projects, and personal files are outside this cleanup.
+Explicit build-result links can retain store paths beyond the generation
+retention window; remove temporary verification links when they are no longer
+needed.
+
+Check the loaded job with `launchctl print system/org.nixos.nix-gc`. To inspect
+currently unreferenced paths without deleting them, use
+`nix-store --gc --print-dead`. This preview does not retire old generations.
+
 ## .NET SDKs and runtimes
 
 Mise owns the development SDKs. The global configuration requests SDK majors
