@@ -26,8 +26,6 @@
     casks = [
       "1password"
       "1password-cli"
-      "android-commandlinetools"
-      "android-studio"
       "anomalyco/tap/hex"
       "antigravity-cli"
       "microsoft/aspire/aspire"

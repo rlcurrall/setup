@@ -28,7 +28,6 @@
         eval "$(mise activate zsh)"
         export PATH="$PATH:$HOME/.dotnet/tools"
         export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-        export PATH="$ANDROID_HOME/platform-tools:$PATH"
         export PATH="$HOME/.bin:$PATH"
         export PATH="$HOME/.local/bin:$PATH"
         [ -f ~/.vars ] && . ~/.vars
