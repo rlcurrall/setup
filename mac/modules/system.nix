@@ -5,6 +5,9 @@
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
 
+  # The Lix installer bootstraps new machines; nix-darwin manages upstream Nix.
+  nix.package = pkgs.nix;
+
   # Retain recent rollback generations; collect unused store paths weekly.
   nix.gc = {
     automatic = true;

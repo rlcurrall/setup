@@ -16,6 +16,29 @@ If you'd rather run the steps yourself (e.g. for debugging):
 
 The installer selects `personal` automatically for `robb` and `work` for `robcurrall` when no argument is supplied. An explicit profile must match the current account. Hostnames are left unchanged.
 
+## Installer and Nix runtime
+
+This setup intentionally uses the **Lix installer for bootstrap** and
+**upstream Nix for the managed runtime**. The installer creates the Nix store
+and initial service on a fresh machine. Once the flake is applied, nix-darwin
+manages the package manager and daemon using the explicit `nix.package =
+pkgs.nix` selection in `modules/system.nix`.
+
+This handoff is supported and documented by
+[nix-darwin](https://github.com/nix-darwin/nix-darwin#prerequisites). Using the
+Lix installer does not require running Lix long term. Upstream Nix remains an
+actively supported implementation; the installer change did not deprecate it.
+
+The bootstrap skips installation when `/nix` already exists, so rerunning it
+does not migrate an existing machine to Lix. After a rebuild and a new shell,
+`nix --version` should identify upstream Nix with `nix (Nix)`. The installer
+also prints the version from `/run/current-system/sw/bin/nix` after activation,
+since its own shell may still have the bootstrap executable on PATH.
+
+Nix runtime updates come from the pinned `nixpkgs` input: update the flake lock
+and rebuild to adopt a newer version. Re-running an installer is unnecessary
+for routine upgrades.
+
 ## Machine profiles
 
 - `personal` uses `/Users/robb` and `mac/profiles/personal.nix`.

@@ -7,7 +7,8 @@
 #
 # This script handles the prerequisites that mac/install.sh assumes
 # (Xcode CLT, repo clone), then hands off to install.sh,
-# which installs Nix + Homebrew and applies the nix-darwin flake.
+# which bootstraps with the Lix installer, installs Homebrew, and applies the
+# nix-darwin flake. The flake then manages upstream Nix as the runtime.
 
 set -e
 
