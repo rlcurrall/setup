@@ -11,7 +11,17 @@ let
 in {
   # Machine-specific packages and settings go here.
 
-  homebrew.brews = [ "newrelic-cli" ];
+  homebrew = {
+    taps = [ "azure/functions" "databricks/tap" ];
+    brews = [
+      "azure-dev"
+      "azure-functions-core-tools@4"
+      "databricks"
+      "newrelic-cli"
+      "pup"
+    ];
+    casks = [ "azure-cli" "granola" ];
+  };
 
   home-manager.users.${me} = { config, ... }: {
     # Replaced by the pre-generated scripts below

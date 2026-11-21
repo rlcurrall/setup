@@ -7,17 +7,11 @@
       upgrade = false;
       cleanup = "none";
     };
-    taps = [ "azure/functions" "hashicorp/tap" "databricks/tap" "microsoft/aspire" "anomalyco/tap" ];
+    taps = [ "hashicorp/tap" "microsoft/aspire" "anomalyco/tap" ];
     brews = [
-      "azure-cli"
-      "azure-dev"
-      "azure-functions-core-tools@4"
       "anomalyco/tap/opencode-v2"
-      "beads"
       "coreutils"
-      "databricks"
       "gh"
-      "glab"
       "hashicorp/tap/terraform"
       "hashicorp/tap/vault"
       "herdr"
@@ -26,7 +20,6 @@
       # Its Brew-managed dotnet dependency is separate from Mise's dev SDKs.
       "powershell"
       "pulumi"
-      "pup"
       "sqlcmd"
       "tailscale"
     ];
@@ -38,13 +31,11 @@
       "anomalyco/tap/hex"
       "antigravity-cli"
       "microsoft/aspire/aspire"
-      "chatgpt"
       "claude"
       "claude-code"
       "codex"
       "docker-desktop"
       "ghostty"
-      "granola"
       "helium-browser"
       "hyperkey"
       "localsend"

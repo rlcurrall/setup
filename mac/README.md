@@ -21,7 +21,7 @@ The installer selects `personal` automatically for `robb` and `work` for `robcur
 - `personal` uses `/Users/robb` and `mac/profiles/personal.nix`.
 - `work` uses `/Users/robcurrall` and `mac/profiles/work.nix`.
 - `flake.nix` assembles the machines. Shared system settings live in `modules/`; shared user settings live in `home/`. Add machine-specific packages and overrides to the corresponding profile module. Home Manager overrides go under `home-manager.users.robb` or `home-manager.users.robcurrall`.
-- Discord, Minecraft, OBS, and Steam are personal-only casks. The work profile retains its New Relic CLI and shell startup optimizations. Removing a cask from the work configuration does not uninstall an existing copy: Homebrew cleanup remains disabled.
+- ChatGPT, Discord, Minecraft, OBS, Steam, and the GitLab CLI (`glab`) are personal-only. Azure tools (Azure CLI, Azure Developer CLI, and Azure Functions Core Tools), Databricks, Datadog Pup, Granola, and New Relic CLI are work-only. Beads is no longer managed. Removing a package from a profile does not uninstall an existing copy: Homebrew cleanup remains disabled.
 - `helheim` remains an alias for `personal` so the existing rebuild command continues to work.
 
 To select a profile on an existing installation:
